@@ -1,6 +1,6 @@
 # 2020-rise-above
 
-This is the repository for Team 47C, VEX IQ 2020-2021 season challenge Rise Above.
+This is the repository for Team 47B, VEX IQ 2020-2021 season challenge Rise Above.
 
 You can read our [Engineering Notebook here], or use the Table of Contents below.
 - You can click on any link to read that day's notes.
