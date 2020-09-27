@@ -11,6 +11,11 @@ Athreya, Brad, Sri, Tavas
 ## Meeting Notes
 We went over our sketches and reviewed them. We also tried using SnapCAD to create our design.
 
+Our goal is to have a drive-able robot by the end of October. We plan to have two prototype robots by the third week of October. To accomplish this
+we need two agreed upon designs by next meeting, with at least some SnapCAD for them.
+
+Today we all tried building our wheel bases for our designs in SnapCAD. We found it quite time-consuming, so we will try to get some SnapCAD done on our own before
+next meeting. We also discovered that putting in all the pins and connectors we will need into SnapCAD is very time-consuming, so we will skip that for our initial model and place beams in the right places instead.
   
 
 ## Our Design Sketches  
@@ -69,7 +74,8 @@ With my revision, I thought about motors and how the six motor limit will affect
 My Summary of Feedback: Because the arms are at the back of the base, stacking corner goals will be difficult because the wheels base will run into the wall, so making a stack will take a long time.
 
 ## Homework  
-Incorporate feedback into designs and get familiar with SnapCAD.
+Incorporate feedback into designs and get familiar with SnapCAD. Also, review scoring rules in the game manual.
+
 ## Plan for Next Meeting
 Form pairs and start developing two designs.
 
