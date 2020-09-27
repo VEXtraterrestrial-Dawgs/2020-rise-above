@@ -9,4 +9,8 @@ You can read our [Engineering Notebook here], or use the Table of Contents below
 ## Table of Contents
 [2020-09-20: First meeting of the year](./notes/2020-09-20%20First%20Meeting.md)
 
+**Milestone 1: Initial Design**
+- [2020-09-23: Discussed Challenge and Design Ideas](./notes/2020-09-23%20Remote%20Meeting.md)
+- [2020-09-27: Reviewed Revised Sketches, Started SnapCAD](./notes/2020-09-27%20Meeting%20Notes.md)
+
 [Engineering Notebook here]: ./notes
