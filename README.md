@@ -12,5 +12,6 @@ You can read our [Engineering Notebook here], or use the Table of Contents below
 **Milestone 1: Initial Design**
 - [2020-09-23: Discussed Challenge and Design Ideas](./notes/2020-09-23%20Remote%20Meeting.md)
 - [2020-09-27: Reviewed Revised Sketches, Started SnapCAD](./notes/2020-09-27%20Meeting%20Notes.md)
+- [2020-09-30: Merged Designs and Started SnapCAD Parts](./notes/2020-09-30%20Meeting%20Notes.md)
 
 [Engineering Notebook here]: ./notes
