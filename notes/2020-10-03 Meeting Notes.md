@@ -1,4 +1,4 @@
-# 2020-10-3 Meeting Notes
+# 2020-10-03 Meeting Notes
 
 ## Members Present  
 Athreya, Brad, Sri, Tavas
