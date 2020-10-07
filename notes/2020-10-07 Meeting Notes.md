@@ -37,7 +37,7 @@ This was built by Athreya during the meeting today. Today I worked on adding was
 ![Tavas’s Pre-Meeting Build](../img/2020-10-07-build-Tavas.jpg)  
 This was built by Tavas before the meeting today. Since the last meeting, I have been working on prototyping a few arm designs. The one on the left is a scissor lift, while the one on the right is a four-bar lift. Last meeting, Athreya and I were trying to come up with ways to create a lightweight but still strong and efficient arm. I prototyped two of the arm designs on our list, and plan on testing them later to see which is better at lifting risers.
 
-![Tavas’s Meeting Build](../img/2020-10-07-meeting-build-Tavas.jpg)  
+![Tavas’s Meeting Build](../img/2020-10-07-meeting-build-Tavas.JPG)  
 This was built by Tavas during the meeting today. Today, during the meeting, I started to build a wheelbase for our robot. The bumpers in the front are for pushing and pulling risers, and the wheel in the center is for driving side to side. I have yet to add the main wheels, which will be on the outside of the current base.
 
 
