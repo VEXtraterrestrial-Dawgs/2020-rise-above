@@ -14,5 +14,7 @@ You can read our [Engineering Notebook here], or use the Table of Contents below
 - [2020-09-27: Reviewed Revised Sketches, Started SnapCAD](./notes/2020-09-27%20Meeting%20Notes.md)
 - [2020-09-30: Merged Designs and Started SnapCAD Parts](./notes/2020-09-30%20Meeting%20Notes.md)
 - [2020-10-03: Worked on SnapCAD and Prepared for Building Robot](./notes/2020-10-03%20Meeting%20Notes.md)
+- [2020-10-07: Worked on Building Robot](./notes/2020-10-07%20Meeting%20Notes.md)
+- [2020-10-10: Created Roles on Team, Discovered New Difficult Parts of the Challenge, Prepared for Merging Designs](./notes/2020-10-10%20Meeting%20Notes.md)
 
 [Engineering Notebook here]: ./notes
