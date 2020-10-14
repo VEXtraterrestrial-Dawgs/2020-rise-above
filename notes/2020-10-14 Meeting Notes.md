@@ -58,7 +58,7 @@ Athreya, Brad, Sri, Tavas
 | Sri | 4.25/5 | N/A | N/A | 8 inches |
 
 
-**Claws:
+**Claws:**
 
 | Person | Structural Strength | Weight | Tilt Angle | Strength of Grip | Ease of Grip | Protrusion from Arm | 
 | --- | --- | --- | --- | --- | --- | --- |
@@ -66,9 +66,10 @@ Athreya, Brad, Sri, Tavas
 | Athreya | 4.5/5 | 5/5 | 2/5 | 2.75/5 | 2.5/5 | 1 inch |
 | Sri | 4/5 | 2.5/5 | 3/5 | N/A | 1.75/5 | 6 inches |
 
-*Sri wasn’t able to get his arm in time to Brad so Brad couldn’t test Sri’s arm against the risers. We will update the table next week with the completed results.
+*Sri wasn’t able to get his arm in time to Brad so Brad couldn’t test Sri’s arm against the risers. We will update the table next week with the completed results.*
 
 ## Robot Pictures
+
 **Athreya’s Arm**
 
 ![Athreya’s Arm](../img/2020-10-14-arm-Athreya.JPG)
