@@ -29,7 +29,7 @@ Athreya, Brad, Sri, Tavas
 **Arm Scoring:** 
 - Weight: Should be lightweight to make it easier to lift.  
 - Strength: Should be able to lift a riser.  
-- Mounting Height: How high would the arm have to be mounted in order to stack three risers?  
+- Mounted Height: How tall would the robot have to be after the arm is mounted in order to stack three risers?  
 - Protrusion from Base (at peak): How long does the arm have to protrude from the base?  
 
 **Claw Scoring:**
@@ -40,18 +40,25 @@ Athreya, Brad, Sri, Tavas
 - Ease of Grip: The claw should be easy to position and correctly lift the riser.  
 - Protrusion from Arm: How long does the claw have to protrude from the arm?  
 
+### Testing Procedure 
+- For each robot part, the designer of the part will start by explaining a bit about the design. 
+- Then, we will move through the rubric and score each part.
+- For categories that involve measurements, such as dimensions for the wheelbase or mounted height for the arms, we will use a ruler to measure the length in inches.
+- For categories that involve risers, such as the tilt angle or strength of grip of the claw, we will pick up the arm, hold it in the correct position, and use our hand to move the arm up and down.
+- For categories that involve controlling the robot, such as driving around the base to score gear ratio or controlling the arm to judge strength, we will use the driver control programs that we have programmed in VexCode over the past few days to use the controller to control the part. For pieces not connected to the wheelbase, like the arm or motor powered claw, we will use a wire to connect the motor to the brain and use the standard Driver Control program.
+
 ### Results
 
 **Wheelbases:**
 
-| Person | Dimensions | Weight | Structural Strength | Gear Ratio | Brain Position | Weight Distribution | Arm Placement |
+| Designer | Dimensions | Weight | Structural Strength | Gear Ratio | Brain Position | Weight Distribution | Arm Placement |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | Tavas | 9.25 x 9 inches | 4.5/5 | 4.5/5 | 4/5 | 4/5 | 4.25/5 | 4.25/5 |
 | Brad | 12.5 x 10.75 inches | 3.25/5 | 3.25/5 | 3.75/5 | 4/5 | 4/5 | 3.75/5 |
 
 **Arms:**
 
-| Person | Weight | Strength | Mounting Height | Protrusion from Base (at peak)  |
+| Designer | Weight | Strength | Mounted Height | Protrusion from Base (at peak)  |
 | --- | --- | --- | --- | --- |
 | Tavas | 4/5 | 3/5 | 10.5 inches | 9 inches |
 | Athreya | 4/5 | 4/5 | 13 inches | 7 inches |
@@ -60,7 +67,7 @@ Athreya, Brad, Sri, Tavas
 
 **Claws:**
 
-| Person | Structural Strength | Weight | Tilt Angle | Strength of Grip | Ease of Grip | Protrusion from Arm | 
+| Designer | Structural Strength | Weight | Tilt Angle | Strength of Grip | Ease of Grip | Protrusion from Arm | 
 | --- | --- | --- | --- | --- | --- | --- |
 | Tavas | 4/5 | 4/5 | 4.5/5 | 4/5 | 3.75/5 | 4 inches |
 | Athreya | 4.5/5 | 5/5 | 2/5 | 2.75/5 | 2.5/5 | 1 inch |
@@ -96,7 +103,7 @@ Brainstorm ways to incorporate the best parts we tested into one final design.
 
 
 ## Plan for Next Meeting  
-Start building and programming our final design.
+Finish testing our robot parts, and come up with a final design for our robot. Then, start building and programming our final design.
 
 
 
