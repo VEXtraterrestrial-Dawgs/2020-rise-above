@@ -42,10 +42,14 @@ Athreya, Brad, Sri, Tavas
 
 ### Testing Procedure 
 - For each robot part, the designer of the part will start by explaining a bit about the design. 
-- Then, we will move through the rubric and score each part.
+- Then, we will move through the rubric and score each part. The three people who did not design the part will each give their score, and the final score is the average of the three.
 - For categories that involve measurements, such as dimensions for the wheelbase or mounted height for the arms, we will use a ruler to measure the length in inches.
 - For categories that involve risers, such as the tilt angle or strength of grip of the claw, we will pick up the arm, hold it in the correct position, and use our hand to move the arm up and down.
 - For categories that involve controlling the robot, such as driving around the base to score gear ratio or controlling the arm to judge strength, we will use the driver control programs that we have programmed in VexCode over the past few days to use the controller to control the part. For pieces not connected to the wheelbase, like the arm or motor powered claw, we will use a wire to connect the motor to the brain and use the standard Driver Control program.
+- For categories that involve weight, the designer will hold up the part to the camera and the other three team members will judge the weight based off of the number of and size of VEX pieces used, such as beams and connectors. Each weight score will be relative to the part being judged, with a score of 5 being the lightest and 1 being the heaviest. For example, a score of 5 for weight of a claw will be a lot lighter than a score of 5 for weight of a base.
+- For categories that involve structural strength, the designer will hold up the part to the camera and demonstrate the structural strength by putting weight on and pulling at beams and joints. The other three team members will decide on a score based on how much the beams flex when put pressure on, and if any joints come loose or fall apart. 
+- For the gear ratio category for the base, the designer will drive around the base on a hardwood floor in their house and the other three team members will judge if the base can move fast but also carry its weight.
+- Categories like weight distribution will be scored by observing where there is a lot of weight in one place, such as motors and brains, and if all the heavy points are evenly spread throughout the base.
 
 ### Results
 
