@@ -9,6 +9,7 @@ Athreya, Brad, Sri, Tavas
 
 ## Updated Test Results (from last week)
 
+**Wheelbases**
 | Designer | Dimensions | Weight | Structural Strength | Gear Ratio | Brain Position | Weight Distribution | Arm Placement |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | Tavas | 9.25 x 9 inches | 4.5/5 | 4.5/5 | 4/5 | 4/5 | 4.25/5 | 4.25/5 |
@@ -46,7 +47,7 @@ Athreya, Brad, Sri, Tavas
 **Solution 2:** Reverse the beams and close the claw from the outside of the standoffs as a pose to opening the claw from the inside. This will give a similar result, but with a different way of gripping the riser. However, this will also make the claw need to open wider.  
 **Solution 3:** Remove the beams altogether. By adding rubber bands to the end of the ‘sticks’ of the claw, the claw might grip the riser well enough that the hooks at the end are not required.  
 
-**Problem:** In Athreya’s sketch of the base it had terrible weight distribution. In his sketch, there was too little weight in the front of the robot and too little in the back of his robot.
+**Problem:** In Athreya’s sketch of the base it had terrible weight distribution. In his sketch, there was too little weight in the front of the robot and too little in the back of his robot.  
 **Solution 1:** I could remove the brain from the back and position it in the middle.  
 **Solution 2:** Remove the back arm. While this would change the robot a lot, it would mean that the brain is balancing out the weight from the front arm.  
 **Solution 3:** Mount the brain on an elevated platform so that it can fit above the h-drive wheel in the middle of the robot.
