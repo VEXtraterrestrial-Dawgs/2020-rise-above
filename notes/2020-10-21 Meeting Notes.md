@@ -1,4 +1,4 @@
-2020-10-21 Meeting Notes.md# 2020-10-21 Meeting Notes
+# 2020-10-21 Meeting Notes
 
 ## Members Present  
 Athreya, Brad, Sri, Tavas
