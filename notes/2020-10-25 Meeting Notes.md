@@ -48,7 +48,7 @@ Seeing that the sensor wasn’t very accurate, I tried testing if at least 90 de
 Since this is fairly consistent, resetting the gyro sensor every 90 degree turn will probably be the best option going forward.
 
 **Color Sensor:**  
-- To test color, I positioned the color sensor over the white panels of the board and over the black stripes of the board.
+- To test color, I positioned the color sensor over the white panels of the board and over the black stripes of the board. The results are the return value of the color sensor: darker colors are lower numbers and lighter colors are higher numbers. I used the grayscale mode on the color sensor to test this.
 - I tried to get the most variation in results: I sometimes positioned the sensor over the holes in the field and sometimes on the solid colors.
 - Each of the 4 trials in the results is the color sensor being positioned in a different corner of the field.
 
