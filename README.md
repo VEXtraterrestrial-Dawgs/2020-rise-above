@@ -22,3 +22,4 @@ You can read our [Engineering Notebook here](./notes), or use the Table of Conte
 
 **Milestone 2: Competition-Ready Robot**
 - [2020-10-21: Start of New Milestone and Discussed Driving Strategies](./notes/2020-10-21%20Meeting%20Notes.md)
+- [2020-10-25: In Person Meeting - Worked Towards Departmental Goals](./notes/2020-10-25%20Meeting%20Notes.md)
