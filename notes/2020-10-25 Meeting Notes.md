@@ -36,7 +36,7 @@ I built another wheelbase that you can partially see via pictures. I pretty much
 | 3 | 13 | 14 | 11 | 10 |
 
 **My Take on the Results:**  
-Seeing that the sensor wasn’t very accurate, I tried testing if at least 90 degree turns were accurate. If they were, I could just reset the gyro sensor every 90 degree turn to retain accuracy.
+Seeing that the sensor wasn’t very accurate, I tried testing if at least 90 degree turns were accurate. If they were, I could just reset the gyro sensor every turn to retain accuracy.
 
 | Trial | 90 Degree Turn - Error |
 | --- | --- |
@@ -45,7 +45,7 @@ Seeing that the sensor wasn’t very accurate, I tried testing if at least 90 de
 | 3 | 2 |
 
 **My Take on the Results:**
-Since this is fairly consistent, resetting the gyro sensor every 90 degree turn will probably be the best option going forward.
+Since this is fairly consistent, resetting the gyro sensor every turn will probably be the best option going forward.
 
 **Color Sensor:**  
 - To test color, I positioned the color sensor over the white panels of the board and over the black stripes of the board. The results are the return value of the color sensor: darker colors are lower numbers and lighter colors are higher numbers. I used the grayscale mode on the color sensor to test this.
