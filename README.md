@@ -24,3 +24,4 @@ You can read our [Engineering Notebook here](./notes), or use the Table of Conte
 - [2020-10-21: Start of New Milestone and Discussed Driving Strategies](./notes/2020-10-21%20Meeting%20Notes.md)
 - [2020-10-25: In Person Meeting - Worked Towards Departmental Goals](./notes/2020-10-25%20Meeting%20Notes.md)
 - [2020-10-28: Discussed Build Problems and Driving Strategies](./notes/2020-10-28%20Meeting%20Notes.md)
+- [2020-10-31: In Person Meeting - Tested Driving the Robots and Worked on Fixing Build Problems](./notes/2020-10-31%20Meeting%20Notes.md)
