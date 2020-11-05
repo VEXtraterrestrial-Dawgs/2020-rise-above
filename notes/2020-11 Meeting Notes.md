@@ -38,7 +38,7 @@ Athreya, Brad, Sri, Tavas
 ## Driving Progress - Sri
 
 - So I ironed out some parts of my driving strategy, not changing that much but still changing some parts of it. 
-- I then looked at how far Brad finished with the robot, and thought to myself how I could use the robot. I saw
+- I then looked at how far Brad finished with the robot, and thought to myself how I could use the robot.
 
 ## Design/Strategy Progress - Athreya
 
@@ -48,7 +48,7 @@ Feedback on design: The design was much better than the last design because it w
 ## Homework  
 - Tavas will continue working on implementing motion planning into the program and update the driver control program to add Brad’s arm.
 - Brad will continue working on the robot.
--Athreya will continue to analyze the robot and think of strategies to get a completed stack.
+- Athreya will continue to analyze the robot and think of strategies to get a completed stack.
 
 ## Plan for Next Meeting  
 Review Brad’s additions to the robot and other work we have done over the week.
