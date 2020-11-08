@@ -26,3 +26,4 @@ You can read our [Engineering Notebook here](./notes), or use the Table of Conte
 - [2020-10-28: Discussed Build Problems and Driving Strategies](./notes/2020-10-28%20Meeting%20Notes.md)
 - [2020-10-31: In Person Meeting - Tested Driving the Robots and Worked on Fixing Build Problems](./notes/2020-10-31%20Meeting%20Notes.md)
 - [2020-11-4: Reviewed Additions to Robot and Tested Arm](./notes/2020-11-4%20Meeting%20Notes.md)
+- [2020-11-7: In Person Meeting - Worked on Building](./notes/2020-11-7%20Meeting%20Notes.md)
