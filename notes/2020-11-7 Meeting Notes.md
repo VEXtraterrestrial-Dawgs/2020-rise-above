@@ -7,15 +7,17 @@ Athreya, Brad, Sri, Tavas
 - Work on building the robot
 
 ## Meeting  
-- Today, we focused the meeting on building the robot.
+- Today, we focused the meeting on building the robot. This was to make sure we would accomplish our goal of having a competition-ready robot by the second week of November.
+- We split up into groups: Athreya and Brad worked on building the wheelbase and Sri and Tavas worked on building the arm.
 - We plan to have the robot completed by the beginning of next week so the drivers can practice with the robot and we can also work on programming the robot.
-- This is in line with our current goal of a competition-ready robot by the second week of November.
 
 ## Wheelbase - Athreya and Brad
 
 As we took apart our wheelbase, we are planning to put the motors on the sides this time, in between the two beams that hold the wheels, and have the gears and chains on the outside with another beam that puts protection on the sides of the gear so that it doesn’t get jammed.
 
 ## Arm - Sri and Tavas
+
+Today we worked on building an arm for the robot. We went through many different designs after testing each one, starting with the arm design we had from the [2020-10-21 Meeting](../notes/2020-10-21%20Meeting%20Notes.md) and eventually progressing towards a design with two separate lifts.
 
 **Initial One-Beam Lift:**
 ![One-Beam Lift](../img/2020-10-21-arm-front-Tavas.jpg)
