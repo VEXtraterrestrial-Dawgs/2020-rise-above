@@ -4,7 +4,7 @@
 Tavas, Sri, Athreya, Brad
 
 ## Goals  
-Our goals for this meeting were to keep on working on the robot and try to finish in as quick as possible but also do it as good as possible(being able to move fast without any problems, making an arm that will work really well, etc.)
+Our goals for this meeting were to keep on working on the robot and try to finish in as quick as possible but also do it as good as possible (being able to move fast without any problems, making an arm that will work really well, etc.)
 	
 ## Wheelbase - Athreya and Brad
 ![Wheelbase](../img/2020-11-14-base.jpg)
@@ -21,13 +21,13 @@ Problems:
 **Solution 3:** Move the motor and large gear forward or backward so that the H-drive can be in the center. We didn’t choose this as this would be an expensive way of fixing the problem; we would have to rebuild a lot more to fix it this way.  
 
 What we Changed:
--Added the two drivetrain sides on
--Put together the frame and everything to get the wheelbase to work
+- Added the two drivetrain sides on
+- Put together the frame and everything to get the wheelbase to work
 
 What we Still Need to Do:
--Add the H-Drive to the middle of the robot
--Mount the arm to the robot
--Mount the brain to the robot
+- Add the H-Drive to the middle of the robot
+- Mount the arm to the robot
+- Mount the brain to the robot
 
 ## Arm - Sri and Tavas
 ![Arm](../img/2020-11-14-arm.jpg)
