@@ -7,7 +7,7 @@ Tavas, Sri, Athreya, Brad
 Our goals for this meeting were to keep on working on the robot and try to finish in as quick as possible but also do it as good as possible(being able to move fast without any problems, making an arm that will work really well, etc.)
 	
 ## Wheelbase - Athreya and Brad
-[Wheelbase](../img/2020-11-14-base.jpg)
+![Wheelbase](../img/2020-11-14-base.jpg)
 
 Problems:  
 **Problem:** The middle part of the wheelbase was too small such that there was no space to fit an h-drive in there. 
@@ -31,7 +31,7 @@ What we have to do:
 -Mount the brain to the robot
 
 ## Arm - Sri and Tavas
-[Arm](../img/2020-11-14-arm.jpg)
+![Arm](../img/2020-11-14-arm.jpg)
 
 Problems:  
 **Problem:** When we were adding the gears, we realized that when we attached the large gear to the bottom part of the four-bar lift, the top part of the arm wouldn’t have any place to be connected.
