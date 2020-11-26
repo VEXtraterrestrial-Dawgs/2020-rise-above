@@ -32,3 +32,5 @@ You can read our [Engineering Notebook here](./notes), or use the Table of Conte
 - [2020-11-18: Worked on Building](./notes/2020-11-18%20Meeting%20Notes.md)
 - [2020-11-21: Worked on Building](./notes/2020-11-21%20Meeting%20Notes.md)
 - [2020-11-25: End of Milestone and Tested Robot](./notes/2020-11-25%20Meeting%20Notes.md)
+
+**Milestone 3: First Autonomous Program and Practiced Driving Strategy**
