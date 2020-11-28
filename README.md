@@ -34,3 +34,4 @@ You can read our [Engineering Notebook here](./notes), or use the Table of Conte
 - [2020-11-25: End of Milestone and Tested Robot](./notes/2020-11-25%20Meeting%20Notes.md)
 
 **Milestone 3: First Autonomous Program and Practiced Driving Strategy**
+- [2020-10-28: Created Plan for Fixing Arm](./notes/2020-11-28%20Meeting%20Notes.md)
