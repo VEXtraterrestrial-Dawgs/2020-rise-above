@@ -8,7 +8,7 @@ Tavas, Athreya, Brad, Sri
 
 ## Build Progress
 
-[Robot Picture](../img/2020-12-02-build.jpg)
+![Robot Picture](../img/2020-12-02-build.jpg)
 
 - Today we finished strengthening the arm.
 - As decided last meeting, we did this by building a duplicate of the arm but without any motors, gears, or axles.
