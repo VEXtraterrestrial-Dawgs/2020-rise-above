@@ -24,5 +24,5 @@ The Solutions:
 
 
 ## Plan for Next Meeting  
--Athreya will share his strategy 
--Tavas will show the changes he made 
+- Athreya will share his strategy 
+- Tavas will show the changes he made 
