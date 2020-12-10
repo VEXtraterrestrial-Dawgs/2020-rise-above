@@ -33,5 +33,8 @@ You can read our [Engineering Notebook here](./notes), or use the Table of Conte
 - [2020-11-21: Worked on Building](./notes/2020-11-21%20Meeting%20Notes.md)
 - [2020-11-25: End of Milestone and Tested Robot](./notes/2020-11-25%20Meeting%20Notes.md)
 
-**Milestone 3: First Autonomous Program and Practiced Driving Strategy**
-- [2020-10-28: Created Plan for Fixing Arm](./notes/2020-11-28%20Meeting%20Notes.md)
+**Milestone 3: Minor Tweaks to Robot, First Autonomous Program, and Practiced Driving Strategy**
+- [2020-11-28: Created Plan for Fixing Arm](./notes/2020-11-28%20Meeting%20Notes.md)
+- [2020-12-02: Strengthened Arm](./notes/2020-12-02%20Meeting%20Notes.md)
+- [2020-12-05: Discussed Problems with Robot and Brainstormed Solutions](./notes/2020-12-05%20Meeting%20Notes.md)
+- [2020-12-09: Fixed Height Problems with Arm and Discussed Autonomous Strategy](./notes/2020-12-09%20Meeting%20Notes.md)
