@@ -22,4 +22,4 @@ Athreya, Sri
 - Sri will also get some driving practice in
 
 ## Plan for Next Meeting  
-- Start with the autonomous program
+- Review changes by Tavas to the autonomous program
