@@ -24,7 +24,7 @@ task main()
 		datalogAddValue( 2, gyroReading );
 		datalogDataGroupEnd();
 
-		if (leftEncoder > 50 && rightEncoder > 50) {
+		if (leftEncoder > 5000 && rightEncoder > 5000) {
 			break;
 		}
 
