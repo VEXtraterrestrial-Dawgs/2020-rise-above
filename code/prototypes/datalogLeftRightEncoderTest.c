@@ -8,17 +8,26 @@
 
 task main()
 {
-	while(getMotorEncoder(leftWheels) < 50 && getMotorEncoder(rightWheels) < 50) {
+	setMotorEncoderUnits(encoderRotations);
+	while(true) {
 		float leftEncoder = getMotorEncoder(leftWheels);
 		float rightEncoder = getMotorEncoder(rightWheels);
+		float gyroReading  = getGyroDegreesFloat(gyro);
 
 		setMotorSpeed(leftWheels, 100);
 		setMotorSpeed(rightWheels, 100);
 
 		datalogDataGroupStart();
 		datalogAddValueWithTimeStamp( 0, leftEncoder );
-		datalogAddValueWithTimeStamp( 1, rightEncoder );
+		datalogAddValue( 1, rightEncoder );
+		datalogAddValue( 2, gyroReading );
 		datalogDataGroupEnd();
+
+		if (leftEncoder > 50 && rightEncoder > 50) {
+			break;
+		}
+
+		sleep(20);
 	}
 	setMotorSpeed(leftWheels, 0);
 	setMotorSpeed(rightWheels, 0);
