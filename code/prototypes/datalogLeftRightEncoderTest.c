@@ -9,13 +9,13 @@
 task main()
 {
 	setMotorEncoderUnits(encoderRotations);
+	setMotorSpeed(leftWheels, 100);
+	setMotorSpeed(rightWheels, 100);
+
 	while(true) {
 		float leftEncoder = getMotorEncoder(leftWheels);
 		float rightEncoder = getMotorEncoder(rightWheels);
 		float gyroReading  = getGyroDegreesFloat(gyro);
-
-		setMotorSpeed(leftWheels, 100);
-		setMotorSpeed(rightWheels, 100);
 
 		datalogDataGroupStart();
 		datalogAddValueWithTimeStamp( 0, leftEncoder );
