@@ -10,8 +10,8 @@ task main()
 {
 	datalogClear();
 	setMotorEncoderUnits(encoderCounts);
-	setMotorSpeed(leftWheels, 100);
-	setMotorSpeed(rightWheels, 100);
+	setMotorSpeed(leftWheels, 60);
+	setMotorSpeed(rightWheels, 60);
 
 	while(true) {
 		int leftEncoder = getMotorEncoder(leftWheels);
