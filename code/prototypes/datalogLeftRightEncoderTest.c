@@ -8,6 +8,7 @@
 
 task main()
 {
+	datalogClear();
 	setMotorEncoderUnits(encoderRotations);
 	setMotorSpeed(leftWheels, 100);
 	setMotorSpeed(rightWheels, 100);
