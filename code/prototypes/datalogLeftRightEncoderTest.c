@@ -14,8 +14,8 @@ task main()
 	setMotorSpeed(rightWheels, 60);
 
 	while(true) {
-		int leftEncoder = getMotorEncoder(leftWheels);
-		int rightEncoder = getMotorEncoder(rightWheels);
+		int leftEncoder = round(getMotorEncoder(leftWheels));
+		int rightEncoder = round(getMotorEncoder(rightWheels));
 		int gyroReading  = getGyroDegrees(gyro);
 
 		datalogDataGroupStart();
