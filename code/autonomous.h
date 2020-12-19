@@ -6,6 +6,8 @@ const int ARRAY_LENGTH = 5;
 const int THRESHOLD = 1;
 const int LEFT_RIGHT_THRESHOLD = 1;
 const int DRIVETRAIN_WIDTH = 50;
+const int SHORT_INTERVAL = 10;
+const int LONG_INTERVAL = 75;
 
 typedef struct {
 	int targetPosition;
@@ -18,22 +20,25 @@ typedef struct {
 	int writtenSlots;
 } PidObject;
 
-// Return value says if motion is still in progress
-bool PIDControl(PidObject* pid) {
-	// TODO: should PIDControl be used for hDrive as well?
+bool isCancelled()
+{
+	// TODO: Read the touch LED and return true if it's been touched.
+	return false;
+}
 
+// Return value says if motion is completed
+bool PIDControl(PidObject* pid) {
 	// Retrieve Values
 	float currentEncoderLeft = getMotorEncoder(leftWheels);
 	float currentEncoderRight = getMotorEncoder(rightWheels);
 
 	// See if we are at our target position yet
-	if( currentEncoderLeft >= (pid->targetPosition - THRESHOLD) &&
+	if (currentEncoderLeft >= (pid->targetPosition - THRESHOLD) &&
 		  currentEncoderLeft <= (pid->targetPosition + THRESHOLD) &&
 		  currentEncoderRight >= (pid->targetPosition - THRESHOLD) &&
-		  currentEncoderRight <= (pid->targetPosition + THRESHOLD) ) {
-		resetMotorEncoder(leftWheels);
-		resetMotorEncoder(rightWheels);
-		return false;
+		  currentEncoderRight <= (pid->targetPosition + THRESHOLD))
+	{
+		return true;
   }
 
   // TODO: If we are not at our target position, we need to make corrections to our speed so we reach our target
@@ -59,36 +64,63 @@ bool PIDControl(PidObject* pid) {
 	return true;
 }
 
-void driveRobot(int targetPosition, int targetHeading)
+bool driveRobot(int distanceInMM)
 {
 	PidObject pid;
-	bool stillMoving = true;
+	bool isComplete = false;
 
 	resetMotorEncoder(leftWheels);
 	resetMotorEncoder(rightWheels);
 	resetGyro(gyro);
 
 	// Given how far we want to go in millimeters, find how far we want to go in encoder units
-	float encoderTarget = pid.targetPosition / (WHEEL_CIRCUMFERENCE * DRIVE_GEAR_RATIO);
+	float encoderTarget = distanceInMM / (WHEEL_CIRCUMFERENCE * DRIVE_GEAR_RATIO);
 
 	// Initialize other values of pid object
 	pid.targetPosition = encoderTarget;
-	pid.targetHeading = targetHeading;
 	pid.writeSlot = 0;
 	pid.writtenSlots = 0;
 
-	while (stillMoving)
+	while (!isCancelled())
 	{
-		// TODO: Check if we've been cancelled
-		stillMoving = PIDControl(pid);
+		isComplete = PIDControl(&pid);
+		if (isComplete)
+		{
+			isComplete = true;
+			break;
+		}
 		sleep(75);
 	}
+
+	setMotorSpeed(leftWheels, 0);
+	setMotorSpeed(rightWheels, 0);
+	return isComplete;
 }
 
 bool turnRobot(int angle) {
-	int distanceMM = (DRIVETRAIN_WIDTH / 2) * angle;
-	int distanceEncoders = distanceMM / (WHEEL_CIRCUMFERENCE * DRIVE_GEAR_RATIO);
-	return true;
+	float angleRadians = degreesToRadians(angle);
+	float distanceMM = (DRIVETRAIN_WIDTH / 2) * angleRadians;
+	float distanceEncoders = distanceMM / (WHEEL_CIRCUMFERENCE * DRIVE_GEAR_RATIO);
+	bool isComplete = false;
+
+	resetMotorEncoder(leftWheels);
+	resetMotorEncoder(rightWheels);
+	resetGyro(gyro);
+
+	while (!isCancelled())
+	{
+		// Check if complete
+		if (false)
+		{
+			isComplete = true;
+			break;
+		}
+		sleep(SHORT_INTERVAL);
+	}
+
+	setMotorSpeed(leftWheels, 0);
+	setMotorSpeed(rightWheels, 0);
+	return isComplete;
 }
 
 bool moveHDrive(int distance) {
