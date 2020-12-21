@@ -40,4 +40,4 @@ You can read our [Engineering Notebook here](./notes), or use the Table of Conte
 - [2020-12-09: Fixed Height Problems with Arm and Discussed Autonomous Strategy](./notes/2020-12-09%20Meeting%20Notes.md)
 - [2020-12-13: Extended and Lowered the Arm](./notes/2020-12-13%20Meeting%20Notes.md)
 - [2020-12-16: Sri and Athreya - Driving Practice and Robot Fixes](./notes/2020-12-16%20Meeting%20Notes.md)
-- [2020-12-19: Tried to Fix Squealing Problem and Gathered Data for Autonomous](./notes/2020-12-19%20Meeting%20Notes.md)
+- [2020-12-19: Gathered Data for Autonomous](./notes/2020-12-19%20Meeting%20Notes.md)
