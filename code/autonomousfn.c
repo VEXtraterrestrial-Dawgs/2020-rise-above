@@ -25,7 +25,7 @@ bool isCancelled()
 	return false;
 }
 
-int PIDControl(PidObject* pid, int target, int current) {
+bool PIDControl(PidObject* pid, int target, int current, int threshold, int* power) {
 	int error = target - current;
 	int now = nPgmTime;
 	int elapsed = now - pid->lastTime;
@@ -38,7 +38,9 @@ int PIDControl(PidObject* pid, int target, int current) {
 	pid->lastTime = now;
 
 	// Returns a motor speed
-	return round( (error * pid->Kp) + (pid->integral * pid->Ki) + (derivative * pid->Kd) );
+	*power = round( (error * pid->Kp) + (pid->integral * pid->Ki) + (derivative * pid->Kd) );
+
+	return (error < threshold);
 }
 
 bool driveRobot(int distanceInMM)
@@ -67,11 +69,19 @@ bool driveRobot(int distanceInMM)
 
 	while (!isCancelled())
 	{
-		isComplete = (PIDControl(&controllerLeft, encoderTarget, getMotorEncoder(leftWheels)) == 0);
-		setMotorSpeed(leftWheels, PIDControl(&controllerLeft, encoderTarget, getMotorEncoder(leftWheels)));
-		setMotorSpeed(rightWheels, PIDControl(&controllerRight, getMotorEncoder(leftWheels), getMotorEncoder(rightWheels)));
+		int motorSpeedLeft;
+		int motorSpeedRight;
+		int leftEncoder = round(getMotorEncoder(leftWheels));
+		int rightEncoder = round(getMotorEncoder(rightWheels));
+		bool isLeftComplete;
+		bool isRightComplete;
 
-		if (isComplete)
+		isLeftComplete = PIDControl(&controllerLeft, encoderTarget, leftEncoder, THRESHOLD, &motorSpeedLeft);
+		setMotorSpeed(leftWheels, motorSpeedLeft);
+		isRightComplete = PIDControl(&controllerRight, leftEncoder, rightEncoder, THRESHOLD, &motorSpeedRight);
+		setMotorSpeed(rightWheels, motorSpeedRight);
+
+		if (isLeftComplete && isRightComplete)
 		{
 			isComplete = true;
 			break;
