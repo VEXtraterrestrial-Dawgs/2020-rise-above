@@ -38,12 +38,10 @@ bool PIDControl(PidObject* pid, int target, int current, int threshold, int* pow
 	pid->lastTime = now;
 
 	// Datalog
-	datalogDataGroupStart();
 	datalogAddValue( 0, pid->controllerIndex );
 	datalogAddValue( 1, error );
 	datalogAddValue( 2, round(pid->integral*1000) );
 	datalogAddValue( 3, round(derivative*1000) );
-	datalogDataGroupEnd();
 
 	// Returns a motor speed
 	*power = round( (error * pid->Kp) + (pid->integral * pid->Ki) + (derivative * pid->Kd) );
