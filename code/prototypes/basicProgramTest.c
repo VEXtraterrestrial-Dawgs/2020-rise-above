@@ -12,6 +12,7 @@ task main()
 
 	while(true) {
 		displayTextLine(0, "Counting to explosion: %d", i++);
+		datalogAddValue(1, i);
 		sleep(1000);
 	}
 
