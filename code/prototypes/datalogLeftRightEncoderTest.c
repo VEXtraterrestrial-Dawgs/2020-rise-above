@@ -18,11 +18,9 @@ task main()
 		int rightEncoder = round(getMotorEncoder(rightWheels));
 		int gyroReading  = getGyroDegrees(gyro);
 
-		datalogDataGroupStart();
 		datalogAddValueWithTimeStamp( 0, leftEncoder );
 		datalogAddValue( 1, rightEncoder );
 		datalogAddValue( 2, gyroReading );
-		datalogDataGroupEnd();
 
 		if (leftEncoder > 5000 && rightEncoder > 5000) {
 			break;
