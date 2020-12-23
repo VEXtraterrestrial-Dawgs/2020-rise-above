@@ -12,6 +12,7 @@
 task main()
 {
 	calibrateGyro();
+	datalogClear();
 	setMotorEncoderUnits(encoderCounts);
 	driveRobot(300); // in mm
 	turnRobot(45); // in degrees
