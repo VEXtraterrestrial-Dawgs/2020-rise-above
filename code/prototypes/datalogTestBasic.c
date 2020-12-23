@@ -3,7 +3,7 @@
 #pragma config(Motor,  motor4,          leftWheels,    tmotorVexIQ, PIDControl, driveLeft, encoder)
 #pragma config(Motor,  motor7,          hDrive,        tmotorVexIQ, PIDControl, encoder)
 #pragma config(Motor,  motor8,          armLow,        tmotorVexIQ, PIDControl, encoder)
-#pragma config(Motor,  motor9,          armHigh,       tmotorVexIQ, PIDControl, encoder)
+#pragma config(Motor,  motor10,          armHigh,       tmotorVexIQ, PIDControl, encoder)
 #pragma config(Motor,  motor12,         rightWheels,   tmotorVexIQ, PIDControl, reversed, driveRight, encoder)
 
 task main()
