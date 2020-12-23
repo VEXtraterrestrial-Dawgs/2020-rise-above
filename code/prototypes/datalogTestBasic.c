@@ -8,6 +8,8 @@
 
 task main()
 {
+	sleep(5000);
+
 	// Start a group of datalog values
 	datalogDataGroupStart();
 
@@ -41,6 +43,5 @@ task main()
 	// End a group of datalog values
 	datalogDataGroupEnd();
 
-
-
+	sleep(20000);
 }
