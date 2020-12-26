@@ -12,11 +12,18 @@ const int DRIVETRAIN_WIDTH = 132;
 const int SHORT_INTERVAL = 10;
 const int LONG_INTERVAL = 75;
 const int ENCODER_UNITS_PER_ROTATION = 960;
+const int MAX_DRIVE_SPEED = 80;
+const int MAX_DRIVE_ACCEL = 20;
+const int MAX_DRIVE_DIFFERENCE = 10;
+const int MAX_TURN_SPEED = 60;
+const int MAX_ARM_SPEED = 60;
+const int MAX_ARM_ACCEL = 15;
+
 
 typedef struct {
 	int lastError; // Last Iteration's Error Value
 	int lastTime; // Time of Last Iteration
-	int controllerIndex;
+	int controllerIndex;  // For Datalog
 	float Kp; // Proportional Coefficient
 	float Ki; // Integral Coefficient
 	float Kd; // Derivative Coefficient

@@ -38,15 +38,37 @@ bool PIDControl(PidObject* pid, int target, int current, int threshold, int* pow
 	pid->lastTime = now;
 
 	// Datalog
-	datalogAddValue( 0, pid->controllerIndex );
+	datalogAddValueWithTimeStamp( 0, pid->controllerIndex );
 	datalogAddValue( 1, error );
 	datalogAddValue( 2, round(pid->integral*1000) );
 	datalogAddValue( 3, round(derivative*1000) );
+	datalogAddValue( 4, round(getGyroDegrees(gyro)) );
 
 	// Returns a motor speed
 	*power = round( (error * pid->Kp) + (pid->integral * pid->Ki) + (derivative * pid->Kd) );
 
 	return (error < threshold);
+}
+
+int clip(int proposedSpeed, int lastSpeed, int maxSpeed, int maxAcceleration)
+{
+	if ( proposedSpeed > maxSpeed ) {
+		proposedSpeed = maxSpeed;
+	}
+	else if ( proposedSpeed < -maxSpeed ) {
+		proposedSpeed = -maxSpeed;
+	}
+
+	if (( lastSpeed >= 0 ) &&
+		  ( proposedSpeed > ( lastSpeed + maxAcceleration ) )) {
+		proposedSpeed = lastSpeed + maxAcceleration;
+	}
+	if (( lastSpeed <= 0 ) &&
+		  ( proposedSpeed < ( lastSpeed - maxAcceleration ) )) {
+		proposedSpeed = lastSpeed - maxAcceleration;
+	}
+
+	return proposedSpeed;
 }
 
 bool driveRobot(int distanceInMM)
@@ -59,20 +81,22 @@ bool driveRobot(int distanceInMM)
 	resetMotorEncoder(rightWheels);
 	resetGyro(gyro);
 
-	controllerLeft.Kp = 1;
+	controllerLeft.Kp = 0.8;
 	controllerLeft.Ki = 0;
 	controllerLeft.Kd = 0;
-	controllerLeft.Ka = 0;
+	controllerLeft.Ka = 0.95;
 	controllerLeft.controllerIndex = 1;
 
-	controllerRight.Kp = 0;
+	controllerRight.Kp = 1;
 	controllerRight.Ki = 0;
 	controllerRight.Kd = 0;
-	controllerRight.Ka = 0;
+	controllerRight.Ka = 0.995;
 	controllerRight.controllerIndex = 2;
 
 	// Given how far we want to go in millimeters, find how far we want to go in encoder units
 	int encoderTarget = (distanceInMM / (WHEEL_CIRCUMFERENCE * DRIVE_GEAR_RATIO)) * ENCODER_UNITS_PER_ROTATION;
+	int lastSpeedLeft = 0;
+	int lastSpeedRight = 0;
 
 	while (!isCancelled())
 	{
@@ -84,16 +108,22 @@ bool driveRobot(int distanceInMM)
 		bool isRightComplete;
 
 		isLeftComplete = PIDControl(&controllerLeft, encoderTarget, leftEncoder, THRESHOLD, &motorSpeedLeft);
-		setMotorSpeed(leftWheels, motorSpeedLeft);
+		motorSpeedLeft = clip(motorSpeedLeft, lastSpeedLeft, MAX_DRIVE_SPEED, MAX_DRIVE_ACCEL);
+		lastSpeedLeft = motorSpeedLeft;
+
 		isRightComplete = PIDControl(&controllerRight, leftEncoder, rightEncoder, THRESHOLD, &motorSpeedRight);
-		setMotorSpeed(rightWheels, motorSpeedRight);
+		motorSpeedRight = clip(motorSpeedLeft + motorSpeedRight, lastSpeedRight, MAX_DRIVE_SPEED + MAX_DRIVE_DIFFERENCE, MAX_DRIVE_ACCEL + MAX_DRIVE_DIFFERENCE);
+		lastSpeedRight = motorSpeedRight;
 
 		if (isLeftComplete && isRightComplete)
 		{
 			isComplete = true;
 			break;
 		}
-		sleep(75);
+
+		setMotorSpeed(leftWheels, motorSpeedLeft);
+		setMotorSpeed(rightWheels, motorSpeedRight);
+		sleep(LONG_INTERVAL);
 	}
 
 	setMotorSpeed(leftWheels, 0);
@@ -113,25 +143,29 @@ bool turnRobot(int angle) {
 	resetMotorEncoder(rightWheels);
 	resetGyro(gyro);
 
-	controllerLeftTurn.Kp = 1;
+	controllerLeftTurn.Kp = 2;
 	controllerLeftTurn.Ki = 0;
 	controllerLeftTurn.Kd = 0;
-	controllerLeftTurn.Ka = 0;
+	controllerLeftTurn.Ka = 0.95;
 
 	controllerRightTurn.Kp = 1;
 	controllerRightTurn.Ki = 0;
 	controllerRightTurn.Kd = 0;
-	controllerRightTurn.Ka = 0;
+	controllerRightTurn.Ka = 0.995;
+
+	int lastSpeedLeft = 0;
+	int lastSpeedRight = 0;
 
 	while (!isCancelled())
 	{
 		// Retrieve Sensor Values
 		int encoderLeft = round(getMotorEncoder(leftWheels));
 		int encoderRight = round(getMotorEncoder(rightWheels));
-		float gyroDegrees = getGyroDegreesFloat(gyro);
+		float gyroValue = degreesToRadians(getGyroDegreesFloat(gyro));
 
 		// Correct Sensor Values
-		float heading = gyroDegrees;
+		int heading = round(( DRIVETRAIN_WIDTH * 0.5 * gyroValue * ENCODER_UNITS_PER_ROTATION ) /
+		                ( WHEEL_CIRCUMFERENCE * DRIVE_GEAR_RATIO ));
 
 		// Calculate Motor Speeds
 		bool isCompleteLeft;
@@ -139,17 +173,13 @@ bool turnRobot(int angle) {
 		int motorSpeedLeft;
 		int motorSpeedRight;
 
-		isCompleteLeft = PIDControl(&controllerLeftTurn, (distanceEncoders * -1), encoderLeft, THRESHOLD, &motorSpeedLeft);
-		setMotorSpeed(leftWheels, motorSpeedLeft);
-		isCompleteRight = PIDControl(&controllerRightTurn, (encoderLeft * -1), encoderRight, THRESHOLD, &motorSpeedRight);
-		setMotorSpeed(rightWheels, motorSpeedRight);
+		isCompleteLeft = PIDControl(&controllerLeftTurn, -distanceEncoders, heading, THRESHOLD, &motorSpeedLeft);
+		clip(motorSpeedLeft, lastSpeedLeft, MAX_TURN_SPEED, MAX_DRIVE_ACCEL);
+		lastSpeedLeft = motorSpeedLeft;
 
-		/*
-		isCompleteLeft = PIDControl(&controllerLeftTurn, angle, heading, TURN_THRESHOLD, &motorSpeedLeft);
-		setMotorSpeed(leftWheels, motorSpeedLeft);
-		isCompleteRight = PIDControl(&controllerRightTurn, (encoderLeft * -1), encoderRight, THRESHOLD, &motorSpeedRight);
-		setMotorSpeed(rightWheels, motorSpeedRight);
-		*/
+		isCompleteRight = PIDControl(&controllerRightTurn, -encoderLeft, encoderRight, THRESHOLD, &motorSpeedRight);
+		clip(motorSpeedRight - motorSpeedLeft, lastSpeedRight, MAX_TURN_SPEED + MAX_DRIVE_DIFFERENCE, MAX_DRIVE_ACCEL + MAX_DRIVE_DIFFERENCE);
+		lastSpeedRight = motorSpeedRight;
 
 		// Check if complete
 		if (isCompleteRight && isCompleteLeft)
@@ -159,7 +189,8 @@ bool turnRobot(int angle) {
 		}
 
 		// Set Motor Speeds
-
+		setMotorSpeed(leftWheels, motorSpeedLeft);
+		setMotorSpeed(rightWheels, motorSpeedRight);
 		sleep(SHORT_INTERVAL);
 	}
 
@@ -170,24 +201,30 @@ bool turnRobot(int angle) {
 
 bool moveHDrive(int distance) {
 	PidObject controllerHDrive;
-	int encoderTarget = (distance / (WHEEL_CIRCUMFERENCE * H_DRIVE_GEAR_RATIO))*ENCODER_UNITS_PER_ROTATION;
 	bool isComplete;
-	int motorSpeed;
+	int encoderTarget = (distance / (WHEEL_CIRCUMFERENCE * H_DRIVE_GEAR_RATIO))*ENCODER_UNITS_PER_ROTATION;
 
 	resetMotorEncoder(hDrive);
 
-	controllerHDrive.Kp = 1;
+	controllerHDrive.Kp = 0.8;
 	controllerHDrive.Ki = 0;
 	controllerHDrive.Kd = 0;
-	controllerHDrive.Ka = 0;
+	controllerHDrive.Ka = 0.95;
+
+	int lastSpeed = 0;
 
 	while(!isCancelled()) {
+		int motorSpeed;
+
 		isComplete = PIDControl(&controllerHDrive, encoderTarget, getMotorEncoder(hDrive), THRESHOLD, &motorSpeed);
-		setMotorSpeed(hDrive, motorSpeed);
+		motorSpeed = clip(motorSpeed, lastSpeed, MAX_DRIVE_SPEED, MAX_DRIVE_ACCEL);
+		lastSpeed = motorSpeed;
 
 		if(isComplete) {
 			break;
 		}
+
+		setMotorSpeed(hDrive, motorSpeed);
 		sleep(LONG_INTERVAL);
 	}
 
@@ -195,56 +232,34 @@ bool moveHDrive(int distance) {
 	return isComplete;
 }
 
-bool moveTopArm(int height) {
-	PidObject controllerTopArm;
+bool moveArm(tMotor arm, int height) {
+	PidObject controllerArm;
 	bool isComplete;
-	int motorSpeed;
 
-	resetMotorEncoder(armHigh);
+	resetMotorEncoder(arm);
 
-	controllerTopArm.Kp = 1;
-	controllerTopArm.Ki = 0;
-	controllerTopArm.Kd = 0;
-	controllerTopArm.Ka = 0;
+	controllerArm.Kp = 0.5;
+	controllerArm.Ki = 0;
+	controllerArm.Kd = 0;
+	controllerArm.Ka = 0.95;
+
+	int lastSpeed = 0;
 
 	while(!isCancelled()) {
-		isComplete = PIDControl(&controllerTopArm, height, getMotorEncoder(armHigh), THRESHOLD_ARM, &motorSpeed);
-		setMotorSpeed(armHigh, motorSpeed);
+		int motorSpeed;
+
+		isComplete = PIDControl(&controllerArm, height, getMotorEncoder(arm), THRESHOLD_ARM, &motorSpeed);
+		motorSpeed = clip(motorSpeed, lastSpeed, MAX_ARM_SPEED, MAX_ARM_ACCEL);
+		lastSpeed = motorSpeed;
 
 		if(isComplete) {
 			break;
 		}
 
+		setMotorSpeed(arm, motorSpeed);
 		sleep(SHORT_INTERVAL);
 	}
 
-	setMotorSpeed(armHigh, 0);
-	return isComplete;
-}
-
-bool moveBottomArm(int height) {
-	PidObject controllerBottomArm;
-	bool isComplete;
-	int motorSpeed;
-
-	resetMotorEncoder(armHigh);
-
-	controllerBottomArm.Kp = 1;
-	controllerBottomArm.Ki = 0;
-	controllerBottomArm.Kd = 0;
-	controllerBottomArm.Ka = 0;
-
-	while(!isCancelled()) {
-		isComplete = PIDControl(&controllerBottomArm, height, getMotorEncoder(armLow), THRESHOLD_ARM, &motorSpeed);
-		setMotorSpeed(armLow, motorSpeed);
-
-		if(isComplete) {
-			break;
-		}
-
-		sleep(SHORT_INTERVAL);
-		}
-
-	setMotorSpeed(armLow, 0);
+	setMotorSpeed(arm, 0);
 	return isComplete;
 }
