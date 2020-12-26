@@ -89,7 +89,7 @@ bool driveRobot(int distanceInMM)
 	resetGyro(gyro);
 
 	// Given how far we want to go in millimeters, find how far we want to go in encoder units
-	int encoderTarget = (distanceInMM / (WHEEL_CIRCUMFERENCE * DRIVE_GEAR_RATIO)) * ENCODER_UNITS_PER_ROTATION;
+	int encoderTarget = (distanceInMM * ENCODER_UNITS_PER_ROTATION) / (WHEEL_CIRCUMFERENCE * DRIVE_GEAR_RATIO);
 	int lastSpeedLeft = 0;
 	int lastSpeedRight = 0;
 
@@ -150,7 +150,7 @@ bool turnRobot(int angle) {
 	PidObject controllerRightTurn;
 	float angleRadians = degreesToRadians(angle);
 	float distanceMM = (DRIVETRAIN_WIDTH / 2) * angleRadians;
-	float distanceEncoders = (distanceMM / (WHEEL_CIRCUMFERENCE * DRIVE_GEAR_RATIO))*ENCODER_UNITS_PER_ROTATION;
+	int distanceEncoders = (distanceMM * ENCODER_UNITS_PER_ROTATION) / (WHEEL_CIRCUMFERENCE * DRIVE_GEAR_RATIO);
 	bool isComplete = false;
 
 	resetMotorEncoder(leftWheels);
@@ -174,8 +174,6 @@ bool turnRobot(int angle) {
 	controllerRightTurn.integral = 0;
 	controllerRightTurn.lastTime = nPgmTime;
 	controllerRightTurn.lastError = 0;
-
-
 
 	int lastSpeedLeft = 0;
 	int lastSpeedRight = 0;
