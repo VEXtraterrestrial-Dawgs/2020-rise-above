@@ -17,4 +17,5 @@ task main()
 	datalogClear();
 	setMotorEncoderUnits(encoderCounts);
 	driveRobot(300); // in mm
+	turnRobot(90); // in degrees
 }
