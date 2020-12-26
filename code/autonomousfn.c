@@ -29,7 +29,14 @@ bool PIDControl(PidObject* pid, int target, int current, int threshold, int* pow
 	int error = target - current;
 	int now = nPgmTime;
 	int elapsed = now - pid->lastTime;
-	float derivative = ( error - pid->lastError ) / elapsed;
+	float derivative;
+
+	if(elapsed == 0) {
+		derivative = 0;
+	}
+	else {
+		derivative = ( error - pid->lastError ) / elapsed;
+	}
 
 	pid->integral *= pid->Ka;
 	pid->integral += (error + pid->lastError) * elapsed;
@@ -81,22 +88,29 @@ bool driveRobot(int distanceInMM)
 	resetMotorEncoder(rightWheels);
 	resetGyro(gyro);
 
+	// Given how far we want to go in millimeters, find how far we want to go in encoder units
+	int encoderTarget = (distanceInMM / (WHEEL_CIRCUMFERENCE * DRIVE_GEAR_RATIO)) * ENCODER_UNITS_PER_ROTATION;
+	int lastSpeedLeft = 0;
+	int lastSpeedRight = 0;
+
 	controllerLeft.Kp = 0.8;
 	controllerLeft.Ki = 0;
 	controllerLeft.Kd = 0;
 	controllerLeft.Ka = 0.95;
+	controllerLeft.integral = 0;
+	controllerLeft.lastTime = nPgmTime;
+	controllerLeft.lastError = encoderTarget;
 	controllerLeft.controllerIndex = 1;
 
 	controllerRight.Kp = 1;
 	controllerRight.Ki = 0;
 	controllerRight.Kd = 0;
 	controllerRight.Ka = 0.995;
+	controllerRight.integral = 0;
+	controllerRight.lastTime = nPgmTime;
+	controllerRight.lastError = 0;
 	controllerRight.controllerIndex = 2;
 
-	// Given how far we want to go in millimeters, find how far we want to go in encoder units
-	int encoderTarget = (distanceInMM / (WHEEL_CIRCUMFERENCE * DRIVE_GEAR_RATIO)) * ENCODER_UNITS_PER_ROTATION;
-	int lastSpeedLeft = 0;
-	int lastSpeedRight = 0;
 
 	while (!isCancelled())
 	{
@@ -143,15 +157,25 @@ bool turnRobot(int angle) {
 	resetMotorEncoder(rightWheels);
 	resetGyro(gyro);
 
+	controllerLeftTurn.controllerIndex = 3;
 	controllerLeftTurn.Kp = 2;
 	controllerLeftTurn.Ki = 0;
 	controllerLeftTurn.Kd = 0;
 	controllerLeftTurn.Ka = 0.95;
+	controllerLeftTurn.integral = 0;
+	controllerLeftTurn.lastTime = nPgmTime;
+	controllerLeftTurn.lastError = -distanceEncoders;
 
+	controllerRightTurn.controllerIndex = 4;
 	controllerRightTurn.Kp = 1;
 	controllerRightTurn.Ki = 0;
 	controllerRightTurn.Kd = 0;
 	controllerRightTurn.Ka = 0.995;
+	controllerRightTurn.integral = 0;
+	controllerRightTurn.lastTime = nPgmTime;
+	controllerRightTurn.lastError = 0;
+
+
 
 	int lastSpeedLeft = 0;
 	int lastSpeedRight = 0;
