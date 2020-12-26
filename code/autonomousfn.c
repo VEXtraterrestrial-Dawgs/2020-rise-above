@@ -150,7 +150,7 @@ bool turnRobot(int angle) {
 	PidObject controllerRightTurn;
 	float angleRadians = degreesToRadians(angle);
 	float distanceMM = (DRIVETRAIN_WIDTH / 2) * angleRadians;
-	int distanceEncoders = (distanceMM * ENCODER_UNITS_PER_ROTATION) / (WHEEL_CIRCUMFERENCE * DRIVE_GEAR_RATIO);
+	int distanceEncoders = round((distanceMM * ENCODER_UNITS_PER_ROTATION) / (WHEEL_CIRCUMFERENCE * DRIVE_GEAR_RATIO));
 	bool isComplete = false;
 
 	resetMotorEncoder(leftWheels);
