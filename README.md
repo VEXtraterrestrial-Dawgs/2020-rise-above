@@ -5,7 +5,7 @@ This is the repository for Team 47B, VEX IQ 2020-2021 season challenge Rise Abov
 You can read our [Engineering Notebook here](./notes), or use the Table of Contents below.
 - You can click on any link to read that day's notes.
 - When you open a day's notes, GitHub will show at the top who uploaded or made changes to that day's notes. You can also click on History at the top right to see all the times the notes were written or edited.
-- Any images included into a day's notes are stored [here](./img), and any of the data and graphs included into the notes are [accessible here](./data/README.md)
+- You can also see all the [images included into the notes here](./img) or the [data and graphs included into the notes here](./data/README.md)
 
 ## Table of Contents
 [Team Bios](./notes/bios.md)  
