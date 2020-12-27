@@ -5,11 +5,11 @@ This folder contains data we gathered from testing our robot's performance, as a
 ## Data Table of Contents
 
 ### [2020-12-26: Baseline Test of Drivetrain and Gyro](2020-12-26-datalogLeftRight.xlsx)
-[Read an Analaysis of the Data in This Day's Notes](../notes/2020-12-26%20Meeting%20Notes.md#programming-notes---tavas)
+[Read an Analaysis of the Data Here](../notes/2020-12-26%20Meeting%20Notes.md#programming-notes---tavas)
 
 ![Graphs](2020-12-26-datalogLeftRight-graphs.png)
 
 ### [2020-12-26: First PID Coefficient Test](2020-12-26-firstPidTest.xlsx)
-[Read an Analaysis of the Data in This Day's Notes](../notes/2020-12-26%20Meeting%20Notes.md)
+[Read an Analaysis of the Data Here](../notes/2020-12-26%20Meeting%20Notes.md#programming-notes---tavas)
 
 ![Graphs](2020-12-26-firstPid-graphs.png)
