@@ -25,9 +25,9 @@ bool isCancelled()
 	return false;
 }
 
-void PIDInit(PidObject* pid, int controllerIndex, int lastError, float Kp, float Ki, float Kd, float Ka) {
+void PIDInit(PidObject* pid, int controllerIndex, int initialError, float Kp, float Ki, float Kd, float Ka) {
 	pid->controllerIndex = controllerIndex;
-	pid->lastError = lastError;
+	pid->lastError = initialError;
 	pid->lastTime = nPgmTime;
 	pid->Kp = Kp;
 	pid->Ki = Ki;
@@ -144,7 +144,7 @@ bool turnRobot(int angle) {
 	PidObject controllerLeftTurn;
 	PidObject controllerRightTurn;
 	float angleRadians = degreesToRadians(angle);
-	float distanceMM = (DRIVETRAIN_WIDTH / 2) * angleRadians;
+	float distanceMM = DRIVETRAIN_WIDTH * 0.5 * angleRadians;
 	int distanceEncoders = round((distanceMM * ENCODER_UNITS_PER_ROTATION) / (WHEEL_CIRCUMFERENCE * DRIVE_GEAR_RATIO));
 	bool isComplete = false;
 
