@@ -25,6 +25,17 @@ bool isCancelled()
 	return false;
 }
 
+void PIDInit(PidObject* pid, int controllerIndex, int lastError, float Kp, float Ki, float Kd, float Ka) {
+	pid->controllerIndex = controllerIndex;
+	pid->lastError = lastError;
+	pid->lastTime = nPgmTime;
+	pid->Kp = Kp;
+	pid->Ki = Ki;
+	pid->Kd = Kd;
+	pid->Ka = Ka;
+	pid->integral = 0;
+}
+
 bool PIDControl(PidObject* pid, int target, int current, int threshold, int* power) {
 	int error = target - current;
 	int now = nPgmTime;
@@ -93,24 +104,8 @@ bool driveRobot(int distanceInMM)
 	int lastSpeedLeft = 0;
 	int lastSpeedRight = 0;
 
-	controllerLeft.Kp = 0.8;
-	controllerLeft.Ki = 0;
-	controllerLeft.Kd = 0;
-	controllerLeft.Ka = 0.95;
-	controllerLeft.integral = 0;
-	controllerLeft.lastTime = nPgmTime;
-	controllerLeft.lastError = encoderTarget;
-	controllerLeft.controllerIndex = 1;
-
-	controllerRight.Kp = 1;
-	controllerRight.Ki = 0;
-	controllerRight.Kd = 0;
-	controllerRight.Ka = 0.995;
-	controllerRight.integral = 0;
-	controllerRight.lastTime = nPgmTime;
-	controllerRight.lastError = 0;
-	controllerRight.controllerIndex = 2;
-
+	PIDInit(&controllerLeft, 1, encoderTarget, 0.8, 0, 0, 0.95);
+	PIDInit(&controllerRight, 2, 0, 1, 0, 0, 0.995);
 
 	while (!isCancelled())
 	{
@@ -157,23 +152,8 @@ bool turnRobot(int angle) {
 	resetMotorEncoder(rightWheels);
 	resetGyro(gyro);
 
-	controllerLeftTurn.controllerIndex = 3;
-	controllerLeftTurn.Kp = 2;
-	controllerLeftTurn.Ki = 0;
-	controllerLeftTurn.Kd = 0;
-	controllerLeftTurn.Ka = 0.95;
-	controllerLeftTurn.integral = 0;
-	controllerLeftTurn.lastTime = nPgmTime;
-	controllerLeftTurn.lastError = -distanceEncoders;
-
-	controllerRightTurn.controllerIndex = 4;
-	controllerRightTurn.Kp = 1;
-	controllerRightTurn.Ki = 0;
-	controllerRightTurn.Kd = 0;
-	controllerRightTurn.Ka = 0.995;
-	controllerRightTurn.integral = 0;
-	controllerRightTurn.lastTime = nPgmTime;
-	controllerRightTurn.lastError = 0;
+	PIDInit(&controllerLeftTurn, 3, -distanceEncoders, 2, 0, 0, 0.95);
+	PIDInit(&controllerRightTurn, 4, 0, 1, 0, 0, 0.95);
 
 	int lastSpeedLeft = 0;
 	int lastSpeedRight = 0;
@@ -228,10 +208,7 @@ bool moveHDrive(int distance) {
 
 	resetMotorEncoder(hDrive);
 
-	controllerHDrive.Kp = 0.8;
-	controllerHDrive.Ki = 0;
-	controllerHDrive.Kd = 0;
-	controllerHDrive.Ka = 0.95;
+	PIDInit(&controllerHDrive, 5, encoderTarget, 0.8, 0, 0, 0.95);
 
 	int lastSpeed = 0;
 
@@ -260,10 +237,7 @@ bool moveArm(tMotor arm, int height) {
 
 	resetMotorEncoder(arm);
 
-	controllerArm.Kp = 0.5;
-	controllerArm.Ki = 0;
-	controllerArm.Kd = 0;
-	controllerArm.Ka = 0.95;
+	PIDInit(&controllerArm, 6, height, 0.5, 0, 0, 0.95);
 
 	int lastSpeed = 0;
 
