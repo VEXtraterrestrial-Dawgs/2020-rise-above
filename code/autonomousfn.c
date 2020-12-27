@@ -180,7 +180,7 @@ bool turnRobot(int angle) {
 		lastSpeedLeft = motorSpeedLeft;
 
 		isCompleteRight = PIDControl(&controllerRightTurn, -encoderLeft, encoderRight, THRESHOLD, &motorSpeedRight);
-		motorSpeedRight = clip(motorSpeedRight - motorSpeedLeft, lastSpeedRight, MAX_TURN_SPEED + MAX_DRIVE_DIFFERENCE, MAX_DRIVE_ACCEL + MAX_DRIVE_DIFFERENCE);
+		motorSpeedRight = clip(motorSpeedRight + motorSpeedLeft, lastSpeedRight, MAX_TURN_SPEED + MAX_DRIVE_DIFFERENCE, MAX_DRIVE_ACCEL + MAX_DRIVE_DIFFERENCE);
 		lastSpeedRight = motorSpeedRight;
 
 		// Check if complete
