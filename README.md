@@ -42,3 +42,4 @@ You can read our [Engineering Notebook here](./notes), or use the Table of Conte
 - [2020-12-16: Sri and Athreya - Driving Practice and Robot Fixes](./notes/2020-12-16%20Meeting%20Notes.md)
 - [2020-12-19: Gathered Data for Autonomous](./notes/2020-12-19%20Meeting%20Notes.md)
 - [2020-12-23: Ran Tests for Autonomous, Discussed Claw Angle Problem](./notes/2020-12-23%20Meeting%20Notes.md)
+- [2020-12-26: Ran Through Driving Strategy, Gathered and Analyzed Data for Autonomous, Changes to Claw](./notes/2020-12-26%20Meeting%20Notes.md)
