@@ -113,18 +113,18 @@ bool driveRobot(int distanceInMM)
 		int motorSpeedRight;
 		int leftEncoder = round(getMotorEncoder(leftWheels));
 		int rightEncoder = round(getMotorEncoder(rightWheels));
-		bool isLeftComplete;
-		bool isRightComplete;
+		bool hasReached;
+		bool isStraight;
 
-		isLeftComplete = PIDControl(&controllerLeft, encoderTarget, leftEncoder, THRESHOLD, &motorSpeedLeft);
+		hasReached = PIDControl(&controllerLeft, encoderTarget, leftEncoder, THRESHOLD, &motorSpeedLeft);
 		motorSpeedLeft = clip(motorSpeedLeft, lastSpeedLeft, MAX_DRIVE_SPEED, MAX_DRIVE_ACCEL);
 		lastSpeedLeft = motorSpeedLeft;
 
-		isRightComplete = PIDControl(&controllerRight, leftEncoder, rightEncoder, THRESHOLD, &motorSpeedRight);
+		isStraight = PIDControl(&controllerRight, leftEncoder, rightEncoder, THRESHOLD, &motorSpeedRight);
 		motorSpeedRight = clip(motorSpeedLeft + motorSpeedRight, lastSpeedRight, MAX_DRIVE_SPEED + MAX_DRIVE_DIFFERENCE, MAX_DRIVE_ACCEL + MAX_DRIVE_DIFFERENCE);
 		lastSpeedRight = motorSpeedRight;
 
-		if (isLeftComplete && isRightComplete)
+		if (hasReached && isStraight)
 		{
 			isComplete = true;
 			break;
@@ -176,11 +176,11 @@ bool turnRobot(int angle) {
 		int motorSpeedRight;
 
 		isCompleteLeft = PIDControl(&controllerLeftTurn, -distanceEncoders, heading, THRESHOLD, &motorSpeedLeft);
-		clip(motorSpeedLeft, lastSpeedLeft, MAX_TURN_SPEED, MAX_DRIVE_ACCEL);
+		motorSpeedLeft = clip(motorSpeedLeft, lastSpeedLeft, MAX_TURN_SPEED, MAX_DRIVE_ACCEL);
 		lastSpeedLeft = motorSpeedLeft;
 
 		isCompleteRight = PIDControl(&controllerRightTurn, -encoderLeft, encoderRight, THRESHOLD, &motorSpeedRight);
-		clip(motorSpeedRight - motorSpeedLeft, lastSpeedRight, MAX_TURN_SPEED + MAX_DRIVE_DIFFERENCE, MAX_DRIVE_ACCEL + MAX_DRIVE_DIFFERENCE);
+		motorSpeedRight = clip(motorSpeedRight - motorSpeedLeft, lastSpeedRight, MAX_TURN_SPEED + MAX_DRIVE_DIFFERENCE, MAX_DRIVE_ACCEL + MAX_DRIVE_DIFFERENCE);
 		lastSpeedRight = motorSpeedRight;
 
 		// Check if complete
@@ -191,7 +191,7 @@ bool turnRobot(int angle) {
 		}
 
 		// Set Motor Speeds
-		setMotorSpeed(leftWheels, motorSpeedLeft);
+		setMotorSpeed(leftWheels, -motorSpeedLeft);
 		setMotorSpeed(rightWheels, motorSpeedRight);
 		sleep(SHORT_INTERVAL);
 	}
