@@ -35,7 +35,7 @@ bool PIDControl(PidObject* pid, int target, int current, int threshold, int* pow
 		derivative = 0;
 	}
 	else {
-		derivative = ( error - pid->lastError ) / elapsed;
+		derivative = ( (float)error - pid->lastError ) / elapsed;
 	}
 
 	pid->integral *= pid->Ka;
