@@ -1,6 +1,6 @@
 # Data Folder
 
-This folder contains data we gathered from testing our robot's performance, as an Excel spreadsheet.
+This folder contains data we gathered from testing our robot's performance, as an Excel spreadsheet. Below is the Table of Contents and the graphs of the data collected.
 
 ## Data Table of Contents
 
