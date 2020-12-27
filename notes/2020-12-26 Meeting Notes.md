@@ -31,7 +31,7 @@ In the program, I made a few changes.
 
 Since last meeting, Sri ran the test datalogLeftRightEncoderTest.c so we could test out if one drivetrain motor was weaker than the other and how accurate the gyro sensor was. The graphs of the gyro readings and encoder readings are displayed below, and the data can be found at: [2020-12-26-datalogLeftRight.xlsx](../data/2020-12-26-datalogLeftRight.xlsx).
 
-![Graphs](../data/2020-12-26-datalogLeftRight-Encoder-graphs.png)
+![Graphs](../data/2020-12-26-datalogLeftRight-graphs.png)
 
 **Encoders**
 - The result was that the difference between the left and right sides of the drivetrain was initially very noisy, with the left side initially being 10 encoder units more than the right, then the right side being 10 more than the left, and so on. Eventually, the readings stabilized around the right side being around 3 encoder units ahead of the left. 
