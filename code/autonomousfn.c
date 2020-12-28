@@ -187,12 +187,14 @@ bool turnRobot(int angle) {
 		if (isCompleteRight && isCompleteLeft)
 		{
 			isComplete = true;
+			playSound(soundTada);
 			break;
 		}
 
 		// Set Motor Speeds
 		setMotorSpeed(leftWheels, -motorSpeedLeft);
 		setMotorSpeed(rightWheels, motorSpeedRight);
+		playSound(soundSiren2);
 		sleep(SHORT_INTERVAL);
 	}
 
