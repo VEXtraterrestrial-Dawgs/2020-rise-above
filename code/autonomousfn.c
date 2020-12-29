@@ -65,7 +65,7 @@ bool PIDControl(PidObject* pid, int target, int current, int threshold, int* pow
 	// Returns a motor speed
 	*power = round( (error * pid->Kp) + (pid->integral * pid->Ki) + (derivative * pid->Kd) );
 
-	return (error < threshold);
+	return (abs(error) < threshold);
 }
 
 int clip(int proposedSpeed, int lastSpeed, int maxSpeed, int maxAcceleration)
@@ -89,6 +89,30 @@ int clip(int proposedSpeed, int lastSpeed, int maxSpeed, int maxAcceleration)
 	return proposedSpeed;
 }
 
+void clipLR(int* proposedLeft, int* proposedDifference, int lastSpeedLeft, int lastSpeedRight, int maxSpeed, int maxAcceleration)
+{
+	if ( *proposedDifference > MAX_DRIVE_DIFFERENCE ) {
+		*proposedDifference = MAX_DRIVE_DIFFERENCE;
+	}
+	else if ( *proposedDifference < -MAX_DRIVE_DIFFERENCE ) {
+		*proposedDifference = -MAX_DRIVE_DIFFERENCE;
+	}
+
+	*proposedLeft = clip(*proposedLeft, lastSpeedLeft, maxSpeed, maxAcceleration);
+
+	if ( *proposedLeft >= 0 && clip(*proposedLeft + *proposedDifference, lastSpeedRight, maxSpeed, maxAcceleration) != *proposedLeft + *proposedDifference ) {
+		if ( clip(*proposedLeft - *proposedDifference, lastSpeedLeft, maxSpeed, maxAcceleration) == *proposedLeft - *proposedDifference ) {
+			*proposedLeft -= *proposedDifference;
+		}
+	}
+
+	else if ( *proposedLeft < 0 && clip(*proposedLeft - *proposedDifference, lastSpeedRight, maxSpeed, maxAcceleration) != *proposedLeft - *proposedDifference ) {
+		if ( clip(*proposedLeft + *proposedDifference, lastSpeedLeft, maxSpeed, maxAcceleration) == *proposedLeft + *proposedDifference ) {
+			*proposedLeft += *proposedDifference;
+		}
+	}
+}
+
 bool driveRobot(int distanceInMM)
 {
 	PidObject controllerLeft;
@@ -104,8 +128,8 @@ bool driveRobot(int distanceInMM)
 	int lastSpeedLeft = 0;
 	int lastSpeedRight = 0;
 
-	PIDInit(&controllerLeft, 1, encoderTarget, 0.75, 0, 0, 0.95);
-	PIDInit(&controllerRight, 2, 0, 1.2, 0, 0, 0.995);
+	PIDInit(&controllerLeft, 1, encoderTarget, 0.75, 0, 10, 0.95);
+	PIDInit(&controllerRight, 2, 0, 2, 0, 0, 0.995);
 
 	while (!isCancelled())
 	{
@@ -117,12 +141,12 @@ bool driveRobot(int distanceInMM)
 		bool isStraight;
 
 		hasReached = PIDControl(&controllerLeft, encoderTarget, leftEncoder, THRESHOLD, &motorSpeedLeft);
-		motorSpeedLeft = clip(motorSpeedLeft, lastSpeedLeft, MAX_DRIVE_SPEED, MAX_DRIVE_ACCEL);
-		lastSpeedLeft = motorSpeedLeft;
-
 		isStraight = PIDControl(&controllerRight, leftEncoder, rightEncoder, THRESHOLD, &motorSpeedRight);
-		motorSpeedRight = clip(motorSpeedLeft + motorSpeedRight, lastSpeedRight, MAX_DRIVE_SPEED + MAX_DRIVE_DIFFERENCE, MAX_DRIVE_ACCEL + MAX_DRIVE_DIFFERENCE);
-		lastSpeedRight = motorSpeedRight;
+
+		clipLR(&motorSpeedLeft, &motorSpeedRight, lastSpeedLeft, lastSpeedRight, MAX_DRIVE_SPEED, MAX_DRIVE_ACCEL);
+
+		lastSpeedLeft = motorSpeedLeft;
+		lastSpeedRight = motorSpeedLeft + motorSpeedRight;
 
 		if (hasReached && isStraight)
 		{
