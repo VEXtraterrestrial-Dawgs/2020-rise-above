@@ -89,28 +89,33 @@ int clip(int proposedSpeed, int lastSpeed, int maxSpeed, int maxAcceleration)
 	return proposedSpeed;
 }
 
-void clipLR(int* proposedLeft, int* proposedDifference, int lastSpeedLeft, int lastSpeedRight, int maxSpeed, int maxAcceleration)
+void clipLR(int proposedLeft, int proposedDifference, int* speedLeft, int* speedRight, int maxSpeed, int maxAcceleration)
 {
-	if ( *proposedDifference > MAX_DRIVE_DIFFERENCE ) {
-		*proposedDifference = MAX_DRIVE_DIFFERENCE;
+	int newSpeedLeft;
+	int newSpeedRight;
+	int newDiff;
+
+	if ( proposedDifference > MAX_DRIVE_DIFFERENCE ) {
+		newDiff = MAX_DRIVE_DIFFERENCE;
 	}
-	else if ( *proposedDifference < -MAX_DRIVE_DIFFERENCE ) {
-		*proposedDifference = -MAX_DRIVE_DIFFERENCE;
+	else if ( proposedDifference < -MAX_DRIVE_DIFFERENCE ) {
+		newDiff = -MAX_DRIVE_DIFFERENCE;
+	}
+	else {
+		newDiff = proposedDifference;
 	}
 
-	*proposedLeft = clip(*proposedLeft, lastSpeedLeft, maxSpeed, maxAcceleration);
+	newSpeedLeft = clip(proposedLeft, *speedLeft, maxSpeed, maxAcceleration);
+	newSpeedRight = clip(proposedLeft + proposedDifference, *speedRight, maxSpeed, maxAcceleration);
 
-	if ( *proposedLeft >= 0 && clip(*proposedLeft + *proposedDifference, lastSpeedRight, maxSpeed, maxAcceleration) != *proposedLeft + *proposedDifference ) {
-		if ( clip(*proposedLeft - *proposedDifference, lastSpeedLeft, maxSpeed, maxAcceleration) == *proposedLeft - *proposedDifference ) {
-			*proposedLeft -= *proposedDifference;
-		}
+	int maxClipDiff = proposedLeft - newSpeedLeft;
+
+	if (abs( (proposedLeft + proposedDifference) - newSpeedRight) > abs(maxClipDiff) ) {
+		maxClipDiff = (proposedLeft + proposedDifference) - newSpeedRight;
 	}
 
-	else if ( *proposedLeft < 0 && clip(*proposedLeft - *proposedDifference, lastSpeedRight, maxSpeed, maxAcceleration) != *proposedLeft - *proposedDifference ) {
-		if ( clip(*proposedLeft + *proposedDifference, lastSpeedLeft, maxSpeed, maxAcceleration) == *proposedLeft + *proposedDifference ) {
-			*proposedLeft += *proposedDifference;
-		}
-	}
+	*speedLeft = newSpeedLeft - maxClipDiff;
+	*speedRight = newSpeedRight - maxClipDiff;
 }
 
 bool driveRobot(int distanceInMM)
@@ -134,19 +139,14 @@ bool driveRobot(int distanceInMM)
 	while (!isCancelled())
 	{
 		int motorSpeedLeft;
-		int motorSpeedRight;
+		int motorSpeedDiff;
 		int leftEncoder = round(getMotorEncoder(leftWheels));
 		int rightEncoder = round(getMotorEncoder(rightWheels));
 		bool hasReached;
 		bool isStraight;
 
 		hasReached = PIDControl(&controllerLeft, encoderTarget, leftEncoder, THRESHOLD, &motorSpeedLeft);
-		isStraight = PIDControl(&controllerRight, leftEncoder, rightEncoder, THRESHOLD, &motorSpeedRight);
-
-		clipLR(&motorSpeedLeft, &motorSpeedRight, lastSpeedLeft, lastSpeedRight, MAX_DRIVE_SPEED, MAX_DRIVE_ACCEL);
-
-		lastSpeedLeft = motorSpeedLeft;
-		lastSpeedRight = motorSpeedLeft + motorSpeedRight;
+		isStraight = PIDControl(&controllerRight, leftEncoder, rightEncoder, THRESHOLD, &motorSpeedDiff);
 
 		if (hasReached && isStraight)
 		{
@@ -154,8 +154,9 @@ bool driveRobot(int distanceInMM)
 			break;
 		}
 
-		setMotorSpeed(leftWheels, motorSpeedLeft);
-		setMotorSpeed(rightWheels, motorSpeedRight);
+		clipLR(motorSpeedLeft, motorSpeedDiff, &lastSpeedLeft, &lastSpeedRight, MAX_DRIVE_SPEED, MAX_DRIVE_ACCEL);
+		setMotorSpeed(leftWheels, lastSpeedLeft);
+		setMotorSpeed(rightWheels, lastSpeedRight);
 		sleep(LONG_INTERVAL);
 	}
 
@@ -167,7 +168,8 @@ bool driveRobot(int distanceInMM)
 bool turnRobot(int angle) {
 	PidObject controllerLeftTurn;
 	PidObject controllerRightTurn;
-	float angleRadians = degreesToRadians(angle);
+	// angle is clockwise degrees, but the gyro works with counter-clockwise values
+	float angleRadians = -degreesToRadians(((angle + 180) % 360) - 180);
 	float distanceMM = DRIVETRAIN_WIDTH * 0.5 * angleRadians;
 	int distanceEncoders = round((distanceMM * ENCODER_UNITS_PER_ROTATION) / (WHEEL_CIRCUMFERENCE * DRIVE_GEAR_RATIO));
 	bool isComplete = false;
@@ -190,22 +192,25 @@ bool turnRobot(int angle) {
 		float gyroValue = degreesToRadians(getGyroDegreesFloat(gyro));
 
 		// Correct Sensor Values
-		int heading = round(( DRIVETRAIN_WIDTH * 0.5 * gyroValue * ENCODER_UNITS_PER_ROTATION ) /
+		int encoderPosition = round(( DRIVETRAIN_WIDTH * 0.5 * gyroValue * ENCODER_UNITS_PER_ROTATION ) /
 		                ( WHEEL_CIRCUMFERENCE * DRIVE_GEAR_RATIO ));
 
 		// Calculate Motor Speeds
 		bool isCompleteLeft;
 		bool isCompleteRight;
 		int motorSpeedLeft;
-		int motorSpeedRight;
+		int motorSpeedDiff;
 
-		isCompleteLeft = PIDControl(&controllerLeftTurn, -distanceEncoders, heading, THRESHOLD, &motorSpeedLeft);
-		motorSpeedLeft = clip(motorSpeedLeft, lastSpeedLeft, MAX_TURN_SPEED, MAX_DRIVE_ACCEL);
-		lastSpeedLeft = motorSpeedLeft;
+		isCompleteLeft = PIDControl(&controllerLeftTurn, -distanceEncoders, -encoderPosition, THRESHOLD, &motorSpeedLeft);
+		isCompleteRight = PIDControl(&controllerRightTurn, -encoderLeft, encoderRight, THRESHOLD, &motorSpeedDiff);
 
-		isCompleteRight = PIDControl(&controllerRightTurn, -encoderLeft, encoderRight, THRESHOLD, &motorSpeedRight);
-		motorSpeedRight = clip(motorSpeedRight + motorSpeedLeft, lastSpeedRight, MAX_TURN_SPEED + MAX_DRIVE_DIFFERENCE, MAX_DRIVE_ACCEL + MAX_DRIVE_DIFFERENCE);
-		lastSpeedRight = motorSpeedRight;
+		if (motorSpeedLeft < 0) {
+			clipLR(abs(motorSpeedLeft), motorSpeedDiff, &lastSpeedLeft, &lastSpeedRight, MAX_TURN_SPEED, MAX_DRIVE_ACCEL);
+			lastSpeedLeft = -lastSpeedLeft;
+		}
+		else {
+			clipLR(motorSpeedLeft, motorSpeedDiff, &lastSpeedLeft, &lastSpeedRight, MAX_TURN_SPEED, MAX_DRIVE_ACCEL);
+		}
 
 		// Check if complete
 		if (isCompleteRight && isCompleteLeft)
@@ -216,9 +221,8 @@ bool turnRobot(int angle) {
 		}
 
 		// Set Motor Speeds
-		setMotorSpeed(leftWheels, -motorSpeedLeft);
-		setMotorSpeed(rightWheels, motorSpeedRight);
-		playSound(soundSiren2);
+		setMotorSpeed(leftWheels, lastSpeedLeft);
+		setMotorSpeed(rightWheels, lastSpeedRight);
 		sleep(SHORT_INTERVAL);
 	}
 
