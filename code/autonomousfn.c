@@ -111,16 +111,16 @@ void clipLR(int proposedLeft, int proposedDifference, int* speedLeft, int* speed
 	}
 
 	newSpeedLeft = clip(proposedLeft, *speedLeft, maxSpeed, maxAcceleration);
-	newSpeedRight = clip(proposedLeft + proposedDifference, *speedRight, maxSpeed, maxAcceleration);
+	newSpeedRight = clip(proposedLeft + newDiff, *speedRight, maxSpeed, maxAcceleration);
 
 	int maxClipDiff = proposedLeft - newSpeedLeft;
 
-	if (abs( (proposedLeft + proposedDifference) - newSpeedRight) > abs(maxClipDiff) ) {
-		maxClipDiff = (proposedLeft + proposedDifference) - newSpeedRight;
+	if (abs( (proposedLeft + newDiff) - newSpeedRight) > abs(maxClipDiff) ) {
+		maxClipDiff = (proposedLeft + newDiff) - newSpeedRight;
 	}
 
 	*speedLeft = proposedLeft - maxClipDiff;
-	*speedRight = (proposedLeft + proposedDifference) - maxClipDiff;
+	*speedRight = (proposedLeft + newDiff) - maxClipDiff;
 }
 
 bool driveRobot(int distanceInMM)
