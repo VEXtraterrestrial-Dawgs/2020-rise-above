@@ -160,6 +160,8 @@ bool driveRobot(int distanceInMM)
 		}
 
 		clipLR(motorSpeedLeft, motorSpeedDiff, &lastSpeedLeft, &lastSpeedRight, MAX_DRIVE_SPEED, MAX_DRIVE_ACCEL);
+		datalogAddValue(5, lastSpeedLeft);
+		datalogAddValue(6, lastSpeedRight);
 		setMotorSpeed(leftWheels, lastSpeedLeft);
 		setMotorSpeed(rightWheels, lastSpeedRight);
 		sleep(LONG_INTERVAL);

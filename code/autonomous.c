@@ -39,8 +39,5 @@ task main()
 	setMotorEncoderUnits(encoderCounts);
 	setTouchLEDRGB(touch, 84, 122, 138);
 
-
-	//testSequence();
-	driveRobot(300);
-	turnRobot(90);
+	testSequence();
 }
