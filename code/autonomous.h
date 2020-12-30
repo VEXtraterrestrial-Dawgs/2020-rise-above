@@ -19,7 +19,6 @@ const int MAX_TURN_SPEED = 60;
 const int MAX_ARM_SPEED = 60;
 const int MAX_ARM_ACCEL = 15;
 
-
 typedef struct {
 	int lastError; // Last Iteration's Error Value
 	int lastTime; // Time of Last Iteration
@@ -30,3 +29,6 @@ typedef struct {
 	float Ka; // Aging Factor for Integral
 	float integral; // Integral Value
 } PidObject;
+
+// MUST be called inside of a bool function that can return when any operation is cancelled.
+#define RUN_COMMAND(what, howMuch) if (what(howMuch) ==  false) { return false; }

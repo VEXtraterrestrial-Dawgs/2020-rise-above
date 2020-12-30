@@ -9,6 +9,20 @@
 
 #include "autonomousfn.c"
 
+bool testSequence() {
+	RUN_COMMAND(driveRobot, 300);
+	RUN_COMMAND(turnRobot, 90);
+	return true;
+}
+
+bool autonomousStrategy() {
+	RUN_COMMAND(moveHDrive, 255);
+	RUN_COMMAND(moveHDrive, -255);
+	RUN_COMMAND(driveRobot, 365);
+	RUN_COMMAND(turnRobot, 90);
+	return true;
+}
+
 task main()
 {
 	calibrateGyro();
@@ -16,6 +30,6 @@ task main()
 	setMotorBrakeMode(armLow, motorHold);
 	datalogClear();
 	setMotorEncoderUnits(encoderCounts);
-	//driveRobot(300); // in mm
-	turnRobot(90); // in degrees
+
+	testSequence();
 }

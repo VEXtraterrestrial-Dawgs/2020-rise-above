@@ -166,8 +166,8 @@ bool driveRobot(int distanceInMM)
 }
 
 bool turnRobot(int angle) {
-	PidObject controllerLeftTurn;
-	PidObject controllerRightTurn;
+	PidObject controllerTurn;
+	PidObject controllerDiff;
 	// angle is clockwise degrees, but the gyro works with counter-clockwise values
 	float angleRadians = -degreesToRadians(((angle + 180) % 360) - 180);
 	float distanceMM = DRIVETRAIN_WIDTH * 0.5 * angleRadians;
@@ -178,8 +178,8 @@ bool turnRobot(int angle) {
 	resetMotorEncoder(rightWheels);
 	resetGyro(gyro);
 
-	PIDInit(&controllerLeftTurn, 3, -distanceEncoders, 2, 0, 0, 0.95);
-	PIDInit(&controllerRightTurn, 4, 0, 1, 0, 0, 0.95);
+	PIDInit(&controllerTurn, 3, distanceEncoders, 2, 0, 0, 0.95);
+	PIDInit(&controllerDiff, 4, 0, 1, 0, 0, 0.95);
 
 	int lastSpeedLeft = 0;
 	int lastSpeedRight = 0;
@@ -196,25 +196,27 @@ bool turnRobot(int angle) {
 		                ( WHEEL_CIRCUMFERENCE * DRIVE_GEAR_RATIO ));
 
 		// Calculate Motor Speeds
-		bool isCompleteLeft;
-		bool isCompleteRight;
+		bool isCompleteTurn;
+		bool isCompleteAdjust;
 		int motorSpeedLeft;
 		int motorSpeedDiff;
 
-		isCompleteLeft = PIDControl(&controllerLeftTurn, distanceEncoders, encoderPosition, THRESHOLD, &motorSpeedLeft);
-		isCompleteRight = PIDControl(&controllerRightTurn, -encoderLeft, encoderRight, THRESHOLD, &motorSpeedDiff);
+		isCompleteTurn = PIDControl(&controllerTurn, distanceEncoders, encoderPosition, THRESHOLD, &motorSpeedLeft);
+		isCompleteAdjust = PIDControl(&controllerDiff, -encoderLeft, encoderRight, THRESHOLD, &motorSpeedDiff);
 
 		clipLR(motorSpeedLeft, motorSpeedDiff, &lastSpeedLeft, &lastSpeedRight, MAX_TURN_SPEED, MAX_DRIVE_ACCEL);
 
 		// Check if complete
-		if (isCompleteRight && isCompleteLeft)
+		if (isCompleteTurn && isCompleteAdjust)
 		{
 			isComplete = true;
-			playSound(soundTada);
 			break;
 		}
 
 		// Set Motor Speeds
+		datalogAddValue(5, -lastSpeedLeft);
+		datalogAddValue(6, lastSpeedRight);
+
 		setMotorSpeed(leftWheels, -lastSpeedLeft);
 		setMotorSpeed(rightWheels, lastSpeedRight);
 		sleep(SHORT_INTERVAL);
@@ -282,4 +284,12 @@ bool moveArm(tMotor arm, int height) {
 
 	setMotorSpeed(arm, 0);
 	return isComplete;
+}
+
+bool moveTopArm(int height) {
+	return moveArm(armHigh, height);
+}
+
+bool moveLowerArm(int height) {
+	return moveArm(armLow, height);
 }
