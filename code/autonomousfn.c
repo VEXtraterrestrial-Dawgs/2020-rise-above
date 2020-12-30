@@ -201,16 +201,10 @@ bool turnRobot(int angle) {
 		int motorSpeedLeft;
 		int motorSpeedDiff;
 
-		isCompleteLeft = PIDControl(&controllerLeftTurn, -distanceEncoders, -encoderPosition, THRESHOLD, &motorSpeedLeft);
+		isCompleteLeft = PIDControl(&controllerLeftTurn, distanceEncoders, encoderPosition, THRESHOLD, &motorSpeedLeft);
 		isCompleteRight = PIDControl(&controllerRightTurn, -encoderLeft, encoderRight, THRESHOLD, &motorSpeedDiff);
 
-		if (motorSpeedLeft < 0) {
-			clipLR(abs(motorSpeedLeft), motorSpeedDiff, &lastSpeedLeft, &lastSpeedRight, MAX_TURN_SPEED, MAX_DRIVE_ACCEL);
-			lastSpeedLeft = -lastSpeedLeft;
-		}
-		else {
-			clipLR(motorSpeedLeft, motorSpeedDiff, &lastSpeedLeft, &lastSpeedRight, MAX_TURN_SPEED, MAX_DRIVE_ACCEL);
-		}
+		clipLR(motorSpeedLeft, motorSpeedDiff, &lastSpeedLeft, &lastSpeedRight, MAX_TURN_SPEED, MAX_DRIVE_ACCEL);
 
 		// Check if complete
 		if (isCompleteRight && isCompleteLeft)
@@ -221,7 +215,7 @@ bool turnRobot(int angle) {
 		}
 
 		// Set Motor Speeds
-		setMotorSpeed(leftWheels, lastSpeedLeft);
+		setMotorSpeed(leftWheels, -lastSpeedLeft);
 		setMotorSpeed(rightWheels, lastSpeedRight);
 		sleep(SHORT_INTERVAL);
 	}
