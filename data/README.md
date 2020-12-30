@@ -17,5 +17,4 @@ This folder contains data we gathered from testing our robot's performance, as a
 ### [2020-12-28: PID Test With Updated Coefficients and Derivative Value Fixed](2020-12-28-pid.xlsx)
 
 ![Zoom in Graph](2020-12-28-error-graph-right.png)
-
 ![Graphs](2020-12-28-pid-graphs.png)
