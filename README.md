@@ -44,4 +44,4 @@ Data and graphs included into the notes are accessible [in our Data Folder here]
 - [2020-12-19: Gathered Data for Autonomous](./notes/2020-12-19%20Meeting%20Notes.md)
 - [2020-12-23: Ran Tests for Autonomous, Discussed Claw Angle Problem](./notes/2020-12-23%20Meeting%20Notes.md)
 - [2020-12-26: Ran Through Driving Strategy, Gathered and Analyzed Data for Autonomous, Changes to Claw](./notes/2020-12-26%20Meeting%20Notes.md)
-- [2020-12-30: Gathered Data for Autonomous, Added Touch LED, Ran Through Driving Strategy](./notes/2020-12-30%20Meeting%20Notes.md)
+- [2020-12-30: Gathered and Analyzed Data for Autonomous, Added Touch LED, Ran Through Driving Strategy](./notes/2020-12-30%20Meeting%20Notes.md)
