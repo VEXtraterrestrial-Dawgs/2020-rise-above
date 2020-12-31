@@ -19,3 +19,8 @@ This folder contains data we gathered from testing our robot's performance, as a
 
 ![Zoom in Graph](2020-12-28-error-graph-right.png)
 ![Graphs](2020-12-28-pid-graphs.png)
+
+### [2020-12-30: PID Test With Updated Coefficients, Turning, and Speeds Logged](2020-12-30-pid.xlsx)
+[Read an Analysis of the Data Here](../notes/2020-12-30%20Meeting%20Notes.md)
+
+![Graphs](2020-12-30-pid-graphs.png)
