@@ -9,7 +9,7 @@ const int THRESHOLD = 5;
 const int THRESHOLD_ARM = 5;
 const int LEFT_RIGHT_THRESHOLD = 1;
 const int DRIVETRAIN_WIDTH = 132;
-const int SHORT_INTERVAL = 10;
+const int SHORT_INTERVAL = 50;
 const int LONG_INTERVAL = 75;
 const int ENCODER_UNITS_PER_ROTATION = 960;
 const int MAX_DRIVE_SPEED = 90;
@@ -32,3 +32,13 @@ typedef struct {
 
 // MUST be called inside of a bool function that can return when any operation is cancelled.
 #define RUN_COMMAND(what, howMuch) if (what(howMuch) ==  false) { return false; }
+
+#ifdef TEST_MODE
+#define CLEAR_LOG() datalogClear()
+#define LOG(x,y) datalogAddValue(x,y)
+#define LOG_WITH_TIME(x,y) datalogAddValueWithTimeStamp(x,y)
+#else
+#define CLEAR_LOG()
+#define LOG(x,y)
+#define LOG_WITH_TIME(x,y)
+#endif

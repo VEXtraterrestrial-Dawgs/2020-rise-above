@@ -61,11 +61,11 @@ bool PIDControl(PidObject* pid, int target, int current, int threshold, int* pow
 	pid->lastTime = now;
 
 	// Datalog
-	datalogAddValueWithTimeStamp( 0, pid->controllerIndex );
-	datalogAddValue( 1, error );
-	datalogAddValue( 2, round(pid->integral*1000) );
-	datalogAddValue( 3, round(derivative*1000) );
-	datalogAddValue( 4, round(getGyroDegrees(gyro)) );
+	LOG_WITH_TIME( 0, pid->controllerIndex );
+	LOG( 1, error );
+	LOG( 2, round(pid->integral*1000) );
+	LOG( 3, round(derivative*1000) );
+	LOG( 4, getGyroDegrees(gyro) );
 
 	// Returns a motor speed
 	*power = round( (error * pid->Kp) + (pid->integral * pid->Ki) + (derivative * pid->Kd) );
@@ -96,8 +96,8 @@ int clip(int proposedSpeed, int lastSpeed, int maxSpeed, int maxAcceleration)
 
 void clipLR(int proposedLeft, int proposedDifference, int* speedLeft, int* speedRight, int maxSpeed, int maxAcceleration)
 {
-	int newSpeedLeft;
-	int newSpeedRight;
+	int clipLeft;
+	int clipRight;
 	int newDiff;
 
 	if ( proposedDifference > MAX_DRIVE_DIFFERENCE ) {
@@ -110,13 +110,13 @@ void clipLR(int proposedLeft, int proposedDifference, int* speedLeft, int* speed
 		newDiff = proposedDifference;
 	}
 
-	newSpeedLeft = clip(proposedLeft, *speedLeft, maxSpeed, maxAcceleration);
-	newSpeedRight = clip(proposedLeft + newDiff, *speedRight, maxSpeed, maxAcceleration);
+	clipLeft = clip(proposedLeft, *speedLeft, maxSpeed, maxAcceleration);
+	clipRight = clip(proposedLeft + newDiff, *speedRight, maxSpeed, maxAcceleration);
 
-	int maxClipDiff = proposedLeft - newSpeedLeft;
+	int maxClipDiff = proposedLeft - clipLeft;
 
-	if (abs( (proposedLeft + newDiff) - newSpeedRight) > abs(maxClipDiff) ) {
-		maxClipDiff = (proposedLeft + newDiff) - newSpeedRight;
+	if (abs( (proposedLeft + newDiff) - clipRight) > abs(maxClipDiff) ) {
+		maxClipDiff = (proposedLeft + newDiff) - clipRight;
 	}
 
 	*speedLeft = proposedLeft - maxClipDiff;
@@ -139,7 +139,7 @@ bool driveRobot(int distanceInMM)
 	int lastSpeedRight = 0;
 
 	PIDInit(&controllerLeft, 1, encoderTarget, 0.75, 0, 10, 0.95);
-	PIDInit(&controllerRight, 2, 0, 2, 0, 0, 0.995);
+	PIDInit(&controllerRight, 2, 0, 2, 0.005, 80, 1);
 
 	while (!isCancelled())
 	{
@@ -160,8 +160,8 @@ bool driveRobot(int distanceInMM)
 		}
 
 		clipLR(motorSpeedLeft, motorSpeedDiff, &lastSpeedLeft, &lastSpeedRight, MAX_DRIVE_SPEED, MAX_DRIVE_ACCEL);
-		datalogAddValue(5, lastSpeedLeft);
-		datalogAddValue(6, lastSpeedRight);
+		LOG(5, lastSpeedLeft);
+		LOG(6, lastSpeedRight);
 		setMotorSpeed(leftWheels, lastSpeedLeft);
 		setMotorSpeed(rightWheels, lastSpeedRight);
 		sleep(LONG_INTERVAL);
@@ -185,8 +185,8 @@ bool turnRobot(int angle) {
 	resetMotorEncoder(rightWheels);
 	resetGyro(gyro);
 
-	PIDInit(&controllerTurn, 3, distanceEncoders, 2, 0, 0, 0.95);
-	PIDInit(&controllerDiff, 4, 0, 1, 0, 0, 0.95);
+	PIDInit(&controllerTurn, 3, distanceEncoders, 2, 0, 10, 0.95);
+	PIDInit(&controllerDiff, 4, 0, 1, 0.005, 80, 1);
 
 	int lastSpeedLeft = 0;
 	int lastSpeedRight = 0;
@@ -194,7 +194,7 @@ bool turnRobot(int angle) {
 	while (!isCancelled())
 	{
 		// Retrieve Sensor Values
-		int encoderLeft = round(getMotorEncoder(leftWheels));
+		int encoderLeft = -round(getMotorEncoder(leftWheels));
 		int encoderRight = round(getMotorEncoder(rightWheels));
 		float gyroValue = degreesToRadians(getGyroDegreesFloat(gyro));
 
@@ -209,7 +209,7 @@ bool turnRobot(int angle) {
 		int motorSpeedDiff;
 
 		isCompleteTurn = PIDControl(&controllerTurn, distanceEncoders, encoderPosition, THRESHOLD, &motorSpeedLeft);
-		isCompleteAdjust = PIDControl(&controllerDiff, -encoderLeft, encoderRight, THRESHOLD, &motorSpeedDiff);
+		isCompleteAdjust = PIDControl(&controllerDiff, encoderLeft, encoderRight, THRESHOLD, &motorSpeedDiff);
 
 		clipLR(motorSpeedLeft, motorSpeedDiff, &lastSpeedLeft, &lastSpeedRight, MAX_TURN_SPEED, MAX_DRIVE_ACCEL);
 
@@ -221,8 +221,8 @@ bool turnRobot(int angle) {
 		}
 
 		// Set Motor Speeds
-		datalogAddValue(5, -lastSpeedLeft);
-		datalogAddValue(6, lastSpeedRight);
+		LOG(5, -lastSpeedLeft);
+		LOG(6, lastSpeedRight);
 
 		setMotorSpeed(leftWheels, -lastSpeedLeft);
 		setMotorSpeed(rightWheels, lastSpeedRight);
@@ -241,7 +241,7 @@ bool moveHDrive(int distance) {
 
 	resetMotorEncoder(hDrive);
 
-	PIDInit(&controllerHDrive, 5, encoderTarget, 0.8, 0, 0, 0.95);
+	PIDInit(&controllerHDrive, 5, encoderTarget, 0.75, 0, 15, 0.95);
 
 	int lastSpeed = 0;
 
@@ -255,6 +255,8 @@ bool moveHDrive(int distance) {
 		if(isComplete) {
 			break;
 		}
+
+		LOG(5, motorSpeed);
 
 		setMotorSpeed(hDrive, motorSpeed);
 		sleep(LONG_INTERVAL);
@@ -270,7 +272,7 @@ bool moveArm(tMotor arm, int height) {
 
 	resetMotorEncoder(arm);
 
-	PIDInit(&controllerArm, 6, height, 0.5, 0, 0, 0.95);
+	PIDInit(&controllerArm, 6, height, 0.5, 0, 15, 0.95);
 
 	int lastSpeed = 0;
 
@@ -285,6 +287,7 @@ bool moveArm(tMotor arm, int height) {
 			break;
 		}
 
+		LOG(5, motorSpeed);
 		setMotorSpeed(arm, motorSpeed);
 		sleep(SHORT_INTERVAL);
 	}
