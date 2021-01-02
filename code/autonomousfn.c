@@ -30,6 +30,18 @@ bool isCancelled()
 	return false;
 }
 
+void waitForLED() {
+	while(getTouchLEDValue(touch) != 1)
+	{
+		sleep(70);
+	}
+
+	while(getTouchLEDValue(touch) != 0)
+	{
+		sleep(70);
+	}
+}
+
 void PIDInit(PidObject* pid, int controllerIndex, int initialError, float Kp, float Ki, float Kd, float Ka) {
 	pid->controllerIndex = controllerIndex;
 	pid->lastError = initialError;

@@ -12,11 +12,29 @@
 #include "autonomousfn.c"
 
 bool testSequence() {
+	displayTextLine(1, "Starting");
+	displayTextLine(2, "H-Drive");
+	waitForLED();
+	displayTextLine(1, "Running");
 	RUN_COMMAND(moveHDrive, 200);
-	RUN_COMMAND(moveTopArm, 800);
-	RUN_COMMAND(moveLowerArm, 500);
+	displayTextLine(1, "Starting");
+	displayTextLine(2, "Arm");
+	waitForLED();
+	displayTextLine(1, "Running");
+	RUN_COMMAND(moveTopArm, 453);
+	RUN_COMMAND(moveLowerArm, 225);
+	displayTextLine(1, "Starting");
+	displayTextLine(2, "Drive");
+	waitForLED();
+	displayTextLine(1, "Running");
 	RUN_COMMAND(driveRobot, 300);
+	displayTextLine(1, "Starting");
+	displayTextLine(2, "Turn");
+	waitForLED();
+	displayTextLine(1, "Running");
 	RUN_COMMAND(turnRobot, 90);
+	displayTextLine(1, "Finished");
+	displayTextLine(2, "Tests");
 	return true;
 }
 
