@@ -18,6 +18,8 @@ const int MAX_DRIVE_DIFFERENCE = 60;
 const int MAX_TURN_SPEED = 60;
 const int MAX_ARM_SPEED = 60;
 const int MAX_ARM_ACCEL = 15;
+const int MOTOR_RANGE = 65;
+const int MOTOR_LOW = 25;
 
 typedef struct {
 	int lastError; // Last Iteration's Error Value

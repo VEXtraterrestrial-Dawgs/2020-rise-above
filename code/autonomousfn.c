@@ -42,6 +42,19 @@ void waitForLED() {
 	}
 }
 
+int convertToMotorSpeed(int proposed) {
+	if(proposed == 0) {
+		return 0;
+	}
+
+	if(proposed < 0) {
+		return round( (float)proposed * MOTOR_RANGE / 100 ) - MOTOR_LOW;
+	}
+
+	return round( (float)proposed * MOTOR_RANGE / 100 ) + MOTOR_LOW;
+
+}
+
 void PIDInit(PidObject* pid, int controllerIndex, int initialError, float Kp, float Ki, float Kd, float Ka) {
 	pid->controllerIndex = controllerIndex;
 	pid->lastError = initialError;
@@ -174,8 +187,8 @@ bool driveRobot(int distanceInMM)
 		clipLR(motorSpeedLeft, motorSpeedDiff, &lastSpeedLeft, &lastSpeedRight, MAX_DRIVE_SPEED, MAX_DRIVE_ACCEL);
 		LOG(5, lastSpeedLeft);
 		LOG(6, lastSpeedRight);
-		setMotorSpeed(leftWheels, lastSpeedLeft);
-		setMotorSpeed(rightWheels, lastSpeedRight);
+		setMotorSpeed(leftWheels, convertToMotorSpeed(lastSpeedLeft));
+		setMotorSpeed(rightWheels, convertToMotorSpeed(lastSpeedRight));
 		sleep(LONG_INTERVAL);
 	}
 
@@ -236,8 +249,8 @@ bool turnRobot(int angle) {
 		LOG(5, -lastSpeedLeft);
 		LOG(6, lastSpeedRight);
 
-		setMotorSpeed(leftWheels, -lastSpeedLeft);
-		setMotorSpeed(rightWheels, lastSpeedRight);
+		setMotorSpeed(leftWheels, convertToMotorSpeed(-lastSpeedLeft));
+		setMotorSpeed(rightWheels, convertToMotorSpeed(lastSpeedRight));
 		sleep(SHORT_INTERVAL);
 	}
 
@@ -270,7 +283,7 @@ bool moveHDrive(int distance) {
 
 		LOG(5, motorSpeed);
 
-		setMotorSpeed(hDrive, motorSpeed);
+		setMotorSpeed(hDrive, convertToMotorSpeed(motorSpeed));
 		sleep(LONG_INTERVAL);
 	}
 
@@ -278,13 +291,13 @@ bool moveHDrive(int distance) {
 	return isComplete;
 }
 
-bool moveArm(tMotor arm, int height) {
+bool moveArm(tMotor arm, int controlIndex, int height) {
 	PidObject controllerArm;
 	bool isComplete;
 
 	resetMotorEncoder(arm);
 
-	PIDInit(&controllerArm, 6, height, 0.5, 0, 15, 0.95);
+	PIDInit(&controllerArm, controlIndex, height, 0.5, 0, 15, 0.95);
 
 	int lastSpeed = 0;
 
@@ -300,7 +313,7 @@ bool moveArm(tMotor arm, int height) {
 		}
 
 		LOG(5, motorSpeed);
-		setMotorSpeed(arm, motorSpeed);
+		setMotorSpeed(arm, convertToMotorSpeed(motorSpeed));
 		sleep(SHORT_INTERVAL);
 	}
 
@@ -309,9 +322,9 @@ bool moveArm(tMotor arm, int height) {
 }
 
 bool moveTopArm(int height) {
-	return moveArm(armHigh, height);
+	return moveArm(armHigh, 6, height);
 }
 
 bool moveLowerArm(int height) {
-	return moveArm(armLow, height);
+	return moveArm(armLow, 7, height);
 }
