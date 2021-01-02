@@ -21,7 +21,6 @@ void calibrateGyro()
 
 bool isCancelled()
 {
-
 	if(getTouchLEDValue(touch) == 1) {
 		setTouchLEDRGB(touch, 237, 28, 0);
 		return true;
