@@ -162,8 +162,8 @@ bool driveRobot(int distanceInMM)
 	int lastSpeedLeft = 0;
 	int lastSpeedRight = 0;
 
-	PIDInit(&controllerLeft, 1, encoderTarget, 0.75, 0, 10, 0.95);
-	PIDInit(&controllerRight, 2, 0, 2, 0.005, 80, 1);
+	PIDInit(&controllerLeft, 1, encoderTarget, 0.3, 0, 0.6, 0.95);
+	PIDInit(&controllerRight, 2, 0, 0.3, 0.005, 0.4, 0.95);
 
 	while (!isCancelled())
 	{
@@ -209,8 +209,8 @@ bool turnRobot(int angle) {
 	resetMotorEncoder(rightWheels);
 	resetGyro(gyro);
 
-	PIDInit(&controllerTurn, 3, distanceEncoders, 2, 0, 10, 0.95);
-	PIDInit(&controllerDiff, 4, 0, 1, 0.005, 80, 1);
+	PIDInit(&controllerTurn, 3, distanceEncoders, 5, 0, 20, 0.95);
+	PIDInit(&controllerDiff, 4, 0, 3, 0.05, 80, 1);
 
 	int lastSpeedLeft = 0;
 	int lastSpeedRight = 0;
@@ -226,6 +226,8 @@ bool turnRobot(int angle) {
 		int encoderPosition = round(( DRIVETRAIN_WIDTH * 0.5 * gyroValue * ENCODER_UNITS_PER_ROTATION ) /
 		                ( WHEEL_CIRCUMFERENCE * DRIVE_GEAR_RATIO ));
 
+		encoderPosition = ((encoderPosition + 180) % 360) - 180;
+
 		// Calculate Motor Speeds
 		bool isCompleteTurn;
 		bool isCompleteAdjust;
@@ -235,11 +237,15 @@ bool turnRobot(int angle) {
 		isCompleteTurn = PIDControl(&controllerTurn, distanceEncoders, encoderPosition, THRESHOLD, &motorSpeedLeft);
 		isCompleteAdjust = PIDControl(&controllerDiff, encoderLeft, encoderRight, THRESHOLD, &motorSpeedDiff);
 
+		displayTextLine(1, "encoderPos: %d", encoderPosition);
+		displayTextLine(2, "error: %d", distanceEncoders - encoderPosition);
+		displayTextLine(3, "gyro = %d", getGyroDegrees(gyro));
 		clipLR(motorSpeedLeft, motorSpeedDiff, &lastSpeedLeft, &lastSpeedRight, MAX_TURN_SPEED, MAX_DRIVE_ACCEL);
 
 		// Check if complete
-		if (isCompleteTurn && isCompleteAdjust)
+		if (isCompleteTurn)
 		{
+			displayTextLine(4, "done w/ turn");
 			isComplete = true;
 			break;
 		}
@@ -261,11 +267,11 @@ bool turnRobot(int angle) {
 bool moveHDrive(int distance) {
 	PidObject controllerHDrive;
 	bool isComplete;
-	int encoderTarget = (distance / (WHEEL_CIRCUMFERENCE * H_DRIVE_GEAR_RATIO))*ENCODER_UNITS_PER_ROTATION;
+	int encoderTarget = (distance * ENCODER_UNITS_PER_ROTATION / (WHEEL_CIRCUMFERENCE * H_DRIVE_GEAR_RATIO));
 
 	resetMotorEncoder(hDrive);
 
-	PIDInit(&controllerHDrive, 5, encoderTarget, 0.75, 0, 15, 0.95);
+	PIDInit(&controllerHDrive, 5, encoderTarget, 0.3, 0, 0.8, 0.95);
 
 	int lastSpeed = 0;
 
@@ -283,7 +289,7 @@ bool moveHDrive(int distance) {
 		LOG(5, motorSpeed);
 
 		setMotorSpeed(hDrive, convertToMotorSpeed(motorSpeed));
-		sleep(LONG_INTERVAL);
+		sleep(SHORT_INTERVAL);
 	}
 
 	setMotorSpeed(hDrive, 0);
@@ -296,7 +302,7 @@ bool moveArm(tMotor arm, int controlIndex, int height) {
 
 	resetMotorEncoder(arm);
 
-	PIDInit(&controllerArm, controlIndex, height, 0.5, 0, 15, 0.95);
+	PIDInit(&controllerArm, controlIndex, height, 0.5, 0, 10, 0.95);
 
 	int lastSpeed = 0;
 

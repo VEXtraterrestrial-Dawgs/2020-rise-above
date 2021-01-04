@@ -2,7 +2,7 @@
 #pragma config(Sensor, port3,  color,          sensorVexIQ_ColorGrayscale)
 #pragma config(Sensor, port6,  touch,          sensorVexIQ_LED)
 #pragma config(Motor,  motor4,          leftWheels,    tmotorVexIQ, PIDControl, driveLeft, encoder)
-#pragma config(Motor,  motor7,          hDrive,        tmotorVexIQ, PIDControl, encoder)
+#pragma config(Motor,  motor7,          hDrive,        tmotorVexIQ, PIDControl, reversed, encoder)
 #pragma config(Motor,  motor8,          armLow,        tmotorVexIQ, PIDControl, encoder)
 #pragma config(Motor,  motor10,         armHigh,       tmotorVexIQ, PIDControl, encoder)
 #pragma config(Motor,  motor12,         rightWheels,   tmotorVexIQ, PIDControl, reversed, driveRight, encoder)
@@ -12,12 +12,12 @@
 #include "autonomousfn.c"
 
 bool testSequence() {
-	displayTextLine(1, "Starting");
+	/*displayTextLine(1, "Starting");
 	displayTextLine(2, "H-Drive");
 	waitForLED();
 	displayTextLine(1, "Running");
 	setTouchLEDColor(touch, colorYellow);
-	setTouchLEDColor(touch, moveHDrive(200)?colorDarkBlue:colorRed);
+	setTouchLEDColor(touch, moveHDrive(200)?colorDarkBlue:colorRed);*/
 	displayTextLine(1, "Starting");
 	displayTextLine(2, "Arm");
 	waitForLED();
