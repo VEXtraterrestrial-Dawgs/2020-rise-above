@@ -22,6 +22,10 @@ void calibrateGyro()
 bool isCancelled()
 {
 	if(getTouchLEDValue(touch) == 1) {
+		while(getTouchLEDValue(touch) != 0) {
+			sleep(70);
+		}
+
 		setTouchLEDRGB(touch, 237, 28, 0);
 		return true;
 	}
@@ -65,8 +69,7 @@ void PIDInit(PidObject* pid, int controllerIndex, int initialError, float Kp, fl
 	pid->integral = 0;
 }
 
-bool PIDControl(PidObject* pid, int target, int current, int threshold, int* power) {
-	int error = target - current;
+bool PIDControl(PidObject* pid, int error, int threshold, int* power) {
 	int now = nPgmTime;
 	int elapsed = now - pid->lastTime;
 	float derivative;
@@ -147,6 +150,12 @@ void clipLR(int proposedLeft, int proposedDifference, int* speedLeft, int* speed
 	*speedRight = (proposedLeft + newDiff) - maxClipDiff;
 }
 
+int angleToEncoderUnits(int angleDegrees) {
+	int minAngle = ((( angleDegrees + 180 ) % 360 ) - 180 );
+	return round(( DRIVETRAIN_WIDTH * 0.5 * degreesToRadians(minAngle) * ENCODER_UNITS_PER_ROTATION ) /
+	  					( WHEEL_CIRCUMFERENCE * DRIVE_GEAR_RATIO ));
+}
+
 bool driveRobot(int distanceInMM)
 {
 	PidObject controllerLeft;
@@ -174,8 +183,8 @@ bool driveRobot(int distanceInMM)
 		bool hasReached;
 		bool isStraight;
 
-		hasReached = PIDControl(&controllerLeft, encoderTarget, leftEncoder, THRESHOLD, &motorSpeedLeft);
-		isStraight = PIDControl(&controllerRight, leftEncoder, rightEncoder, THRESHOLD, &motorSpeedDiff);
+		hasReached = PIDControl(&controllerLeft, encoderTarget - leftEncoder, THRESHOLD, &motorSpeedLeft);
+		isStraight = PIDControl(&controllerRight, leftEncoder - rightEncoder, THRESHOLD, &motorSpeedDiff);
 
 		if (hasReached && isStraight)
 		{
@@ -199,47 +208,34 @@ bool driveRobot(int distanceInMM)
 bool turnRobot(int angle) {
 	PidObject controllerTurn;
 	PidObject controllerDiff;
-	// angle is clockwise degrees, but the gyro works with counter-clockwise values
-	float angleRadians = -degreesToRadians(((angle + 180) % 360) - 180);
-	float distanceMM = DRIVETRAIN_WIDTH * 0.5 * angleRadians;
-	int distanceEncoders = round((distanceMM * ENCODER_UNITS_PER_ROTATION) / (WHEEL_CIRCUMFERENCE * DRIVE_GEAR_RATIO));
 	bool isComplete = false;
+	int pidErrorLeft = angleToEncoderUnits(-angle);
+	int lastSpeedLeft = 0;
+	int lastSpeedRight = 0;
 
 	resetMotorEncoder(leftWheels);
 	resetMotorEncoder(rightWheels);
 	resetGyro(gyro);
 
-	PIDInit(&controllerTurn, 3, distanceEncoders, 5, 0, 20, 0.95);
+	PIDInit(&controllerTurn, 3, pidErrorLeft, 5, 0, 20, 0.95);
 	PIDInit(&controllerDiff, 4, 0, 3, 0.05, 80, 1);
-
-	int lastSpeedLeft = 0;
-	int lastSpeedRight = 0;
 
 	while (!isCancelled())
 	{
 		// Retrieve Sensor Values
 		int encoderLeft = -round(getMotorEncoder(leftWheels));
 		int encoderRight = round(getMotorEncoder(rightWheels));
-		float gyroValue = degreesToRadians(getGyroDegreesFloat(gyro));
-
-		// Correct Sensor Values
-		int encoderPosition = round(( DRIVETRAIN_WIDTH * 0.5 * gyroValue * ENCODER_UNITS_PER_ROTATION ) /
-		                ( WHEEL_CIRCUMFERENCE * DRIVE_GEAR_RATIO ));
-
-		encoderPosition = ((encoderPosition + 180) % 360) - 180;
-
-		// Calculate Motor Speeds
 		bool isCompleteTurn;
 		bool isCompleteAdjust;
 		int motorSpeedLeft;
 		int motorSpeedDiff;
 
-		isCompleteTurn = PIDControl(&controllerTurn, distanceEncoders, encoderPosition, THRESHOLD, &motorSpeedLeft);
-		isCompleteAdjust = PIDControl(&controllerDiff, encoderLeft, encoderRight, THRESHOLD, &motorSpeedDiff);
+		// Correct Sensor Values
+	  pidErrorLeft = angleToEncoderUnits(-angle - getGyroDegrees(gyro));
 
-		displayTextLine(1, "encoderPos: %d", encoderPosition);
-		displayTextLine(2, "error: %d", distanceEncoders - encoderPosition);
-		displayTextLine(3, "gyro = %d", getGyroDegrees(gyro));
+		// Calculate Motor Speeds
+		isCompleteTurn = PIDControl(&controllerTurn, pidErrorLeft, THRESHOLD, &motorSpeedLeft);
+		isCompleteAdjust = PIDControl(&controllerDiff, encoderLeft - encoderRight, THRESHOLD, &motorSpeedDiff);
 		clipLR(motorSpeedLeft, motorSpeedDiff, &lastSpeedLeft, &lastSpeedRight, MAX_TURN_SPEED, MAX_DRIVE_ACCEL);
 
 		// Check if complete
@@ -278,7 +274,7 @@ bool moveHDrive(int distance) {
 	while(!isCancelled()) {
 		int motorSpeed;
 
-		isComplete = PIDControl(&controllerHDrive, encoderTarget, getMotorEncoder(hDrive), THRESHOLD, &motorSpeed);
+		isComplete = PIDControl(&controllerHDrive, encoderTarget - getMotorEncoder(hDrive), THRESHOLD, &motorSpeed);
 		motorSpeed = clip(motorSpeed, lastSpeed, MAX_DRIVE_SPEED, MAX_DRIVE_ACCEL);
 		lastSpeed = motorSpeed;
 
@@ -309,7 +305,7 @@ bool moveArm(tMotor arm, int controlIndex, int height) {
 	while(!isCancelled()) {
 		int motorSpeed;
 
-		isComplete = PIDControl(&controllerArm, height, getMotorEncoder(arm), THRESHOLD_ARM, &motorSpeed);
+		isComplete = PIDControl(&controllerArm, height - getMotorEncoder(arm), THRESHOLD_ARM, &motorSpeed);
 		motorSpeed = clip(motorSpeed, lastSpeed, MAX_ARM_SPEED, MAX_ARM_ACCEL);
 		lastSpeed = motorSpeed;
 

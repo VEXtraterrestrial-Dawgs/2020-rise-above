@@ -12,12 +12,12 @@
 #include "autonomousfn.c"
 
 bool testSequence() {
-	/*displayTextLine(1, "Starting");
+	displayTextLine(1, "Starting");
 	displayTextLine(2, "H-Drive");
 	waitForLED();
 	displayTextLine(1, "Running");
 	setTouchLEDColor(touch, colorYellow);
-	setTouchLEDColor(touch, moveHDrive(200)?colorDarkBlue:colorRed);*/
+	setTouchLEDColor(touch, moveHDrive(200)?colorDarkBlue:colorRed);
 	displayTextLine(1, "Starting");
 	displayTextLine(2, "Arm");
 	waitForLED();
