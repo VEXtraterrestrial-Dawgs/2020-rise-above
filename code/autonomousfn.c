@@ -171,7 +171,7 @@ bool driveRobot(int distanceInMM)
 	int lastSpeedLeft = 0;
 	int lastSpeedRight = 0;
 
-	PIDInit(&controllerLeft, 1, encoderTarget, 0.3, 0, 0.6, 0.95);
+	PIDInit(&controllerLeft, 1, encoderTarget, 0.3, 0, 0.5, 0.95);
 	PIDInit(&controllerRight, 2, 0, 0.3, 0.005, 0.4, 0.95);
 
 	while (!isCancelled())
