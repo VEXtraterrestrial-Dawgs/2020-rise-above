@@ -171,7 +171,7 @@ bool driveRobot(int distanceInMM)
 	int lastSpeedLeft = 0;
 	int lastSpeedRight = 0;
 
-	PIDInit(&controllerLeft, 1, encoderTarget, /*COEFFICIENTS:*/ 0.3, 0, 0.6, 0.95);
+	PIDInit(&controllerLeft, 1, encoderTarget, /*COEFFICIENTS:*/ 0.25, 0, 0.55, 0.95);
 	PIDInit(&controllerRight, 2, 0, /*COEFFICIENTS:*/ 0.7, 0.001, 0.4, 0.95);
 
 	while (!isCancelled())
@@ -239,7 +239,7 @@ bool turnRobot(int angle) {
 		clipLR(motorSpeedLeft, motorSpeedDiff, &lastSpeedLeft, &lastSpeedRight, MAX_TURN_SPEED, MAX_DRIVE_ACCEL);
 
 		// Check if complete
-		if (isCompleteTurn)
+		if (isCompleteTurn && isCompleteAdjust)
 		{
 			displayTextLine(4, "done w/ turn");
 			isComplete = true;
