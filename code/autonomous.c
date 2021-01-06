@@ -43,7 +43,7 @@ bool testSequence() {
 }
 
 bool autonomousStrategy() {
-	RUN_COMMAND(moveHDrive, 255);
+	RUN_COMMAND(moveHDrive, 610);
 	RUN_COMMAND(moveHDrive, -255);
 	RUN_COMMAND(driveRobot, 365);
 	RUN_COMMAND(turnRobot, 90);
