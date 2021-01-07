@@ -17,7 +17,7 @@ Tavas, Athreya, Brad, Sri
 
 #### Progress and Today’s Meeting
 
-- I continued to practice, hitting over 75 a couple of times, but sometimes make one mistake, causing me to score 40 or under 40. Apart from that, I didn’t do anything. 
+- I continued to practice, hitting over 70 a couple of times, but sometimes miss the middle riser of the purple row, causing me to score 40 or under 40. Apart from that, I didn’t do anything. 
 
 ## Programming Notes - Tavas
 
