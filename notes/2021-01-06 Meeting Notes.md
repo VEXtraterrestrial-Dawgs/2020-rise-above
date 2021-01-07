@@ -13,7 +13,7 @@ Tavas, Athreya, Brad, Sri
 
 - Below are the driving scores for the past week.
 
-![Driving Scores](../data/2020-12-30--2020-01-06-driving-scores.png)
+![Driving Scores](../data/2020-12-30--2021-01-06-driving-scores.png)
 
 #### Progress and Today’s Meeting
 
@@ -52,9 +52,9 @@ Since last meeting, I worked on debugging the h-drive and turn functions and fin
 
 - With the same testing procedure as I did with the h-drive, I tuned the PID coefficients for the arms (both arms use the same coefficients) and achieved the error graphs below.
 
-![Top Arm Graph](../data/2020-01-03-top-arm-error.png)
+![Top Arm Graph](../data/2021-01-03-top-arm-error.png)
 
-![Bottom Arm Graph](../data/2020-01-03-bottom-arm-error.png)
+![Bottom Arm Graph](../data/2021-01-03-bottom-arm-error.png)
 
 - The top arm error smoothly reached zero, and didn’t overshoot its target.
 - However, while the bottom arm also reached an error of zero eventually, it wobbled for a bit after reaching its target. This is probably because since the bottom arm was shorter than the top arm, the derivative coefficient was slightly too high.
