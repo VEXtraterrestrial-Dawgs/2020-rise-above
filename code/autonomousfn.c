@@ -209,7 +209,8 @@ bool turnRobot(int angle) {
 	PidObject controllerTurn;
 	PidObject controllerDiff;
 	bool isComplete = false;
-	int pidErrorLeft = angleToEncoderUnits(-angle);
+	int pidErrorLeft;
+	int encoderTarget = angleToEncoderUnits(-angle);
 	int lastSpeedLeft = 0;
 	int lastSpeedRight = 0;
 
@@ -217,7 +218,7 @@ bool turnRobot(int angle) {
 	resetMotorEncoder(rightWheels);
 	resetGyro(gyro);
 
-	PIDInit(&controllerTurn, 3, pidErrorLeft, 5, 0, 20, 0.95);
+	PIDInit(&controllerTurn, 3, encoderTarget, 5, 0, 20, 0.95);
 	PIDInit(&controllerDiff, 4, 0, 3, 0.05, 80, 1);
 
 	while (!isCancelled())
@@ -231,11 +232,12 @@ bool turnRobot(int angle) {
 		int motorSpeedDiff;
 
 		// Correct Sensor Values
-	  pidErrorLeft = angleToEncoderUnits(-angle - getGyroDegrees(gyro));
+	  //pidErrorLeft = angleToEncoderUnits(-angle - getGyroDegrees(gyro));
+		pidErrorLeft = encoderTarget - encoderLeft;
 
 		// Calculate Motor Speeds
 		isCompleteTurn = PIDControl(&controllerTurn, pidErrorLeft, THRESHOLD, &motorSpeedLeft);
-		isCompleteAdjust = PIDControl(&controllerDiff, encoderLeft - encoderRight, THRESHOLD, &motorSpeedDiff);
+		isCompleteAdjust = PIDControl(&controllerDiff, -encoderLeft - encoderRight, THRESHOLD, &motorSpeedDiff);
 		clipLR(motorSpeedLeft, motorSpeedDiff, &lastSpeedLeft, &lastSpeedRight, MAX_TURN_SPEED, MAX_DRIVE_ACCEL);
 
 		// Check if complete

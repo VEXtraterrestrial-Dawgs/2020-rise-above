@@ -43,7 +43,11 @@ bool testSequence() {
 }
 
 bool autonomousStrategy() {
-	RUN_COMMAND(moveHDrive, 610);
+	displayTextLine(1, "Start Program");
+	waitForLED();
+	setTouchLEDRGB(touch, 255, 240, 122);
+
+	RUN_COMMAND(moveHDrive, 255);
 	RUN_COMMAND(moveHDrive, -255);
 	RUN_COMMAND(driveRobot, 365);
 	RUN_COMMAND(turnRobot, 90);
@@ -53,6 +57,24 @@ bool autonomousStrategy() {
 	// raise bottom arm
 	RUN_COMMAND(moveHDrive, 200);
 	// put down risers
+	RUN_COMMAND(turnRobot, -90);
+	RUN_COMMAND(driveRobot, 755);
+	RUN_COMMAND(moveHDrive, 250);
+	RUN_COMMAND(moveHDrive, -660);
+	RUN_COMMAND(moveHDrive, 410);
+	RUN_COMMAND(driveRobot, 850);
+	RUN_COMMAND(moveHDrive, 250);
+	RUN_COMMAND(moveHDrive, -250);
+	RUN_COMMAND(turnRobot, 90);
+	RUN_COMMAND(moveHDrive, 200);
+	RUN_COMMAND(driveRobot, 85);
+	// pick up double risers
+	RUN_COMMAND(moveHDrive, -200);
+	// put down risers
+
+	displayTextLine(1, "Finished Program");
+	setTouchLEDRGB(touch, 54, 255, 90);
+
 	return true;
 }
 
