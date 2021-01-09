@@ -3,11 +3,18 @@
 This is the repository for Team 47B, VEX IQ 2020-2021 season challenge Rise Above.
 
 You can read our [Engineering Notebook here](./notes), or use the Table of Contents below.  
-Data and graphs included into the notes are accessible [in our Data Folder here](./data/README.md)
 - You can click on any link to read that day's notes.
 - When you open a day's notes, GitHub will show at the top who uploaded or made changes to that day's notes. You can also click on History at the top right to see all the times the notes were written or edited.
 
 ## Table of Contents
+
+### Files and Folders
+
+- [Data Folder: Contains all data and graphs found in the meeting notes.](./data/README.md)
+- [Image Folder: Contains all images found in meeting notes.](./img)
+- [Code Folder: Contains all autonomous, driving, and test programs used this season.](./code)
+
+### Meeting Notes
 [Team Bios](./notes/bios.md)  
 [2020-09-20: First Meeting of the Season](./notes/2020-09-20%20First%20Meeting.md)
 
@@ -45,3 +52,5 @@ Data and graphs included into the notes are accessible [in our Data Folder here]
 - [2020-12-23: Ran Tests for Autonomous, Discussed Claw Angle Problem](./notes/2020-12-23%20Meeting%20Notes.md)
 - [2020-12-26: Ran Through Driving Strategy, Gathered and Analyzed Data for Autonomous, Changes to Claw](./notes/2020-12-26%20Meeting%20Notes.md)
 - [2020-12-30: Gathered and Analyzed Data for Autonomous, Added Touch LED, Ran Through Driving Strategy](./notes/2020-12-30%20Meeting%20Notes.md)
+- [2021-01-02: Brief Meeting - Driving and Autonomous](./notes/2021-01-02%20Meeting%20Notes.md)
+- [2021-01-06: Gathered and Analyzed Autonomous Data, Driving Practice, and Driving Scores](./notes/2021-01-02%20Meeting%20Notes.md)

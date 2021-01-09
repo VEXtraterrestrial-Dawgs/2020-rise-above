@@ -24,3 +24,15 @@ This folder contains data we gathered from testing our robot's performance, as a
 [Read an Analysis of the Data Here](../notes/2020-12-30%20Meeting%20Notes.md#testing)
 
 ![Graphs](2020-12-30-pid-graphs.png)
+
+### 2021-01-03: PID Coefficient Testing (No Datalog)
+[Read an Analysis of the Data Here](../notes/2021-01-06%20Meeting%20Notes.md#coefficient-testing---h-drive)
+
+![H-Drive Error](2021-01-03-h-drive-error.png)
+![Top Arm Error](2021-01-03-top-arm-error.png)
+![Bottom Arm Error](2021-01-03-bottom-arm-error.png)
+
+### 2021-01-06: Driving Scores From 2020-12-30 to 2021-01-06 (No Datalog)
+[Read an Analysis of the Data Here](../notes/2021-01-02%20Meeting%20Notes.md#driver-notes---sri-and-athreya)
+
+![Driving Scores](2020-12-30--2021-01-06-driving-scores.png)
