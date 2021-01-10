@@ -219,7 +219,7 @@ bool turnRobot(int angle) {
 	bool isComplete = false;
 	int encoderTarget = angleToEncoderUnits(-angle);
 
-	displayTextLine(encoderTarget);
+	displayTextLine(4, encoderTarget);
 
 	resetMotorEncoder(leftWheels);
 	resetMotorEncoder(rightWheels);
