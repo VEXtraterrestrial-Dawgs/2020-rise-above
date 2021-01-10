@@ -171,8 +171,8 @@ bool driveRobot(int distanceInMM)
 	int lastSpeedLeft = 0;
 	int lastSpeedRight = 0;
 
-	PIDInit(&controllerLeft, 1, encoderTarget, /*COEFFICIENTS:*/ 0.25, 0, 0.55, 0.95);
-	PIDInit(&controllerRight, 2, 0, /*COEFFICIENTS:*/ 0.7, 0.001, 0.4, 0.95);
+	PIDInit(&controllerLeft, 1, encoderTarget, /*COEFFICIENTS:*/ 0.06, 0, 0.8, 0.95);
+	PIDInit(&controllerRight, 2, 0, /*COEFFICIENTS:*/ 0.07, 0.01, 1, 0.4);
 
 	while (!isCancelled())
 	{
@@ -184,7 +184,10 @@ bool driveRobot(int distanceInMM)
 		bool isStraight;
 
 		hasReached = PIDControl(&controllerLeft, encoderTarget - leftEncoder, THRESHOLD, &motorSpeedLeft);
-		isStraight = PIDControl(&controllerRight, leftEncoder - rightEncoder, THRESHOLD, &motorSpeedDiff);
+		isStraight = PIDControl(&controllerRight, leftEncoder - rightEncoder, LEFT_RIGHT_THRESHOLD, &motorSpeedDiff);
+
+		LOG(5, encoderTarget-leftEncoder);
+		LOG(6, leftEncoder-rightEncoder);
 
 		if (hasReached && isStraight)
 		{
@@ -193,8 +196,6 @@ bool driveRobot(int distanceInMM)
 		}
 
 		clipLR(motorSpeedLeft, motorSpeedDiff, &lastSpeedLeft, &lastSpeedRight, MAX_DRIVE_SPEED, MAX_DRIVE_ACCEL);
-		LOG(5, lastSpeedLeft);
-		LOG(6, lastSpeedRight);
 		setMotorSpeed(leftWheels, convertToMotorSpeed(lastSpeedLeft));
 		setMotorSpeed(rightWheels, convertToMotorSpeed(lastSpeedRight));
 		sleep(LONG_INTERVAL);
@@ -218,8 +219,8 @@ bool turnRobot(int angle) {
 	resetMotorEncoder(rightWheels);
 	resetGyro(gyro);
 
-	PIDInit(&controllerTurn, 3, encoderTarget, 5, 0, 20, 0.95);
-	PIDInit(&controllerDiff, 4, 0, 3, 0.05, 80, 1);
+	PIDInit(&controllerTurn, 3, encoderTarget, /*COEFFICIENTS*/ 20, 0, 12, 0.95);
+	PIDInit(&controllerDiff, 4, 0, /*COEFFICIENTS*/ 20, 0.1, 15, 0.8);
 
 	while (!isCancelled())
 	{
@@ -237,7 +238,7 @@ bool turnRobot(int angle) {
 
 		// Calculate Motor Speeds
 		isCompleteTurn = PIDControl(&controllerTurn, pidErrorLeft, THRESHOLD, &motorSpeedLeft);
-		isCompleteAdjust = PIDControl(&controllerDiff, -encoderLeft - encoderRight, THRESHOLD, &motorSpeedDiff);
+		isCompleteAdjust = PIDControl(&controllerDiff, encoderLeft - encoderRight, THRESHOLD, &motorSpeedDiff);
 		clipLR(motorSpeedLeft, motorSpeedDiff, &lastSpeedLeft, &lastSpeedRight, MAX_TURN_SPEED, MAX_DRIVE_ACCEL);
 
 		// Check if complete
