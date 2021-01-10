@@ -171,8 +171,8 @@ bool driveRobot(int distanceInMM)
 
 	PIDInit(&controllerRight, 2, 0, /*COEFFICIENTS:*/ 0.07, 0.01, 1, 0.4);
 
-	setMotorTarget(leftWheels, encoderTarget, 70);
-	setMotorSpeed(rightWheels, 70);
+	setMotorTarget(leftWheels, encoderTarget, 60);
+	setMotorSpeed(rightWheels, 60);
 
 	while (!isCancelled())
 	{
@@ -218,6 +218,8 @@ bool turnRobot(int angle) {
 	PidObject controllerDiff;
 	bool isComplete = false;
 	int encoderTarget = angleToEncoderUnits(-angle);
+
+	displayTextLine(encoderTarget);
 
 	resetMotorEncoder(leftWheels);
 	resetMotorEncoder(rightWheels);
