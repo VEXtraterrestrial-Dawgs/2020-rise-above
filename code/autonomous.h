@@ -8,6 +8,7 @@ const int ARRAY_LENGTH = 5;
 const int THRESHOLD = 7;
 const int THRESHOLD_ARM = 5;
 const int LEFT_RIGHT_THRESHOLD = 3;
+const int CLOSE_THRESHOLD = 15;
 const int DRIVETRAIN_WIDTH = 132;
 const int SHORT_INTERVAL = 50;
 const int LONG_INTERVAL = 75;
