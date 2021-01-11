@@ -1,6 +1,6 @@
 # Data Folder
 
-This folder contains data we gathered from testing our robot's performance, as an Excel spreadsheet. Below is the Table of Contents. The headers link to the Excel files of the tests, and all the graphs of the data as well as links to that day's notes are displayed below them.
+This folder contains data we gathered from testing our robot's performance, as an Excel spreadsheet. Below is the Table of Contents. The headers in blue link to the Excel files of the tests, and all the graphs of the data as well as links to that day's notes are displayed below them.
 
 ## Data Table of Contents
 
@@ -32,7 +32,12 @@ This folder contains data we gathered from testing our robot's performance, as a
 ![Top Arm Error](2021-01-03-top-arm-error.png)
 ![Bottom Arm Error](2021-01-03-bottom-arm-error.png)
 
-### 2021-01-06: Driving Scores From 2020-12-30 to 2021-01-06 (No Datalog)
-[Read an Analysis of the Data Here](../notes/2021-01-02%20Meeting%20Notes.md#driver-notes---sri-and-athreya)
+### 2021-01-06: Driving Scores From 2020-12-30 to 2021-01-06
+[Graph Included in 2021-01-16 Meeting Notes](../notes/2021-01-06%20Meeting%20Notes.md#driver-notes---sri-and-athreya)
 
 ![Driving Scores](2020-12-30--2021-01-06-driving-scores.png)
+
+### 2021-01-10: Driving Scores from 2021-01-07 to 2021-01-10
+[Graph Included in 2021-01-10 Meeting Notes](../notes/2021-01-10%20Meeting%20Notes.md#driver-notes---sri-and-athreya)
+
+![Driving Scores](2021-01-10-driving-log.png)
