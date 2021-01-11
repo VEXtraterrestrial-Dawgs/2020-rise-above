@@ -151,14 +151,20 @@ void clipLR(int proposedLeft, int proposedDifference, int* speedLeft, int* speed
 }
 
 int angleToEncoderUnits(int angleDegrees) {
-	int minAngle = ((( angleDegrees + 180 ) % 360 ) - 180 );
-	return round(( DRIVETRAIN_WIDTH * 0.5 * degreesToRadians(minAngle) * ENCODER_UNITS_PER_ROTATION ) /
-	  					( WHEEL_CIRCUMFERENCE * DRIVE_GEAR_RATIO ));
+	int minAngle = angleDegrees;
+
+	if (angleDegrees < -180) {
+		minAngle = ((( angleDegrees - 180 ) % 360 ) + 180 );
+	}
+	else if ( angleDegrees > 180 ) {
+		minAngle = ((( angleDegrees + 180 ) % 360 ) - 180 );
+	}
+
+	return round(ENC_UNITS_PER_DEGREE * minAngle);
 }
 
 bool driveRobot(int distanceInMM)
 {
-	PidObject controllerLeft;
 	PidObject controllerRight;
 	bool isComplete = false;
 
@@ -167,7 +173,7 @@ bool driveRobot(int distanceInMM)
 	resetGyro(gyro);
 
 	// Given how far we want to go in millimeters, find how far we want to go in encoder units
-	int encoderTarget = (distanceInMM * ENCODER_UNITS_PER_ROTATION) / (WHEEL_CIRCUMFERENCE * DRIVE_GEAR_RATIO);
+	int encoderTarget = round(distanceInMM * ENC_UNITS_PER_MM);
 
 	PIDInit(&controllerRight, 2, 0, /*COEFFICIENTS:*/ 0.07, 0.01, 1, 0.4);
 
@@ -180,21 +186,17 @@ bool driveRobot(int distanceInMM)
 		int motorSpeedDiff;
 		int leftEncoder = round(getMotorEncoder(leftWheels));
 		int rightEncoder = round(getMotorEncoder(rightWheels));
-		bool isClose;
-		bool isStraight;
+		int leftSpeed = getMotorSpeed(leftWheels);
 
-		isClose = (encoderTarget - leftEncoder) < CLOSE_THRESHOLD;
-		isStraight = PIDControl(&controllerRight, leftEncoder - rightEncoder, LEFT_RIGHT_THRESHOLD, &motorSpeedDiff);
+		PIDControl(&controllerRight, leftEncoder - rightEncoder, LEFT_RIGHT_THRESHOLD, &motorSpeedDiff);
 
 		LOG(5, encoderTarget-leftEncoder);
 		LOG(6, leftEncoder-rightEncoder);
 
-		if (isClose)
+		if ( (encoderTarget - leftEncoder) < CLOSE_THRESHOLD )
 		{
 			break;
 		}
-
-		int leftSpeed = getMotorSpeed(leftWheels);
 
 		if(motorSpeedDiff + leftSpeed > 100) {
 			motorSpeedDiff = 100;
@@ -207,14 +209,13 @@ bool driveRobot(int distanceInMM)
 		sleep(LONG_INTERVAL);
 	}
 
-	setMotorTarget(rightWheels, encoderTarget, 40);
+	setMotorTarget(rightWheels, encoderTarget, 60);
 	waitUntilMotorStop(leftWheels);
 	waitUntilMotorStop(rightWheels);
 	return true;
 }
 
 bool turnRobot(int angle) {
-	PidObject controllerTurn;
 	PidObject controllerDiff;
 	bool isComplete = false;
 	int encoderTarget = angleToEncoderUnits(-angle);
@@ -227,7 +228,7 @@ bool turnRobot(int angle) {
 
 	PIDInit(&controllerDiff, 4, 0, /*COEFFICIENTS*/ 20, 0.1, 15, 0.8);
 
-	setMotorTarget(leftWheels, encoderTarget, 70);
+	setMotorTarget(leftWheels, -encoderTarget, 70);
 	setMotorSpeed(rightWheels, 70);
 
 	while (!isCancelled())
@@ -235,36 +236,42 @@ bool turnRobot(int angle) {
 		// Retrieve Sensor Values
 		int encoderLeft = round(getMotorEncoder(leftWheels));
 		int encoderRight = round(getMotorEncoder(rightWheels));
-		bool isClose;
-		bool isCompleteAdjust;
-		int motorSpeedLeft;
+		int motorSpeedRight;
 		int motorSpeedDiff;
+		int leftSpeed = -getMotorSpeed(leftWheels);
 
 		// Calculate Motor Speeds
-		isClose = (encoderTarget - encoderLeft) < CLOSE_THRESHOLD;
-		isCompleteAdjust = PIDControl(&controllerDiff, -encoderLeft - encoderRight, THRESHOLD, &motorSpeedDiff);
+		PIDControl(&controllerDiff, abs(encoderLeft) - abs(encoderRight), THRESHOLD, &motorSpeedDiff);
 
 		// Check if complete
-		if (isClose)
+		if ( abs(-encoderTarget - encoderLeft) < CLOSE_THRESHOLD )
 		{
 			break;
 		}
 
-		int leftSpeed = -getMotorSpeed(leftWheels);
-
-		if((motorSpeedDiff + leftSpeed) > 100) {
-			motorSpeedDiff = 100;
+		if(leftSpeed < 0) {
+			if((leftSpeed - motorSpeedDiff) < -100) {
+				motorSpeedRight = -100;
+			}
+			else {
+				motorSpeedRight = leftSpeed - motorSpeedDiff;
+			}
 		}
 		else {
-			motorSpeedDiff += leftSpeed;
+			if((motorSpeedDiff + leftSpeed) > 100) {
+				motorSpeedRight = 100;
+			}
+			else {
+				motorSpeedRight = motorSpeedDiff + leftSpeed;
+			}
 		}
 
 		// Set Motor Speeds
-		setMotorSpeed(rightWheels, convertToMotorSpeed(motorSpeedDiff));
+		setMotorSpeed(rightWheels, convertToMotorSpeed(motorSpeedRight));
 		sleep(SHORT_INTERVAL);
 	}
 
-	setMotorTarget(rightWheels, -encoderTarget, 40);
+	setMotorTarget(rightWheels, encoderTarget, 70);
 	waitUntilMotorStop(leftWheels);
 	waitUntilMotorStop(rightWheels);
 	return true;

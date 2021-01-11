@@ -25,6 +25,8 @@ const int ARM_TOP_HIGH = 1849;
 const int ARM_BOTTOM_HIGH = 1510;
 const int ARM_TOP_STACK = 1175;
 const int ARM_BOTTOM_STACK = 742;
+const float ENC_UNITS_PER_MM = (float)ENCODER_UNITS_PER_ROTATION / ((float)WHEEL_CIRCUMFERENCE * DRIVE_GEAR_RATIO);
+const float ENC_UNITS_PER_DEGREE = 0.5 * DRIVETRAIN_WIDTH * degreesToRadians(1) * ENC_UNITS_PER_MM;
 
 typedef struct {
 	int lastError; // Last Iteration's Error Value
