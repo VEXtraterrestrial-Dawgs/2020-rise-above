@@ -15,6 +15,7 @@ You can read our [Engineering Notebook here](./notes), or use the Table of Conte
 - [Code Folder: Contains all autonomous, driving, and test programs used this season.](./code)
 
 ### Meeting Notes
+
 [Team Bios](./notes/bios.md)  
 [2020-09-20: First Meeting of the Season](./notes/2020-09-20%20First%20Meeting.md)
 
@@ -54,3 +55,4 @@ You can read our [Engineering Notebook here](./notes), or use the Table of Conte
 - [2020-12-30: Gathered and Analyzed Data for Autonomous, Added Touch LED, Ran Through Driving Strategy](./notes/2020-12-30%20Meeting%20Notes.md)
 - [2021-01-02: Brief Meeting - Driving and Autonomous](./notes/2021-01-02%20Meeting%20Notes.md)
 - [2021-01-06: Gathered and Analyzed Autonomous Data, Driving Practice, and Driving Scores](./notes/2021-01-06%20Meeting%20Notes.md)
+- [2021-01-10: Programming, Driving Work](./notes/2021-01-10%20Meeting%20Notes.md)
