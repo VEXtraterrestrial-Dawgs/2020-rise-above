@@ -226,12 +226,11 @@ bool turnRobot(int angle) {
 	resetMotorEncoder(rightWheels);
 	resetGyro(gyro);
 
-	PIDInit(&controllerDiff, 4, 0, /*COEFFICIENTS*/ 20, 0.1, 15, 0.8);
+//	PIDInit(&controllerDiff, 4, 0, /*COEFFICIENTS*/ 20, 0.1, 15, 0.8);
 
 	setMotorTarget(leftWheels, -encoderTarget, 70);
-	setMotorSpeed(rightWheels, 70);
-
-	while (!isCancelled())
+	setMotorTarget(rightWheels, encoderTarget, 70);
+/*	while (!isCancelled())
 	{
 		// Retrieve Sensor Values
 		int encoderLeft = round(getMotorEncoder(leftWheels));
@@ -271,7 +270,7 @@ bool turnRobot(int angle) {
 		sleep(SHORT_INTERVAL);
 	}
 
-	setMotorTarget(rightWheels, encoderTarget, 70);
+	setMotorTarget(rightWheels, encoderTarget, 70);*/
 	waitUntilMotorStop(leftWheels);
 	waitUntilMotorStop(rightWheels);
 	return true;
