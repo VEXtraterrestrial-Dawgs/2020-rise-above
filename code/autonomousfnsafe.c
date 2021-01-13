@@ -313,8 +313,6 @@ bool moveArm(tMotor arm, int controlIndex, int height) {
 	PidObject controllerArm;
 	bool isComplete;
 
-	resetMotorEncoder(arm);
-
 	PIDInit(&controllerArm, controlIndex, height, 0.5, 0, 10, 0.95);
 
 	int lastSpeed = 0;

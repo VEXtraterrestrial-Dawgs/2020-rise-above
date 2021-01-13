@@ -53,10 +53,17 @@ bool autonomousStrategy() {
 	RUN_COMMAND(turnRobot, 90);
 	RUN_COMMAND(driveRobot, 410);
 	// raise top arm
+	RUN_COMMAND(moveTopArm, ARM_TOP_HIGH);
 	RUN_COMMAND(driveRobot, 55);
 	// raise bottom arm
+	RUN_COMMAND(moveLowerArm, ARM_BOTTOM_HIGH);
 	RUN_COMMAND(moveHDrive, 200);
 	// put down risers
+	RUN_COMMAND(moveLowerArm, ARM_BOTTOM_STACK);
+	RUN_COMMAND(moveTopArm, ARM_TOP_STACK);
+	RUN_COMMAND(driveRobot, -50);
+	RUN_COMMAND(moveTopArm, 0);
+	RUN_COMMAND(moveLowerArm, 0);
 	RUN_COMMAND(turnRobot, -90);
 	RUN_COMMAND(driveRobot, 755);
 	RUN_COMMAND(moveHDrive, 250);
@@ -69,9 +76,16 @@ bool autonomousStrategy() {
 	RUN_COMMAND(moveHDrive, 200);
 	RUN_COMMAND(driveRobot, 85);
 	// pick up double risers
+	RUN_COMMAND(moveTopArm, ARM_TOP_HIGH);
+	RUN_COMMAND(driveRobot, 50);
+	RUN_COMMAND(moveLowerArm, ARM_BOTTOM_HIGH);
 	RUN_COMMAND(moveHDrive, -200);
 	// put down risers
-
+	RUN_COMMAND(moveLowerArm, ARM_BOTTOM_STACK);
+	RUN_COMMAND(moveTopArm, ARM_TOP_STACK);
+	RUN_COMMAND(driveRobot, -100);
+	RUN_COMMAND(moveLowerArm, 0);
+	RUN_COMMAND(moveTopArm, 0);
 	displayTextLine(1, "Finished Program");
 	setTouchLEDRGB(touch, 54, 255, 90);
 
@@ -85,7 +99,10 @@ task main()
 	setMotorBrakeMode(armLow, motorHold);
 	CLEAR_LOG();
 	setMotorEncoderUnits(encoderCounts);
+	resetMotorEncoder(armHigh);
+	resetMotorEncoder(armLow);
 	setTouchLEDRGB(touch, 84, 122, 138);
 
 	testSequence();
+	autonomousStrategy();
 }
