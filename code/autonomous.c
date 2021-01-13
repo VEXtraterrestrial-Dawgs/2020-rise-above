@@ -36,7 +36,7 @@ bool testSequence() {
 	waitForLED();
 	displayTextLine(1, "Running");
 	setTouchLEDColor(touch, colorYellow);
-	setTouchLEDColor(touch, turnRobot(90)?colorDarkBlue:colorRed);
+	setTouchLEDColor(touch, turnRobot(180)?colorDarkBlue:colorRed);
 	displayTextLine(1, "Finished");
 	displayTextLine(2, "Tests");
 	return true;

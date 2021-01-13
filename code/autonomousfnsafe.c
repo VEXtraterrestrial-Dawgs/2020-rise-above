@@ -228,8 +228,9 @@ bool turnRobot(int angle) {
 
 	PIDInit(&controllerDiff, 4, 0, /*COEFFICIENTS*/ 20, 0.1, 15, 0.8);
 
-	setMotorTarget(leftWheels, -encoderTarget, 90);
-	setMotorTarget(rightWheels, encoderTarget, 90);
+	setMotorTarget(leftWheels, -encoderTarget, 70);
+	setMotorSpeed(rightWheels, 70);
+
 	while (!isCancelled())
 	{
 		// Retrieve Sensor Values
