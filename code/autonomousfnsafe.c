@@ -267,7 +267,7 @@ bool turnRobot(int angle) {
 		}
 
 		// Set Motor Speeds
-		setMotorSpeed(rightWheels, convertToMotorSpeed(motorSpeedRight));
+		setMotorSpeed(rightWheels, motorSpeedRight);
 		sleep(SHORT_INTERVAL);
 	}
 
