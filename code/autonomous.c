@@ -103,6 +103,5 @@ task main()
 	resetMotorEncoder(armLow);
 	setTouchLEDRGB(touch, 84, 122, 138);
 
-	testSequence();
 	autonomousStrategy();
 }
