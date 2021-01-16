@@ -1,7 +1,7 @@
 #pragma systemFile
 
 const int WHEEL_CIRCUMFERENCE = 200; // in mm
-const int DRIVE_GEAR_RATIO = 5;
+const int DRIVE_GEAR_RATIO = 3;
 const int H_DRIVE_GEAR_RATIO = 3;
 const int ARM_GEAR_RATIO = 0.2;
 const int ARRAY_LENGTH = 5;
