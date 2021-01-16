@@ -229,7 +229,7 @@ bool turnRobot(int angle) {
 	PIDInit(&controllerDiff, 4, 0, /*COEFFICIENTS*/ 20, 0.1, 15, 0.8);
 
 	setMotorTarget(leftWheels, -encoderTarget, 70);
-	setMotorSpeed(rightWheels, 70);
+	setMotorSpeed(rightWheels, (encoderTarget > 0) ? 70 : -70);
 
 	while (!isCancelled())
 	{
