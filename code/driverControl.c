@@ -73,8 +73,8 @@ task main()
 			rightJoystickY = 0;
 		}
 
-		leftSpeed = (leftJoystickY + leftJoystickX)/2;
-		rightSpeed = (leftJoystickY - leftJoystickX)/2;
+		leftSpeed = round((leftJoystickY + leftJoystickX)/1.5);
+		rightSpeed = round((leftJoystickY - leftJoystickX)/1.5);
 
   	if (lUp)
   	{
