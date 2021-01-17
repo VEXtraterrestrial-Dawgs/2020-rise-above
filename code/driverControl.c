@@ -25,7 +25,7 @@ void printValues(int armTop, int armBtm)
 task main()
 {
 	const int THRESHOLD = 10;
-	const int HDRIVEMAX = 100;
+	const int HDRIVEMAX = 50;
 
 	setMotorEncoderUnits(encoderCounts);
 	setTouchLEDRGB(touch, 84, 122, 138);

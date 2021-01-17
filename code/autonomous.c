@@ -22,7 +22,7 @@ bool testSequence() {
 	waitForLED();
 	displayTextLine(1, "Running");
 	setTouchLEDColor(touch, colorYellow);
-	setTouchLEDColor(touch, moveTopArm(453)?colorDarkBlue:colorRed);
+	setTouchLEDColor(touch, moveTopArm(430)?colorDarkBlue:colorRed);
 	setTouchLEDColor(touch, moveLowerArm(225)?colorDarkBlue:colorRed);
 	displayTextLine(1, "Starting");
 	displayTextLine(2, "Drive");
@@ -48,7 +48,8 @@ bool autonomousStrategy() {
 
 	RUN_COMMAND(moveHDrive, 850);
 	RUN_COMMAND(moveHDrive, -750);
-	RUN_COMMAND(driveRobot, 340);
+	RUN_COMMAND(driveRobot, 34
+	o/.0);
 	RUN_COMMAND(turnRobot, 90);
 	RUN_COMMAND(driveRobot, 410);
 	// raise top arm
