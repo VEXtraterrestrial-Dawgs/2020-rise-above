@@ -56,3 +56,4 @@ You can read our [Engineering Notebook here](./notes), or use the Table of Conte
 - [2021-01-02: Brief Meeting - Driving and Autonomous](./notes/2021-01-02%20Meeting%20Notes.md)
 - [2021-01-06: Gathered and Analyzed Autonomous Data, Driving Practice, and Driving Scores](./notes/2021-01-06%20Meeting%20Notes.md)
 - [2021-01-10: Programming, Driving Work](./notes/2021-01-10%20Meeting%20Notes.md)
+- [2021-01-16: Hardware Fixes, Autonomous Fixes, Preparation for Competition](./notes/2021-01-16%20Meeting%20Notes.md)
