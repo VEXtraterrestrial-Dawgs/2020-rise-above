@@ -46,9 +46,9 @@ bool autonomousStrategy() {
 	waitForLED();
 	setTouchLEDRGB(touch, 255, 240, 122);
 
-	RUN_COMMAND(moveHDrive, 255);
-	RUN_COMMAND(moveHDrive, -255);
-	RUN_COMMAND(driveRobot, 365);
+	RUN_COMMAND(moveHDrive, 850);
+	RUN_COMMAND(moveHDrive, -750);
+	RUN_COMMAND(driveRobot, 340);
 	RUN_COMMAND(turnRobot, 90);
 	RUN_COMMAND(driveRobot, 410);
 	// raise top arm
