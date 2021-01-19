@@ -57,3 +57,10 @@ You can read our [Engineering Notebook here](./notes), or use the Table of Conte
 - [2021-01-06: Gathered and Analyzed Autonomous Data, Driving Practice, and Driving Scores](./notes/2021-01-06%20Meeting%20Notes.md)
 - [2021-01-10: Programming, Driving Work](./notes/2021-01-10%20Meeting%20Notes.md)
 - [2021-01-16: Hardware Fixes, Autonomous Fixes, Preparation for Competition](./notes/2021-01-16%20Meeting%20Notes.md)
+
+**Milestone 4: First Competition**
+- [2021-01-18: Discussed 2021-01-17 Competition and Plans for Moving Forward](./notes/2021-01-18%20Meeting%20Notes.md)
+  - [Notes and Ways to Improve - Driving](./notes/2021-01-18%20Meeting%20Notes.md#driving-notes)
+  - [Notes and Ways to Improve - Programming](./notes/2021-01-18%20Meeting%20Notes.md#programming-notes)
+  - [Notes and Ways to Improve - Efficiency and Workflow](./notes/2021-01-18%20Meeting%20Notes.md#efficiency-and-workflow-improvements)
+
