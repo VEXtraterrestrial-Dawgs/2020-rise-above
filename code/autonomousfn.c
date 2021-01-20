@@ -151,9 +151,16 @@ void clipLR(int proposedLeft, int proposedDifference, int* speedLeft, int* speed
 }
 
 int angleToEncoderUnits(int angleDegrees) {
-	int minAngle = ((( angleDegrees + 180 ) % 360 ) - 180 );
-	return round(( DRIVETRAIN_WIDTH * 0.5 * degreesToRadians(minAngle) * ENCODER_UNITS_PER_ROTATION ) /
-	  					( WHEEL_CIRCUMFERENCE * DRIVE_GEAR_RATIO ));
+	int minAngle = angleDegrees;
+
+	if (angleDegrees < -180) {
+		minAngle = ((( angleDegrees - 180 ) % 360 ) + 180 );
+	}
+	else if ( angleDegrees > 180 ) {
+		minAngle = ((( angleDegrees + 180 ) % 360 ) - 180 );
+	}
+
+	return round(ENC_UNITS_PER_DEGREE * minAngle);
 }
 
 bool driveRobot(int distanceInMM)
@@ -161,15 +168,15 @@ bool driveRobot(int distanceInMM)
 	PidObject controllerLeft;
 	PidObject controllerRight;
 	bool isComplete = false;
+	int lastSpeedLeft = 0;
+	int lastSpeedRight = 0;
 
 	resetMotorEncoder(leftWheels);
 	resetMotorEncoder(rightWheels);
 	resetGyro(gyro);
 
 	// Given how far we want to go in millimeters, find how far we want to go in encoder units
-	int encoderTarget = (distanceInMM * ENCODER_UNITS_PER_ROTATION) / (WHEEL_CIRCUMFERENCE * DRIVE_GEAR_RATIO);
-	int lastSpeedLeft = 0;
-	int lastSpeedRight = 0;
+	int encoderTarget = round(distanceInMM * ENC_UNITS_PER_MM);
 
 	PIDInit(&controllerLeft, 1, encoderTarget, /*COEFFICIENTS:*/ 0.06, 0, 0.8, 0.95);
 	PIDInit(&controllerRight, 2, 0, /*COEFFICIENTS:*/ 0.07, 0.01, 1, 0.4);
@@ -180,11 +187,9 @@ bool driveRobot(int distanceInMM)
 		int motorSpeedDiff;
 		int leftEncoder = round(getMotorEncoder(leftWheels));
 		int rightEncoder = round(getMotorEncoder(rightWheels));
-		bool hasReached;
-		bool isStraight;
 
-		hasReached = PIDControl(&controllerLeft, encoderTarget - leftEncoder, THRESHOLD, &motorSpeedLeft);
-		isStraight = PIDControl(&controllerRight, leftEncoder - rightEncoder, LEFT_RIGHT_THRESHOLD, &motorSpeedDiff);
+		bool hasReached = PIDControl(&controllerLeft, encoderTarget - leftEncoder, THRESHOLD, &motorSpeedLeft);
+		bool isStraight = PIDControl(&controllerRight, leftEncoder - rightEncoder, LEFT_RIGHT_THRESHOLD, &motorSpeedDiff);
 
 		LOG(5, encoderTarget-leftEncoder);
 		LOG(6, leftEncoder-rightEncoder);
@@ -210,7 +215,6 @@ bool turnRobot(int angle) {
 	PidObject controllerTurn;
 	PidObject controllerDiff;
 	bool isComplete = false;
-	int pidErrorLeft;
 	int encoderTarget = angleToEncoderUnits(-angle);
 	int lastSpeedLeft = 0;
 	int lastSpeedRight = 0;
@@ -225,31 +229,26 @@ bool turnRobot(int angle) {
 	while (!isCancelled())
 	{
 		// Retrieve Sensor Values
-		int encoderLeft = -round(getMotorEncoder(leftWheels));
+		int encoderLeft = round(getMotorEncoder(leftWheels));
 		int encoderRight = round(getMotorEncoder(rightWheels));
-		bool isCompleteTurn;
-		bool isCompleteAdjust;
 		int motorSpeedLeft;
 		int motorSpeedDiff;
 
-		// Correct Sensor Values
-	  //pidErrorLeft = angleToEncoderUnits(-angle - getGyroDegrees(gyro));
-		pidErrorLeft = encoderTarget - encoderLeft;
+		int pidErrorLeft = angleToEncoderUnits(-angle - getGyroDegrees(gyro));
 
 		// Calculate Motor Speeds
-		isCompleteTurn = PIDControl(&controllerTurn, pidErrorLeft, THRESHOLD, &motorSpeedLeft);
-		isCompleteAdjust = PIDControl(&controllerDiff, encoderLeft - encoderRight, THRESHOLD, &motorSpeedDiff);
+		bool isCompleteTurn = PIDControl(&controllerTurn, pidErrorLeft, THRESHOLD, &motorSpeedLeft);
+		bool isCompleteAdjust = PIDControl(&controllerDiff, abs(encoderLeft) - abs(encoderRight), THRESHOLD, &motorSpeedDiff);
 		clipLR(motorSpeedLeft, motorSpeedDiff, &lastSpeedLeft, &lastSpeedRight, MAX_TURN_SPEED, MAX_DRIVE_ACCEL);
+
 
 		// Check if complete
 		if (isCompleteTurn && isCompleteAdjust)
 		{
-			displayTextLine(4, "done w/ turn");
 			isComplete = true;
 			break;
 		}
 
-		// Set Motor Speeds
 		LOG(5, -lastSpeedLeft);
 		LOG(6, lastSpeedRight);
 
@@ -260,6 +259,7 @@ bool turnRobot(int angle) {
 
 	setMotorSpeed(leftWheels, 0);
 	setMotorSpeed(rightWheels, 0);
+
 	return isComplete;
 }
 
@@ -298,8 +298,6 @@ bool moveHDrive(int distance) {
 bool moveArm(tMotor arm, int controlIndex, int height) {
 	PidObject controllerArm;
 	bool isComplete;
-
-	resetMotorEncoder(arm);
 
 	PIDInit(&controllerArm, controlIndex, height, 0.5, 0, 10, 0.95);
 
