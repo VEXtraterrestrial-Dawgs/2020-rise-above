@@ -72,8 +72,8 @@ task main()
 			rightJoystickY = 0;
 		}
 
-		leftSpeed = round((leftJoystickY + leftJoystickX)/1.5);
-		rightSpeed = round((leftJoystickY - leftJoystickX)/1.5);
+		leftSpeed = round((leftJoystickY + (2*leftJoystickX))/2);
+		rightSpeed = round((leftJoystickY - (2*leftJoystickX))/2);
 
   	armSpeed = rightJoystickY;
 
