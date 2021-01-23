@@ -44,7 +44,6 @@ task main()
 		bool rUp;
 		bool rDown;
 		bool tankMode = true;
-		int turnRatio;
 		int hDriveSpeed;
 		int leftSpeed;
 		int rightSpeed;
@@ -77,10 +76,10 @@ task main()
 			rightJoystickY = 0;
 		}
 
-		leftSpeed = round((leftJoystickY + (2*leftJoystickX))/2);
-		rightSpeed = round((leftJoystickY - (2*leftJoystickX))/2);
+		leftSpeed = (leftJoystickY + ((tankMode?2:1)*leftJoystickX))/2;
+		rightSpeed = (leftJoystickY - ((tankMode?2:1)*leftJoystickX))/2;
 
-  	armSpeed = rightJoystickY;
+  	armSpeed = rightJoystickY/2;
 
   	if (rUp)
   	{
