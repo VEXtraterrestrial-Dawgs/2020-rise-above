@@ -16,10 +16,13 @@
 #define PRINT_TO_SCRN(x, y)
 #endif
 
-void printValues(int armTop, int armBtm)
+#define TANK_TURN 2
+#define ARCADE_TURN 1
+
+void printValues(int left, int right)
 {
-	displayTextLine(0, "armHigh = %d", armTop);
-	displayTextLine(1, "armLow = %d", armBtm);
+	displayTextLine(0, "leftArm = %d", left);
+	displayTextLine(1, "rightArm = %d", right);
 }
 
 task main()
@@ -40,6 +43,7 @@ task main()
 		bool lDown;
 		bool rUp;
 		bool rDown;
+		bool tankMode = true;
 		int hDriveSpeed;
 		int leftSpeed;
 		int rightSpeed;
@@ -99,7 +103,7 @@ task main()
 		setMotorSpeed(rightArm, armSpeed);
 
 		sleep(75);
-		PRINT_TO_SCRN(round(getMotorEncoder(armHigh)), round(getMotorEncoder(armLow)));
+		PRINT_TO_SCRN(round(getMotorEncoder(leftArm)), round(getMotorEncoder(rightArm)));
 	}
 
 
