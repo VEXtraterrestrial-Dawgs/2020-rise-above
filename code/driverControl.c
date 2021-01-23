@@ -25,13 +25,24 @@ void printValues(int left, int right)
 	displayTextLine(1, "rightArm = %d", right);
 }
 
+void setLEDColor(bool tank) {
+	if(tank) {
+		setTouchLEDRGB(touch, 84, 122, 138);
+	}
+	else {
+		setTouchLEDRGB(touch, 255, 177, 82);
+	}
+}
+
 task main()
 {
 	const int THRESHOLD = 10;
 	const int HDRIVEMAX = 50;
+	bool tankMode = true;
+	int touchCooldown = 0;
 
 	setMotorEncoderUnits(encoderCounts);
-	setTouchLEDRGB(touch, 84, 122, 138);
+	setLEDColor(tankMode);
 
 	resetGyro(gyro);
 	repeat(forever)
@@ -43,7 +54,6 @@ task main()
 		bool lDown;
 		bool rUp;
 		bool rDown;
-		bool tankMode = true;
 		int hDriveSpeed;
 		int leftSpeed;
 		int rightSpeed;
@@ -58,6 +68,17 @@ task main()
 		lDown = (getJoystickValue(BtnLDown) == 1);
 		rUp = (getJoystickValue(BtnRUp) == 1);
 		rDown = (getJoystickValue(BtnRDown) == 1);
+
+		if(touchCooldown > 0) {
+			touchCooldown--;
+		}
+		else {
+			if(getTouchLEDValue(touch) == 1) {
+				tankMode = !tankMode;
+				touchCooldown = 3;
+				setLEDColor(tankMode);
+			}
+		}
 
 		// Second Step: This is where we calculate what we need to set each of the motor speeds to
 
