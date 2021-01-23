@@ -70,7 +70,9 @@ task main()
 		rDown = (getJoystickValue(BtnRDown) == 1);
 
 		if(touchCooldown > 0) {
-			touchCooldown--;
+			if(getTouchLEDValue(touch) == 0) {
+				touchCooldown--;
+			}
 		}
 		else {
 			if(getTouchLEDValue(touch) == 1) {
@@ -97,8 +99,14 @@ task main()
 			rightJoystickY = 0;
 		}
 
-		leftSpeed = (leftJoystickY + ((tankMode?2:1)*leftJoystickX))/2;
-		rightSpeed = (leftJoystickY - ((tankMode?2:1)*leftJoystickX))/2;
+		if(lUp) {
+			leftSpeed = leftJoystickY;
+			rightSpeed = leftJoystickY;
+		}
+		else {
+			leftSpeed = (leftJoystickY + ((tankMode?2:1)*leftJoystickX))/2;
+			rightSpeed = (leftJoystickY - ((tankMode?2:1)*leftJoystickX))/2;
+		}
 
   	armSpeed = rightJoystickY/2;
 
