@@ -16,9 +16,6 @@
 #define PRINT_TO_SCRN(x, y)
 #endif
 
-#define TANK_TURN 2
-#define ARCADE_TURN 1
-
 void printValues(int left, int right)
 {
 	displayTextLine(0, "leftArm = %d", left);
@@ -104,8 +101,14 @@ task main()
 			rightSpeed = leftJoystickY;
 		}
 		else {
-			leftSpeed = (leftJoystickY + ((tankMode?2:1)*leftJoystickX))/2;
-			rightSpeed = (leftJoystickY - ((tankMode?2:1)*leftJoystickX))/2;
+			if(tankMode) {
+				leftSpeed = ( leftJoystickY + ( 2 * leftJoystickX  ) ) / 2;
+				rightSpeed = ( leftJoystickY - ( 2 * leftJoystickX ) ) / 2;
+			}
+			else {
+				leftSpeed = round( ( leftJoystickY + leftJoystickX ) / 1.5 );
+				rightSpeed = round( ( leftJoystickY - leftJoystickX ) / 1.5 );
+			}
 		}
 
   	armSpeed = rightJoystickY/2;
