@@ -64,5 +64,5 @@ You can read our [Engineering Notebook here](./notes), or use the Table of Conte
   - [Notes and Ways to Improve - Programming](./notes/2021-01-18%20Meeting%20Notes.md#programming-notes)
   - [Notes and Ways to Improve - Efficiency and Workflow](./notes/2021-01-18%20Meeting%20Notes.md#efficiency-and-workflow-improvements)
   
-  **Milestone 5: Design Changes - Competition-Ready Robot**
+**Milestone 5: Design Changes - Competition-Ready Robot**
 - [2021-01-23: Finished New Arm, Adapted Program](./notes/2021-01-23%20Meeting%20Notes.md)
