@@ -66,4 +66,4 @@ You can read our [Engineering Notebook here](./notes), or use the Table of Conte
   
 **Milestone 5: Finish Design Changes for Next Competition**
 - [2021-01-23: Finished New Arm, Adapted Program](./notes/2021-01-23%20Meeting%20Notes.md)
-- [2021-01-27: Rebuilt H-Drive, Brain Mounting, and Parts of Arm](./notes/2021-01-23%20Meeting%20Notes.md)
+- [2021-01-27: Rebuilt H-Drive, Brain Mounting, and Parts of Arm](./notes/2021-01-27%20Meeting%20Notes.md)
