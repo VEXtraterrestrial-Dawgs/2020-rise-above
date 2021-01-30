@@ -34,7 +34,7 @@ void setLEDColor(bool tank) {
 task main()
 {
 	const int THRESHOLD = 10;
-	const int HDRIVEMAX = 50;
+	const int HDRIVEMAX = 100;
 	bool tankMode = true;
 	int touchCooldown = 0;
 
@@ -112,6 +112,11 @@ task main()
 		}
 
   	armSpeed = rightJoystickY/2;
+
+  	if (lDown) {
+  		leftSpeed /= 2;
+  		rightSpeed /= 2;
+  	}
 
   	if (rUp)
   	{
