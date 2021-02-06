@@ -226,7 +226,7 @@ bool turnRobot(int angle) {
 	PIDInit(&controllerTurn, 3, encoderTarget, /*COEFFICIENTS*/ 0.08, 0, 0.9, 0.95);
 	PIDInit(&controllerDiff, 4, 0, /*COEFFICIENTS*/ 0.08, 0, 0.9, 0.6);
 
-	int gyroAvg = 0;
+//	int gyroAvg = 0;
 
 	while (!isCancelled())
 	{
@@ -236,12 +236,12 @@ bool turnRobot(int angle) {
 		int motorSpeedLeft;
 		int motorSpeedDiff;
 
-		gyroAvg = round((TURN_AVG_KA * gyroAvg) + ((1 - TURN_AVG_KA) * getGyroDegreesFloat(gyro)));
+	//	gyroAvg = round((TURN_AVG_KA * gyroAvg) + ((1 - TURN_AVG_KA) * getGyroDegreesFloat(gyro)));
 
-		int pidErrorLeft = angleToEncoderUnits(-angle - gyroAvg);
+	//	int pidErrorLeft = angleToEncoderUnits(-angle - gyroAvg);
 
 		// Calculate Motor Speeds
-		bool isCompleteTurn = PIDControl(&controllerTurn, pidErrorLeft, THRESHOLD, &motorSpeedLeft);
+		bool isCompleteTurn = PIDControl(&controllerTurn, encoderTarget - encoderLeft, THRESHOLD, &motorSpeedLeft);
 		bool isCompleteAdjust = PIDControl(&controllerDiff, (encoderRight < 0) ? -(abs(encoderLeft) - abs(encoderRight)) : abs(encoderLeft) - abs(encoderRight), THRESHOLD, &motorSpeedDiff);
 		clipLR(motorSpeedLeft, motorSpeedDiff, &lastSpeedLeft, &lastSpeedRight, MAX_TURN_SPEED, MAX_DRIVE_ACCEL);
 
