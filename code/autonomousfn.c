@@ -241,7 +241,7 @@ bool turnRobot(int angle) {
 	//	int pidErrorLeft = angleToEncoderUnits(-angle - gyroAvg);
 
 		// Calculate Motor Speeds
-		bool isCompleteTurn = PIDControl(&controllerTurn, -encoderTarget - encoderLeft, THRESHOLD, &motorSpeedLeft);
+		bool isCompleteTurn = PIDControl(&controllerTurn, encoderTarget + encoderLeft, THRESHOLD, &motorSpeedLeft);
 		bool isCompleteAdjust = PIDControl(&controllerDiff, (encoderRight < 0) ? -(abs(encoderLeft) - abs(encoderRight)) : abs(encoderLeft) - abs(encoderRight), THRESHOLD, &motorSpeedDiff);
 		clipLR(motorSpeedLeft, motorSpeedDiff, &lastSpeedLeft, &lastSpeedRight, MAX_TURN_SPEED, MAX_DRIVE_ACCEL);
 
