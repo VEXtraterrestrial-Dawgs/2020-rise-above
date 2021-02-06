@@ -282,7 +282,7 @@ bool moveHDrive(int distance) {
 		int motorSpeed;
 
 		isComplete = PIDControl(&controllerHDrive, encoderTarget - getMotorEncoder(hDrive), THRESHOLD, &motorSpeed);
-		motorSpeed = clip(motorSpeed, lastSpeed, MAX_DRIVE_SPEED, MAX_DRIVE_ACCEL);
+		motorSpeed = clip(motorSpeed, lastSpeed, MAX_H_DRIVE_SPEED, MAX_DRIVE_ACCEL);
 		lastSpeed = motorSpeed;
 
 		if(isComplete) {
