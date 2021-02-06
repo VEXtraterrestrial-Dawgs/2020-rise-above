@@ -304,7 +304,12 @@ bool moveArm(int height) {
 	PidObject controllerArm;
 	bool isComplete;
 
-	PIDInit(&controllerArm, 8, height, 0.3, 0, 0.5, 0.95);
+	setMotorTarget(leftArm, height, 80);
+	setMotorTarget(rightArm, height, 80);
+
+	waitUntilMotorStop(leftArm);
+	waitUntilMotorStop(rightArm);
+/*	PIDInit(&controllerArm, 8, height, 0.3, 0, 0.5, 0.95);
 
 	int lastSpeed = 0;
 
@@ -323,9 +328,8 @@ bool moveArm(int height) {
 		setMotorSpeed(leftArm, convertToMotorSpeed(motorSpeed));
 		setMotorSpeed(rightArm, convertToMotorSpeed(motorSpeed));
 		sleep(SHORT_INTERVAL);
-	}
+	}*/
 
-	setMotorSpeed(leftArm, 0);
-	setMotorSpeed(rightArm, 0);
-	return isComplete;
+
+	return true;
 }
