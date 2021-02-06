@@ -10,7 +10,8 @@
 
 #include "autonomousfn.c"
 
-#define TEST_MODE;
+#define TEST_MODE
+
 bool testSequence() {
 	displayTextLine(1, "Starting");
 	displayTextLine(2, "H-Drive");
