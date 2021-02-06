@@ -71,3 +71,4 @@ You can read our [Engineering Notebook here](./notes), or use the Table of Conte
 **Milestone 6: Finalize Driving and Autonomous for Next Competition**
 - [2021-01-30: Brief Meeting - Driving Work and Driver Control Changes](./notes/2021-01-30%20Meeting%20Notes.md)
 - [2021-02-03: New Driving High Score and Strategy, Changes to Autonomous Program and Plan for Fixing Turn](./notes/2021-02-03%20Meeting%20Notes.md)
+- [2021-02-06: Discussed Driving Progress, Finalized Autonomous Movement Functions](./notes/2021-02-06%20Meeting%20Notes.md)
