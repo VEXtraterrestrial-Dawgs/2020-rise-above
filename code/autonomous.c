@@ -42,50 +42,40 @@ bool testSequence() {
 	return true;
 }
 
-bool autonomousStrategy() {
-	displayTextLine(1, "Start Program");
+bool autonomousStrategy(int row) {
+	displayTextLine(1, "Starting Row: %d", row);
 	waitForLED();
 	setTouchLEDRGB(touch, 255, 240, 122);
 
-	RUN_COMMAND(moveHDrive, 850);
-	RUN_COMMAND(moveHDrive, -750);
-	RUN_COMMAND(driveRobot, 340);
-	RUN_COMMAND(turnRobot, 90);
-	RUN_COMMAND(driveRobot, 410);
-	// raise top arm
-	//RUN_COMMAND(moveTopArm, ARM_TOP_HIGH);
-	RUN_COMMAND(driveRobot, 55);
-	// raise bottom arm
-	//RUN_COMMAND(moveLowerArm, ARM_BOTTOM_HIGH);
-	RUN_COMMAND(moveHDrive, 200);
-	// put down risers
-	//RUN_COMMAND(moveLowerArm, ARM_BOTTOM_STACK);
-	//RUN_COMMAND(moveTopArm, ARM_TOP_STACK);
-	RUN_COMMAND(driveRobot, -50);
-	//RUN_COMMAND(moveTopArm, 0);
-	//RUN_COMMAND(moveLowerArm, 0);
-	RUN_COMMAND(turnRobot, -90);
-	RUN_COMMAND(driveRobot, 755);
-	RUN_COMMAND(moveHDrive, 250);
-	RUN_COMMAND(moveHDrive, -660);
-	RUN_COMMAND(moveHDrive, 410);
-	RUN_COMMAND(driveRobot, 850);
-	RUN_COMMAND(moveHDrive, 250);
-	RUN_COMMAND(moveHDrive, -250);
-	RUN_COMMAND(turnRobot, 90);
-	RUN_COMMAND(moveHDrive, 200);
-	RUN_COMMAND(driveRobot, 85);
-	// pick up double risers
-//	RUN_COMMAND(moveTopArm, ARM_TOP_HIGH);
-	RUN_COMMAND(driveRobot, 50);
-//	RUN_COMMAND(moveLowerArm, ARM_BOTTOM_HIGH);
-	RUN_COMMAND(moveHDrive, -200);
-	// put down risers
-	//RUN_COMMAND(moveLowerArm, ARM_BOTTOM_STACK);
-	//RUN_COMMAND(moveTopArm, ARM_TOP_STACK);
-	RUN_COMMAND(driveRobot, -100);
-//	RUN_COMMAND(moveLowerArm, 0);
-//	RUN_COMMAND(moveTopArm, 0);
+	// H_DRIVE and TURN must have row as the second parameter
+
+	H_DRIVE(850, row);
+	H_DRIVE(-750, row);
+	DRIVE(340);
+	TURN(90, row);
+	DRIVE(410);
+	MOVE_ARM(ARM_HIGH);
+	H_DRIVE(200, row);
+	MOVE_ARM(ARM_STACK);
+	DRIVE(-50);
+	MOVE_ARM(0);
+	TURN(-90, row);
+	DRIVE(755);
+	H_DRIVE(250, row);
+	H_DRIVE(-660, row);
+	H_DRIVE(410, row);
+	DRIVE(850);
+	H_DRIVE(250, row);
+	H_DRIVE(-250, row);
+	TURN(90, row);
+	H_DRIVE(200, row);
+	DRIVE(85);
+	MOVE_ARM(ARM_HIGH);
+	H_DRIVE(-200, row);
+	MOVE_ARM(ARM_STACK);
+	DRIVE(-100);
+	MOVE_ARM(0);
+
 	displayTextLine(1, "Finished Program");
 	setTouchLEDRGB(touch, 54, 255, 90);
 
@@ -104,5 +94,6 @@ task main()
 	setTouchLEDRGB(touch, 84, 122, 138);
 
 	//testSequence();
-	autonomousStrategy();
+	autonomousStrategy(PURPLE);
+	autonomousStrategy(TEAL);
 }

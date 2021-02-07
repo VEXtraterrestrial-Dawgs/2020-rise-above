@@ -1,5 +1,7 @@
 #pragma systemFile
 
+#define TEAL -1
+#define PURPLE 1
 const int WHEEL_CIRCUMFERENCE = 200; // in mm
 const int DRIVE_GEAR_RATIO = 3;
 const int H_DRIVE_GEAR_RATIO = 3;
@@ -22,10 +24,8 @@ const int MAX_ARM_SPEED = 90;
 const int MAX_ARM_ACCEL = 15;
 const int MOTOR_RANGE = 45;
 const int MOTOR_LOW = 25;
-const int ARM_TOP_HIGH = 1820;
-const int ARM_BOTTOM_HIGH = 1490;
-const int ARM_TOP_STACK = 1175;
-const int ARM_BOTTOM_STACK = 742;
+const int ARM_HIGH = 1820;
+const int ARM_STACK = 1175;
 const float TURN_AVG_KA = 0.8;
 const float ENC_UNITS_PER_MM = (float)ENCODER_UNITS_PER_ROTATION / ((float)WHEEL_CIRCUMFERENCE * DRIVE_GEAR_RATIO);
 const float ENC_UNITS_PER_DEGREE = 0.5 * DRIVETRAIN_WIDTH * degreesToRadians(1) * ENC_UNITS_PER_MM;
@@ -42,7 +42,10 @@ typedef struct {
 } PidObject;
 
 // MUST be called inside of a bool function that can return when any operation is cancelled.
-#define RUN_COMMAND(what, howMuch) if (what(howMuch) ==  false) { return false; }
+#define DRIVE(d) if (driveRobot(d) ==  false) { return false; }
+#define TURN(ang, dir) if (turnRobot(ang*dir) == false) { return false; }
+#define H_DRIVE(d, dir) if (moveHDrive(d*dir) == false) { return false; }
+#define MOVE_ARM(d) if (moveArm(d) == false) { return false; }
 
 #ifdef TEST_MODE
 #define CLEAR_LOG() datalogClear()
