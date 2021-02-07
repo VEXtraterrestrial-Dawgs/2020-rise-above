@@ -33,7 +33,7 @@ void setLEDColor(bool tank) {
 
 task main()
 {
-	const int THRESHOLD = 10;
+	const int THRESHOLD = 15;
 	const int HDRIVEMAX = 60;
 	bool tankMode = true;
 	int touchCooldown = 0;
