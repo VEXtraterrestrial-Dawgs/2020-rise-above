@@ -49,9 +49,9 @@ bool autonomousStrategy(int row) {
 
 	// H_DRIVE and TURN must have row as the second parameter
 
-	H_DRIVE(850, row);
-	H_DRIVE(-750, row);
-	DRIVE(340);
+	H_DRIVE(950, row);
+	H_DRIVE(-650, row);
+	DRIVE(300);
 	TURN(90, row);
 	DRIVE(410);
 	MOVE_ARM(ARM_HIGH);
