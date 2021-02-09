@@ -178,10 +178,10 @@ bool driveRobot(int distanceInMM)
 	// Given how far we want to go in millimeters, find how far we want to go in encoder units
 	int encoderTarget = round(distanceInMM * ENC_UNITS_PER_MM);
 
-	PIDInit(&controllerLeft, 1, encoderTarget, /*COEFFICIENTS:*/ 0.04, 0, 0.6, 0.95);
-	PIDInit(&controllerRight, 2, 0, /*COEFFICIENTS:*/ 0.04, 0.001, 0.5, 0.8);
+	//PIDInit(&controllerLeft, 1, encoderTarget, /*COEFFICIENTS:*/ 0.04, 0, 0.6, 0.95);
+	//PIDInit(&controllerRight, 2, 0, /*COEFFICIENTS:*/ 0.04, 0.001, 0.5, 0.8);
 
-	while (!isCancelled())
+	/*while (!isCancelled())
 	{
 		int motorSpeedLeft;
 		int motorSpeedDiff;
@@ -208,7 +208,12 @@ bool driveRobot(int distanceInMM)
 
 	setMotorSpeed(leftWheels, 0);
 	setMotorSpeed(rightWheels, 0);
-	return isComplete;
+	return isComplete;*/
+	setMotorTarget(leftWheels, encoderTarget, 60);
+	setMotorTarget(rightWheels, encoderTarget, 60);
+	waitUntilMotorStop(leftWheels);
+	waitUntilMotorStop(rightWheels);
+	return true;
 }
 
 bool turnRobot(int angle) {
