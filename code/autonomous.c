@@ -84,6 +84,9 @@ bool autonomousStrategy(int row) {
 
 task main()
 {
+	displayTextLine(1, "Press the LED to Calibrate Gyro");
+	setTouchLEDRGB(255, 17, 0);
+	waitForLED();
 	calibrateGyro();
 	setMotorBrakeMode(leftArm, motorHold);
 	setMotorBrakeMode(rightArm, motorHold);
