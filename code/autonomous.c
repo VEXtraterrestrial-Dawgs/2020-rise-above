@@ -51,10 +51,10 @@ bool autonomousStrategy(int row) {
 
 	H_DRIVE(780, row);
 	H_DRIVE(-581, row);
- 	DRIVE(189);
+ 	DRIVE(179);
 	sleep(50);
-	TURN(90, row);
-	DRIVE(400);
+	TURN(93, row);
+	DRIVE(350);
 	MOVE_ARM(ARM_HIGH);
 	H_DRIVE(200, row);
 	MOVE_ARM(ARM_STACK);
