@@ -14,9 +14,11 @@ void calibrateGyro()
 	for (int i = 0; getGyroCalibrationFlag(gyro) || (i < 20); i++)
 	{
 		displayTextLine(1, "Calibrating... %02d", i);
+		displayTextLine(2, "Do Not Move Robot");
 		sleep(100);
 	}
 	displayTextLine(1, "Calibrated!");
+	displayClearTextLine(2);
 }
 
 bool isCancelled()
@@ -178,10 +180,10 @@ bool driveRobot(int distanceInMM)
 	// Given how far we want to go in millimeters, find how far we want to go in encoder units
 	int encoderTarget = round(distanceInMM * ENC_UNITS_PER_MM);
 
-	//PIDInit(&controllerLeft, 1, encoderTarget, /*COEFFICIENTS:*/ 0.04, 0, 0.6, 0.95);
-	//PIDInit(&controllerRight, 2, 0, /*COEFFICIENTS:*/ 0.04, 0.001, 0.5, 0.8);
+	PIDInit(&controllerLeft, 1, encoderTarget, /*COEFFICIENTS:*/ 0.04, 0, 0.6, 0.95);
+	PIDInit(&controllerRight, 2, 0, /*COEFFICIENTS:*/ 0.04, 0.001, 0.5, 0.8);
 
-	/*while (!isCancelled())
+	while (!isCancelled())
 	{
 		int motorSpeedLeft;
 		int motorSpeedDiff;
@@ -194,9 +196,8 @@ bool driveRobot(int distanceInMM)
 		LOG(5, encoderTarget-leftEncoder);
 		LOG(6, leftEncoder-rightEncoder);
 
-		if (hasReached && isStraight)
+		if ( (encoderTarget - leftEncoder) < CLOSE_THRESHOLD )
 		{
-			isComplete = true;
 			break;
 		}
 
@@ -206,9 +207,6 @@ bool driveRobot(int distanceInMM)
 		sleep(LONG_INTERVAL);
 	}
 
-	setMotorSpeed(leftWheels, 0);
-	setMotorSpeed(rightWheels, 0);
-	return isComplete;*/
 	setMotorTarget(leftWheels, encoderTarget, 60);
 	setMotorTarget(rightWheels, encoderTarget, 60);
 	waitUntilMotorStop(leftWheels);
@@ -252,9 +250,8 @@ bool turnRobot(int angle) {
 
 
 		// Check if complete
-		if (isCompleteTurn && isCompleteAdjust)
+		if ( abs(encoderTarget + encoderLeft) < CLOSE_THRESHOLD )
 		{
-			isComplete = true;
 			break;
 		}
 
@@ -266,10 +263,12 @@ bool turnRobot(int angle) {
 		sleep(SHORT_INTERVAL);
 	}
 
-	setMotorSpeed(leftWheels, 0);
-	setMotorSpeed(rightWheels, 0);
+	setMotorTarget(leftWheels, -encoderTarget, 60);
+	setMotorTarget(rightWheels, encoderTarget, 60);
+	waitUntilMotorStop(leftWheels);
+	waitUntilMotorStop(rightWheels);
 
-	return isComplete;
+	return true;
 }
 
 bool moveHDrive(int distance) {
