@@ -218,7 +218,14 @@ bool turnRobot(int angle) {
 	PidObject controllerTurn;
 	PidObject controllerDiff;
 	bool isComplete = false;
-	int encoderTarget = angleToEncoderUnits(-angle);
+	int offset = 0;
+
+	for(int i = 0; i < 5; i++) {
+		offset += getGyroDegrees(gyro) / 5;
+		sleep(25);
+	}
+
+	int encoderTarget = angleToEncoderUnits(-angle - offset);
 	int lastSpeedLeft = 0;
 	int lastSpeedRight = 0;
 
@@ -268,6 +275,7 @@ bool turnRobot(int angle) {
 	waitUntilMotorStop(leftWheels);
 	waitUntilMotorStop(rightWheels);
 
+	resetGyro(gyro);
 	return true;
 }
 
@@ -308,8 +316,8 @@ bool moveArm(int height) {
 	PidObject controllerArm;
 	bool isComplete;
 
-	setMotorTarget(leftArm, height, 80);
-	setMotorTarget(rightArm, height, 80);
+	setMotorTarget(leftArm, height, 40);
+	setMotorTarget(rightArm, height, 40);
 
 	waitUntilMotorStop(leftArm);
 	waitUntilMotorStop(rightArm);

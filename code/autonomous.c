@@ -47,18 +47,26 @@ bool autonomousStrategy(int row) {
 	waitForLED();
 	setTouchLEDRGB(touch, 255, 240, 122);
 
+	MOVE_ARM(0);
+
 	// H_DRIVE and TURN must have row as the second parameter
 
-	H_DRIVE(780, row);
-	H_DRIVE(-581, row);
- 	DRIVE(179);
+	// Push riser into goal
+
+	H_DRIVE(770, row);
+	H_DRIVE(-500, row);
+ 	DRIVE(150);
 	sleep(50);
+
+	// Lift and stack riser
+
 	TURN(93, row);
-	DRIVE(450);
+	DRIVE(400);
 	MOVE_ARM(ARM_HIGH);
-	H_DRIVE(200, row);
+	TURN(55, row);
 	MOVE_ARM(ARM_STACK);
 	DRIVE(-50);
+	TURN(-55, row);
 	MOVE_ARM(0);
 	TURN(-90, row);
 	DRIVE(755);
