@@ -113,11 +113,6 @@ task main()
 
   	armSpeed = rightJoystickY/2;
 
-  	if (lDown) {
-  		leftSpeed /= 2;
-  		rightSpeed /= 2;
-  	}
-
   	if (rUp)
   	{
   		hDriveSpeed = HDRIVEMAX;
@@ -131,6 +126,13 @@ task main()
   		hDriveSpeed = 0;
   	}
 
+	if (lDown) {
+  		leftSpeed /= 2;
+  		rightSpeed /= 2;
+		hDriveSpeed /= 2;
+		armSpeed /= 2;
+  	}
+		
 	  // Third Step: This is where we set all the motor speeds to what they should be
 
 	  setMotorSpeed(leftWheels, leftSpeed);
