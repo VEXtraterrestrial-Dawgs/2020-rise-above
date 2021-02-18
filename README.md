@@ -16,7 +16,7 @@ You can read our [Engineering Notebook here](./notes), or use the Table of Conte
 
 ### Meeting Notes
 
-[Team Bios](./notes/bios.md)  
+[Team Bios](./notes/Team%20Bios.md)  
 [2020-09-20: First Meeting of the Season](./notes/2020-09-20%20First%20Meeting.md)
 
 **Milestone 1: Initial Design**
