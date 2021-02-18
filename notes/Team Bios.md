@@ -2,7 +2,7 @@
 
 ### Sri - Driver
 
-![Sri](../img/team-bio-sri.jpg)
+![Sri](../img/team-bio-sri.JPG)
 
 My name is Sri. I’m 13 years old and in 7th grade. This is my second year of doing robotics. My hobbies include reading, playing Minecraft, robotics, and sleeping. 
 
