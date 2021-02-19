@@ -8,15 +8,10 @@ You can read our [Engineering Notebook here](./notes), or use the Table of Conte
 
 ## Table of Contents
 
-### Files and Folders
-
-- [Data Folder: Contains all data and graphs found in the meeting notes.](./data/README.md)
-- [Image Folder: Contains all images found in meeting notes.](./img)
-- [Code Folder: Contains all autonomous, driving, and test programs used this season.](./code)
+[About Our Team](./notes/Team%20Bios.md)  
 
 ### Meeting Notes
 
-[Team Bios](./notes/Team%20Bios.md)  
 [2020-09-20: First Meeting of the Season](./notes/2020-09-20%20First%20Meeting.md)
 
 **Milestone 1: Initial Design**
@@ -81,3 +76,9 @@ You can read our [Engineering Notebook here](./notes), or use the Table of Conte
 
 **Milestone 8: Finish Design Changes for Next Competition**
 - [2021-02-18: Fixed H-Drive Problem](./notes/2021-02-18%20Meeting%20Notes.md)
+
+### Additional Reading
+
+- [Data: all data and graphs found in the meeting notes.](./data/README.md)
+- [Image: all images found in meeting notes.](./img)
+- [Code: all autonomous, driving, and test programs used this season.](./code)
