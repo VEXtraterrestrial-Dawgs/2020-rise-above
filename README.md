@@ -78,3 +78,6 @@ You can read our [Engineering Notebook here](./notes), or use the Table of Conte
 - [2021-02-17: Discussed 2021-02-14 Competition and Plans for Moving Forward](./notes/2021-02-17%20Meeting%20Notes.md)
   - [Notes and Ways to Improve — Driving](./notes/2021-02-17%20Meeting%20Notes.md#driving-notes)
   - [Notes and Ways to Improve — Programming](./notes/2021-02-17%20Meeting%20Notes.md#programming-notes)
+
+**Milestone 8: Finish Design Changes for Next Competition**
+- [2021-02-18: Fixed H-Drive Problem](./notes/2021-02-18%20Meeting%20Notes.md)
