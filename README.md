@@ -76,8 +76,9 @@ You can read our Engineering Notebook using the Table of Contents below.
   - [Notes and Ways to Improve — Driving](./notes/2021-02-17%20Meeting%20Notes.md#driving-notes)
   - [Notes and Ways to Improve — Programming](./notes/2021-02-17%20Meeting%20Notes.md#programming-notes)
 
-**Milestone 8: Finish Design Changes for Next Competition**
+**Milestone 8: Finish Design Changes for State Competition**
 - [2021-02-18: Fixed H-Drive Problem](./notes/2021-02-18%20Meeting%20Notes.md)
+- [2021-02-19: Worked on Fixing Arm Problem](./notes/2021-02-19%20Meeting%20Notes.md)
 
 ### Additional Reading
 
