@@ -31,7 +31,7 @@ Tavas
 ## Autonomous Notes - Tavas
 
 - While I didn’t get much time today to tweak the autonomous program, I did change the program and values for the constants ARM_STACK and ARM_LIFT in order to match the way the new arm from [last meeting](2021-02-20%20Meeting%20Notes.md) lifts risers.
-- I also adjusted the h-drive values for the new h-drive from the [2021-02-18 Meeting](2021-02-21%20Meeting%20Notes.md) — the new h-drive slips a lot less, so the movement values have been reduced.
+- I also adjusted the h-drive values for the new h-drive from the [2021-02-18 Meeting](2021-02-18%20Meeting%20Notes.md) — the new h-drive slips a lot less, so the movement values have been reduced.
 - I also adjusted the drive values to match the h-drive value changes, so that the robot doesn’t drive forward too much when it approaches a riser to lift it.
 
 ## Homework  
