@@ -43,7 +43,7 @@ bool testSequence() {
 }
 
 bool autonomousStrategy(int row) {
-	displayTextLine(1, "Starting Row: %d", row);
+	displayTextLine(1, "Starting %s Row", (row == 1) ? "Purple" : "Teal");
 	waitForLED();
 	setTouchLEDRGB(touch, 255, 240, 122);
 
@@ -51,39 +51,43 @@ bool autonomousStrategy(int row) {
 
 	// H_DRIVE and TURN must have row as the second parameter
 
-	// Push riser into goal
+	// H-Drive riser into goal
 
-	H_DRIVE(770, row);
-	H_DRIVE(-500, row);
- 	DRIVE(150);
+	H_DRIVE(600, row);
+	H_DRIVE(-600, row);
+ 	DRIVE(300);
+ 	TURN(0, row);
 	sleep(50);
 
 	// Lift and stack riser
 
-	TURN(93, row);
-	DRIVE(400);
+	TURN(100, row);
+	MOVE_ARM(ARM_LIFT);
+	DRIVE(130);
 	MOVE_ARM(ARM_HIGH);
+	DRIVE(-30);
 	TURN(55, row);
 	MOVE_ARM(ARM_STACK);
-	
+
 	// Back out and push riser into middle goal
-	
-	DRIVE(-50);
-	H_DRIVE(-500, row);
-	DRIVE(50);
-	DRIVE(-50);
-	TURN(0, row);
-	
-	// Lift and stack the riser on the final goal
-	
-	H_DRIVE(-500, row);
-	MOVE_ARM(0);
-	DRIVE(50);
-	MOVE_ARM(ARM_HIGH);
+
+	DRIVE(-250);
 	TURN(-55, row);
-	MOVE_ARM(ARM_STACK);
-	DRIVE(-50);
-	
+	MOVE_ARM(ARM_HIGH);
+	H_DRIVE(-400, row);
+	TURN(0, row);
+	DRIVE(330);
+	DRIVE(-250);
+	TURN(0, row);
+
+	// Push in the riser to the final goal
+
+	TURN(0, row);
+	H_DRIVE(-725, row);
+	TURN(0, row);
+	DRIVE(330);
+	DRIVE(-250);
+
 	displayTextLine(1, "Finished Program");
 	setTouchLEDRGB(touch, 54, 255, 90);
 
@@ -106,5 +110,6 @@ task main()
 
 	//testSequence();
 	autonomousStrategy(PURPLE);
+	setTouchLEDRGB(touch, 187, 237, 235);
 	autonomousStrategy(TEAL);
 }

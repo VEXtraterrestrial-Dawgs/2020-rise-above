@@ -182,7 +182,7 @@ bool driveRobot(int distanceInMM)
 
 	PIDInit(&controllerLeft, 1, encoderTarget, /*COEFFICIENTS:*/ 0.04, 0, 0.6, 0.95);
 	PIDInit(&controllerRight, 2, 0, /*COEFFICIENTS:*/ 0.04, 0.001, 0.5, 0.8);
-
+/*
 	while (!isCancelled())
 	{
 		int motorSpeedLeft;
@@ -198,6 +198,8 @@ bool driveRobot(int distanceInMM)
 
 		if ( (encoderTarget - leftEncoder) < CLOSE_THRESHOLD )
 		{
+			setMotorSpeed(leftWheels, 0);
+			setMotorSpeed(rightWheels, 0);
 			break;
 		}
 
@@ -206,11 +208,19 @@ bool driveRobot(int distanceInMM)
 		setMotorSpeed(rightWheels, convertToMotorSpeed(lastSpeedRight));
 		sleep(LONG_INTERVAL);
 	}
+*/
+	setMotorTarget(leftWheels, encoderTarget, 40);
+	setMotorTarget(rightWheels, encoderTarget, 40);
 
-	setMotorTarget(leftWheels, encoderTarget, 60);
-	setMotorTarget(rightWheels, encoderTarget, 60);
-	waitUntilMotorStop(leftWheels);
-	waitUntilMotorStop(rightWheels);
+	while(getMotorZeroVelocity(leftWheels) == 0 || getMotorZeroVelocity(rightWheels) == 0) {
+		if(isCancelled()) return false;
+		sleep(LONG_INTERVAL);
+	}
+
+	setMotorSpeed(rightWheels, 0);
+	setMotorSpeed(leftWheels, 0);
+
+	sleep(25);
 	return true;
 }
 
@@ -272,10 +282,16 @@ bool turnRobot(int angle) {
 
 	setMotorTarget(leftWheels, -encoderTarget, 60);
 	setMotorTarget(rightWheels, encoderTarget, 60);
-	waitUntilMotorStop(leftWheels);
-	waitUntilMotorStop(rightWheels);
+
+	while(getMotorZeroVelocity(leftWheels) == 0 || getMotorZeroVelocity(rightWheels) == 0) {
+		if(isCancelled()) return false;
+		sleep(LONG_INTERVAL);
+	}
 
 	resetGyro(gyro);
+
+	sleep(25);
+
 	return true;
 }
 
@@ -286,7 +302,7 @@ bool moveHDrive(int distance) {
 
 	resetMotorEncoder(hDrive);
 
-	PIDInit(&controllerHDrive, 5, encoderTarget, 0.5, 0, 0.4, 0.95);
+	PIDInit(&controllerHDrive, 5, encoderTarget, 0.2, 0, 0.4, 0.95);
 
 	int lastSpeed = 0;
 
@@ -309,6 +325,7 @@ bool moveHDrive(int distance) {
 	}
 
 	setMotorSpeed(hDrive, 0);
+	sleep(25);
 	return isComplete;
 }
 
@@ -319,8 +336,10 @@ bool moveArm(int height) {
 	setMotorTarget(leftArm, height, 40);
 	setMotorTarget(rightArm, height, 40);
 
-	waitUntilMotorStop(leftArm);
-	waitUntilMotorStop(rightArm);
+	while(getMotorZeroVelocity(leftArm) == 0 || getMotorZeroVelocity(rightArm) == 0) {
+		if(isCancelled()) return false;
+		sleep(LONG_INTERVAL);
+	}
 /*	PIDInit(&controllerArm, 8, height, 0.3, 0, 0.5, 0.95);
 
 	int lastSpeed = 0;
@@ -342,6 +361,6 @@ bool moveArm(int height) {
 		sleep(SHORT_INTERVAL);
 	}*/
 
-
+	sleep(25);
 	return true;
 }
