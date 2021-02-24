@@ -47,6 +47,7 @@ typedef struct {
 #define TURN(ang, dir) if (turnRobot(ang*dir) == false) { return false; }
 #define H_DRIVE(d, dir) if (moveHDrive(d*dir) == false) { return false; }
 #define MOVE_ARM(d) if (moveArm(d) == false) { return false; }
+#define WAIT_FOR_MOTOR(nMotorIndex) do {sleep(100); if(isCancelled()) return false; while(!getMotorZeroVelocity(nMotorIndex)) sleep(1);} while(false)
 
 #ifdef TEST_MODE
 #define CLEAR_LOG() datalogClear()

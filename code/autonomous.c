@@ -53,9 +53,9 @@ bool autonomousStrategy(int row) {
 
 	// H-Drive riser into goal
 
-	H_DRIVE(600, row);
+	H_DRIVE(606, row);
 	H_DRIVE(-600, row);
- 	DRIVE(300);
+ 	DRIVE(200);
  	TURN(0, row);
 	sleep(50);
 
@@ -63,7 +63,7 @@ bool autonomousStrategy(int row) {
 
 	TURN(100, row);
 	MOVE_ARM(ARM_LIFT);
-	DRIVE(130);
+	DRIVE(300);
 	MOVE_ARM(ARM_HIGH);
 	DRIVE(-30);
 	TURN(55, row);
@@ -74,9 +74,9 @@ bool autonomousStrategy(int row) {
 	DRIVE(-250);
 	TURN(-55, row);
 	MOVE_ARM(ARM_HIGH);
-	H_DRIVE(-400, row);
+	H_DRIVE(-180, row);
 	TURN(0, row);
-	DRIVE(330);
+	DRIVE(360);
 	DRIVE(-250);
 	TURN(0, row);
 

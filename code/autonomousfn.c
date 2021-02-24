@@ -212,10 +212,8 @@ bool driveRobot(int distanceInMM)
 	setMotorTarget(leftWheels, encoderTarget, 40);
 	setMotorTarget(rightWheels, encoderTarget, 40);
 
-	while(getMotorZeroVelocity(leftWheels) == 0 || getMotorZeroVelocity(rightWheels) == 0) {
-		if(isCancelled()) return false;
-		sleep(LONG_INTERVAL);
-	}
+	WAIT_FOR_MOTOR(leftWheels);
+	WAIT_FOR_MOTOR(rightWheels);
 
 	setMotorSpeed(rightWheels, 0);
 	setMotorSpeed(leftWheels, 0);
@@ -283,10 +281,8 @@ bool turnRobot(int angle) {
 	setMotorTarget(leftWheels, -encoderTarget, 60);
 	setMotorTarget(rightWheels, encoderTarget, 60);
 
-	while(getMotorZeroVelocity(leftWheels) == 0 || getMotorZeroVelocity(rightWheels) == 0) {
-		if(isCancelled()) return false;
-		sleep(LONG_INTERVAL);
-	}
+	WAIT_FOR_MOTOR(rightWheels);
+	WAIT_FOR_MOTOR(leftWheels);
 
 	resetGyro(gyro);
 
@@ -336,10 +332,8 @@ bool moveArm(int height) {
 	setMotorTarget(leftArm, height, 40);
 	setMotorTarget(rightArm, height, 40);
 
-	while(getMotorZeroVelocity(leftArm) == 0 || getMotorZeroVelocity(rightArm) == 0) {
-		if(isCancelled()) return false;
-		sleep(LONG_INTERVAL);
-	}
+	WAIT_FOR_MOTOR(leftArm);
+	WAIT_FOR_MOTOR(rightArm);
 /*	PIDInit(&controllerArm, 8, height, 0.3, 0, 0.5, 0.95);
 
 	int lastSpeed = 0;
