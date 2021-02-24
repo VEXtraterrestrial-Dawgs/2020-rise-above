@@ -8,8 +8,6 @@ Tavas
 
 ## Build Notes - Tavas
 
-![Arm](../img/2021-02-23-arm.jpg)
-
 - The one thing I changed today was that I made the hooks closer together because I noticed the risers were hard to pick up reliably in autonomous. Now, the risers are much easier to lift. 
 
 ## Autonomous Notes - Tavas
