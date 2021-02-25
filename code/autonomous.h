@@ -16,7 +16,7 @@ const int SHORT_INTERVAL = 50;
 const int LONG_INTERVAL = 75;
 const int ENCODER_UNITS_PER_ROTATION = 960;
 const int MAX_DRIVE_SPEED = 60;
-const int MAX_H_DRIVE_SPEED = 70;
+const int MAX_H_DRIVE_SPEED = 75;
 const int MAX_DRIVE_ACCEL = 30;
 const int MAX_DRIVE_DIFFERENCE = 60;
 const int MAX_TURN_SPEED = 70;
@@ -24,9 +24,9 @@ const int MAX_ARM_SPEED = 90;
 const int MAX_ARM_ACCEL = 15;
 const int MOTOR_RANGE = 45;
 const int MOTOR_LOW = 25;
-const int ARM_HIGH = 770;
+const int ARM_HIGH = 1000;
 const int ARM_STACK = 650;
-const int ARM_LIFT = 200;
+const int ARM_LIFT = 180;
 const float TURN_AVG_KA = 0.8;
 const float ENC_UNITS_PER_MM = (float)ENCODER_UNITS_PER_ROTATION / ((float)WHEEL_CIRCUMFERENCE * DRIVE_GEAR_RATIO);
 const float ENC_UNITS_PER_DEGREE = 0.5 * DRIVETRAIN_WIDTH * degreesToRadians(1) * ENC_UNITS_PER_MM;
@@ -47,7 +47,8 @@ typedef struct {
 #define TURN(ang, dir) if (turnRobot(ang*dir) == false) { return false; }
 #define H_DRIVE(d, dir) if (moveHDrive(d*dir) == false) { return false; }
 #define MOVE_ARM(d) if (moveArm(d) == false) { return false; }
-#define WAIT_FOR_MOTOR(nMotorIndex) do {sleep(100); if(isCancelled()) return false; while(!getMotorZeroVelocity(nMotorIndex)) sleep(1);} while(false)
+#define WAIT_FOR_MOTOR(nMotorIndex) do { sleep(100); int counter = 0; int lastEncoder = getMotorEncoder(nMotorIndex); while(!getMotorZeroVelocity(nMotorIndex)) if(isCancelled()) { return false; } if(abs(getMotorEncoder(nMotorIndex) - lastEncoder) < 4) { counter++; }else {counter = 0;} \
+	if(counter > 5) { return false; } lastEncoder = getMotorEncoder(nMotorIndex); sleep(1); }while(false)
 
 #ifdef TEST_MODE
 #define CLEAR_LOG() datalogClear()

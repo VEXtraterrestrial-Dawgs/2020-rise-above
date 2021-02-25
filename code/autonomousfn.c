@@ -230,7 +230,7 @@ bool turnRobot(int angle) {
 
 	for(int i = 0; i < 5; i++) {
 		offset += getGyroDegrees(gyro) / 5;
-		sleep(25);
+		sleep(30);
 	}
 
 	int encoderTarget = angleToEncoderUnits(-angle - offset);
@@ -329,8 +329,8 @@ bool moveArm(int height) {
 	PidObject controllerArm;
 	bool isComplete;
 
-	setMotorTarget(leftArm, height, 40);
-	setMotorTarget(rightArm, height, 40);
+	setMotorTarget(leftArm, height, 30);
+	setMotorTarget(rightArm, height, 30);
 
 	WAIT_FOR_MOTOR(leftArm);
 	WAIT_FOR_MOTOR(rightArm);
