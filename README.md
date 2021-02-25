@@ -84,6 +84,7 @@ You can read our Engineering Notebook using the Table of Contents below.
 
 **Milestone 9: Finalize Driving and Autonomous for State Competition**
 - [2021-02-23: Tavas — Autonomous Program Tweaks](./notes/2021-02-23%20Meeting%20Notes.md)
+- [2021-02-24: Driving Practice and Autonomous Changes](./notes/2021-02-24%20Meeting20Notes.md)
 
 ### Additional Reading
 
