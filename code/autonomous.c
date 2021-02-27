@@ -55,18 +55,18 @@ bool autonomousStrategy(int row) {
 
 	H_DRIVE(610, row);
 	H_DRIVE(-530, row);
- 	DRIVE(130);
+ 	DRIVE(128);
 	sleep(50);
 
 	// Lift and stack riser
 
 	TURN(90, row);
 	MOVE_ARM(ARM_LIFT);
-	DRIVE(310);
+	DRIVE(314);
 	MOVE_ARM(ARM_HIGH);
 	DRIVE(-30);
 	TURN(55, row);
-	DRIVE(80);
+	DRIVE(85);
 	MOVE_ARM(ARM_STACK);
 
 	// Back out and push riser into middle goal
@@ -74,16 +74,16 @@ bool autonomousStrategy(int row) {
 	DRIVE(-350);
 	TURN(-55, row);
 	MOVE_ARM(ARM_HIGH);
-	H_DRIVE(-280, row);
+	H_DRIVE(-300, row);
 	TURN(0, row);
 	DRIVE(330);
-	DRIVE(-330);
+	DRIVE(-290);
 	TURN(0, row);
 
 	// Push in the riser to the final goal
 
 	TURN(0, row);
-	H_DRIVE(-820, row);
+	H_DRIVE(-850, row);
 	TURN(0, row);
 	DRIVE(330);
 	DRIVE(-250);
