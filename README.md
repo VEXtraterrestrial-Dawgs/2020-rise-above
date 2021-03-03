@@ -86,6 +86,9 @@ You can read our Engineering Notebook using the Table of Contents below.
 - [2021-02-23: Tavas — Autonomous Program Tweaks](./notes/2021-02-23%20Meeting%20Notes.md)
 - [2021-02-24: Driving Practice and Autonomous Changes](./notes/2021-02-24%20Meeting%20Notes.md)
 
+**Milestone 10: Finalize on a New Robot Design**
+- [2021-03-03: Discussed Robot Sketches and Decided on a Final Design](./notes/2021-03-03%20Meeting%20Notes.md)
+
 ### Additional Reading
 
 - [Data: all data and graphs found in the meeting notes.](./data/README.md)
