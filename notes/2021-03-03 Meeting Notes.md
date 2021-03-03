@@ -30,7 +30,7 @@ Athreya, Brad, Sri, Tavas
 
 #### Sketch
 
-[Sketch - Brad](../img/2021-03-03-sketch-brad.jpg)
+[Sketch - Brad](../img/2021-03-03-sketch-Brad.jpg)
 
 #### Comments
 
