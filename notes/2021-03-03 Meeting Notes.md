@@ -19,7 +19,7 @@ Athreya, Brad, Sri, Tavas
 
 #### Sketch
 
-[Sketch - Athreya](../img/2021-03-03-sketch-athreya.jpg)
+![Sketch - Athreya](../img/2021-03-03-sketch-athreya.jpg)
 
 #### Comments
 
@@ -30,7 +30,7 @@ Athreya, Brad, Sri, Tavas
 
 #### Sketch
 
-[Sketch - Brad](../img/2021-03-03-sketch-Brad.jpg)
+![Sketch - Brad](../img/2021-03-03-sketch-brad.jpg)
 
 #### Comments
 
@@ -42,7 +42,7 @@ Athreya, Brad, Sri, Tavas
 
 #### Sketch
 
-[Sketch - Sri](../img/2021-03-03-sketch-sri.jpg)
+![Sketch - Sri](../img/2021-03-03-sketch-sri.jpg)
 
 #### Comments
 
@@ -53,7 +53,7 @@ Athreya, Brad, Sri, Tavas
 
 #### Sketch
 
-[Sketch - Tavas](../img/2021-03-03-sketch-tavas.jpg)
+![Sketch - Tavas](../img/2021-03-03-sketch-tavas.jpg)
 
 #### Comments
 
