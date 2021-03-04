@@ -1,4 +1,4 @@
-# 2020-Rise-Above
+# VEX IQ Challenge Rise-Above
 
 This is the repository for Team 47B, VEX IQ 2020-2021 season challenge Rise Above.
 
