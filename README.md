@@ -89,8 +89,9 @@ You can read our Engineering Notebook using the Table of Contents below.
 **Milestone 10: Brainstorm New Robot Design**
 - [2021-03-03: Discussed Robot Sketches and Decided on a Final Design](./notes/2021-03-03%20Meeting%20Notes.md)
 
-**Milestone 11: Initial Robot Built**
+**Milestone 11: Competition-Ready Robot**
 - [2021-03-10: Brief Meeting — Discussed Progress on Base](./notes/2021-03-10%20Meeting%20Notes.md)
+- [2021-03-14: Planned Out This Milestone and Building for This Week](./notes/2021-03-14%20Meeting%20Notes.md)
 
 ### Additional Reading
 
