@@ -24,11 +24,17 @@ Athreya, Brad, Sri, Tavas
 - Building the base went mostly according to plan, but as of today, the arm and claw were not mounted to the robot. 
 - Here is what we accomplished with building the base over the past week:
 
-- Picture from last Sunday ![Sunday](../img/2021-03-14-robot.jpg)
+- Picture from last Sunday 
 
-- Picture from last Monday ![Monday](../img/2021-03-15-robot.jpg)
+![Sunday](../img/2021-03-14-robot.jpg)
 
-- Picture from last Tuesday ![Tuesday](../img/2021-03-16-robot.jpg)
+- Picture from last Monday 
+
+![Monday](../img/2021-03-15-robot.jpg)
+
+- Picture from last Tuesday 
+
+![Tuesday](../img/2021-03-16-robot.jpg)
 
 - After Tuesday, Brad worked on building the arm, and encountered the problems shown in the build notes above.
 - The claw has been made, and we’ve test driven the robot as it is today, so all that’s left is to finish making the arm and make sure it’s able to lift the weight of the claw and two risers.
