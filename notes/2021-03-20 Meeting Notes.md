@@ -3,7 +3,13 @@
 ## Members Present
 Athreya, Brad, Sri, Tavas
 
+## Goals
+- Discuss build progress
+- Test drive robot
+
 ## Build Notes - Brad
+
+### Build Progress Since Last Meeting
 
 - Over the last couple of days, I was re-continuing my search for a good base, and what I realized was that I could keep a 14 width, but after a lot of placing things around, I realized that the length would probably have to be a 20 in order for everything to fit well. 
 - This is the picture of the current robot.
@@ -17,6 +23,11 @@ Athreya, Brad, Sri, Tavas
 - I also put the drivetrain in the middle-back part of the robot in order to keep a good weight balance throughout the robot, and I plan to put the arm in the front of the robot to make it as strong as I can. 
 - As I was working on the arm, I realized that for some reason, the range of motion of the arm was limited, and I am still searching for a reason and solution for that. 
 - I suspect that it might have been a lack of a washer or two somewhere so that the gear might have been rubbing against the beam that was connecting the arm to the base.
+
+### Test Driving During the Meeting Today
+
+- Today we test drove the robot to make sure the base drove well.
+- The base drove smoothly, and was able to drive and turn.
 
 ## Meeting Plan
 
