@@ -1,5 +1,6 @@
 #pragma config(Sensor, port7,  gyro,           sensorVexIQ_Gyro)
 #pragma config(Sensor, port8,  touch,          sensorVexIQ_LED)
+#pragma config(Motor,  motor1,          claw,          tmotorVexIQ, PIDControl, encoder)
 #pragma config(Motor,  motor2,          rightArm,      tmotorVexIQ, PIDControl, encoder)
 #pragma config(Motor,  motor6,          rightWheels,   tmotorVexIQ, PIDControl, reversed, driveRight, encoder)
 #pragma config(Motor,  motor9,          leftArm,       tmotorVexIQ, PIDControl, reversed, encoder)
@@ -31,6 +32,7 @@ void setLEDColor(bool tank) {
 
 task main()
 {
+	const int CLAW_SPEED = 50;
 	const int THRESHOLD = 15;
 	bool tankMode = true;
 	int touchCooldown = 0;
@@ -51,6 +53,7 @@ task main()
 		int leftSpeed;
 		int rightSpeed;
 		int armSpeed;
+		int clawSpeed;
 
 		// First Step: This is where we retrieve all the joystick, button, and sensor values we will need
 
@@ -114,7 +117,17 @@ task main()
   		leftSpeed /= 2;
   		rightSpeed /= 2;
 			armSpeed /= 2;
-  	}
+ 	}
+
+ 	if (rDown) {
+ 		clawSpeed = CLAW_SPEED;
+ 	}
+ 	else if (rUp) {
+ 		clawSpeed = -CLAW_SPEED;
+ 	}
+ 	else {
+ 		clawSpeed = 0;
+ 	}
 
 	  // Third Step: This is where we set all the motor speeds to what they should be
 
@@ -122,6 +135,7 @@ task main()
 	  setMotorSpeed(rightWheels, rightSpeed);
 		setMotorSpeed(leftArm, armSpeed);
 		setMotorSpeed(rightArm, armSpeed);
+		setMotorSpeed(claw, clawSpeed);
 
 		sleep(75);
   	PRINT_TO_SCRN(round(getMotorEncoder(leftArm)), round(getMotorEncoder(rightArm)));
