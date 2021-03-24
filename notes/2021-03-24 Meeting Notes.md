@@ -3,6 +3,10 @@
 ## Members Present
 Athreya, Brad, Sri, Tavas
 
+## Goals
+- Discuss the changes to the robot over the past week
+- Discuss solution to make the arm stronger
+
 ## Build Notes - Brad
 
 - Over the last couple of days, I’ve made an arm and claw that work. 
@@ -11,7 +15,8 @@ Athreya, Brad, Sri, Tavas
 
 - I had to play around a lot with the position of the arm on the 2x20 beam it was on and what length beams I had to use in order for the arm to be long enough so that it can stack 2 risers on top of 1 while being able to not be too long so that if you have a riser right underneath 2 that you’re lifting, you don’t have to back out just to stack the 3 risers.
 - I also ran into the problem that the arm wasn’t strong enough, so I added tensioning with rubber bands from the base to the arm gears.
-- The idea behind the claw was that if we wanted to be able to lift risers quickly, then you would need a way of grabbing 2 risers that was fast. As our last design, the hooks connected to the 4 bar lift, didn’t work that well, we decided that if we could try to get a claw that grabbed the risers from the outside, then that would be really efficient. When the claw grabs onto 2 risers, it can automatically shift the position of the risers, so that they arm in a straight line on the y-axis, which gives more room for error when in a 60 second skills match.
+- The idea behind the claw was that if we wanted to be able to lift risers quickly, then you would need a way of grabbing 2 risers that was fast. As our last design, the hooks connected to the 4 bar lift, didn’t work that well, we decided that if we could try to get a claw that grabbed the risers from the outside, then that would be really efficient. 
+- When the claw grabs onto 2 risers, it can automatically shift the position of the risers, so that they arm in a straight line on the y-axis, which gives more room for error when in a 60 second skills match.
 - Tavas seeks to find an arm design that doesn’t use rubber band tensioning, which you can see below
 
 ## Design Notes - Tavas
