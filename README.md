@@ -94,6 +94,7 @@ You can read our Engineering Notebook using the Table of Contents below.
 - [2021-03-14: Planned Out This Milestone and Building for This Week](./notes/2021-03-14%20Meeting%20Notes.md)
 - [2021-03-20: Discussed Build Progress and Test Drove Robot](./notes/2021-03-20%20Meeting%20Notes.md)
 - [2021-03-24: Discussed Build Progress and Came Up With Solution for Arm and Claw](./notes/2021-03-24%20Meeting%20Notes.md)
+- [2021-03-25: Tavas — Worked on Building Claw](./notes/2021-03-25%20Meeting%20Notes.md)
 
 ### Additional Reading
 
