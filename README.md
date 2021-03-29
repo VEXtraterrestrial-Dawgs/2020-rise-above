@@ -61,7 +61,7 @@ Our Engineering Notebook records our design process and meetings during the enti
   - [Notes and Ways to Improve — Programming](./notes/2021-01-18%20Meeting%20Notes.md#programming-notes)
   - [Notes and Ways to Improve — Efficiency and Workflow](./notes/2021-01-18%20Meeting%20Notes.md#efficiency-and-workflow-improvements)
   
-**Milestone 5: Regional Level — Finish Design Changes for Next Competition**
+**Milestone 5: Regional Level — Competition-Ready Robot**
 - [2021-01-23: Finished New Arm, Adapted Program](./notes/2021-01-23%20Meeting%20Notes.md)
 - [2021-01-27: Rebuilt H-Drive, Brain Mounting, and Parts of Arm](./notes/2021-01-27%20Meeting%20Notes.md)
 
