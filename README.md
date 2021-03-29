@@ -96,7 +96,7 @@ Our Engineering Notebook records our design process and meetings during the enti
 - [2021-03-24: Discussed Build Progress and Came Up With Solution for Arm and Claw](./notes/2021-03-24%20Meeting%20Notes.md)
 - [2021-03-25: Tavas — Worked on Building Claw](./notes/2021-03-25%20Meeting%20Notes.md)
 - [2021-03-28 Strategy Meeting: Came up with Driving and Autonomous Strategy](./notes/2021-03-28%20Strategy%20Notes.md)
-- [2021-03-28 Building Meeting: Remade Arm and Claw](./notes/2021-03-28%20Build%20Notes.md)
+- [2021-03-28 Building Meeting: Tavas — Remade Arm and Claw](./notes/2021-03-28%20Build%20Notes.md)
 
 ### Additional Reading
 
