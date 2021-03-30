@@ -2,7 +2,7 @@
 
 This is the repository for Team 47B, VEX IQ 2020-2021 season challenge Rise Above.
 
-Our Engineering Notebook records our design process and meetings during the entire season. You can read it using the Table of Contents below.  
+Our Engineering Notebook records our design process and meetings during the entire season. You can read it using the Table of Contents below. Our code, images, and data are also linked at the bottom of the Table of Contents. 
 - You can click on any link to read that day's notes.
 - For every day's notes, GitHub will show the History at the top of who edited that day's notes and when (see example below).
 
