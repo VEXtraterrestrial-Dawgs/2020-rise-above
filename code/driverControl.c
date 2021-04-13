@@ -32,7 +32,7 @@ void setLEDColor(bool tank) {
 
 task main()
 {
-	const int CLAW_SPEED = 50;
+	const int CLAW_SPEED = 30;
 	const int THRESHOLD = 15;
 	bool tankMode = true;
 	int touchCooldown = 0;
