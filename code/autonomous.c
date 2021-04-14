@@ -12,7 +12,7 @@
 
 #define TEST_MODE
 
-bool testSequence() {
+/*bool testSequence() {
 	displayTextLine(1, "Starting");
 	displayTextLine(2, "H-Drive");
 	waitForLED();
@@ -40,7 +40,7 @@ bool testSequence() {
 	displayTextLine(1, "Finished");
 	displayTextLine(2, "Tests");
 	return true;
-}
+}*/
 
 bool autonomousStrategy(int row) {
 	displayTextLine(1, "Starting %s Row", (row == 1) ? "Purple" : "Teal");

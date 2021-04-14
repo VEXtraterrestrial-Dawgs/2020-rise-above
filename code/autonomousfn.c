@@ -1,5 +1,7 @@
 #pragma systemFile
 #include "autonomous.h"
+#include "robotParams.h"
+#include "PIDControl.c"
 
 void calibrateGyro()
 {
@@ -58,98 +60,6 @@ int convertToMotorSpeed(int proposed) {
 
 	return round( (float)proposed * MOTOR_RANGE / 100 ) + MOTOR_LOW;
 
-}
-
-void PIDInit(PidObject* pid, int controllerIndex, int initialError, float Kp, float Ki, float Kd, float Ka) {
-	pid->controllerIndex = controllerIndex;
-	pid->lastError = initialError;
-	pid->lastTime = nPgmTime;
-	pid->Kp = Kp;
-	pid->Ki = Ki;
-	pid->Kd = Kd;
-	pid->Ka = Ka;
-	pid->integral = 0;
-}
-
-bool PIDControl(PidObject* pid, int error, int threshold, int* power) {
-	int now = nPgmTime;
-	int elapsed = now - pid->lastTime;
-	float derivative;
-
-	if(elapsed == 0) {
-		derivative = 0;
-	}
-	else {
-		derivative = ( (float)error - pid->lastError ) / elapsed;
-	}
-
-	pid->integral *= pid->Ka;
-	pid->integral += (error + pid->lastError) * elapsed;
-
-	pid->lastError = error;
-	pid->lastTime = now;
-
-	// Datalog
-	LOG_WITH_TIME( 0, pid->controllerIndex );
-	LOG( 1, error );
-	LOG( 2, round(pid->integral*1000) );
-	LOG( 3, round(derivative*1000) );
-	LOG( 4, getGyroDegrees(gyro) );
-
-	// Returns a motor speed
-	*power = round( (error * pid->Kp) + (pid->integral * pid->Ki) + (derivative * pid->Kd) );
-
-	return (abs(error) < threshold);
-}
-
-int clip(int proposedSpeed, int lastSpeed, int maxSpeed, int maxAcceleration)
-{
-	if ( proposedSpeed > maxSpeed ) {
-		proposedSpeed = maxSpeed;
-	}
-	else if ( proposedSpeed < -maxSpeed ) {
-		proposedSpeed = -maxSpeed;
-	}
-
-	if (( lastSpeed >= 0 ) &&
-		( proposedSpeed > ( lastSpeed + maxAcceleration ) )) {
-		proposedSpeed = lastSpeed + maxAcceleration;
-	}
-	if (( lastSpeed <= 0 ) &&
-		( proposedSpeed < ( lastSpeed - maxAcceleration ) )) {
-		proposedSpeed = lastSpeed - maxAcceleration;
-	}
-
-	return proposedSpeed;
-}
-
-void clipLR(int proposedLeft, int proposedDifference, int* speedLeft, int* speedRight, int maxSpeed, int maxAcceleration)
-{
-	int clipLeft;
-	int clipRight;
-	int newDiff;
-
-	if ( proposedDifference > MAX_DRIVE_DIFFERENCE ) {
-		newDiff = MAX_DRIVE_DIFFERENCE;
-	}
-	else if ( proposedDifference < -MAX_DRIVE_DIFFERENCE ) {
-		newDiff = -MAX_DRIVE_DIFFERENCE;
-	}
-	else {
-		newDiff = proposedDifference;
-	}
-
-	clipLeft = clip(proposedLeft, *speedLeft, maxSpeed, maxAcceleration);
-	clipRight = clip(proposedLeft + newDiff, *speedRight, maxSpeed, maxAcceleration);
-
-	int maxClipDiff = proposedLeft - clipLeft;
-
-	if (abs( (proposedLeft + newDiff) - clipRight) > abs(maxClipDiff) ) {
-		maxClipDiff = (proposedLeft + newDiff) - clipRight;
-	}
-
-	*speedLeft = proposedLeft - maxClipDiff;
-	*speedRight = (proposedLeft + newDiff) - maxClipDiff;
 }
 
 int angleToEncoderUnits(int angleDegrees) {
@@ -291,7 +201,7 @@ bool turnRobot(int angle) {
 	return true;
 }
 
-bool moveHDrive(int distance) {
+/*bool moveHDrive(int distance) {
 	PidObject controllerHDrive;
 	bool isComplete;
 	int encoderTarget = (distance * ENCODER_UNITS_PER_ROTATION / (WHEEL_CIRCUMFERENCE * H_DRIVE_GEAR_RATIO));
@@ -323,7 +233,7 @@ bool moveHDrive(int distance) {
 	setMotorSpeed(hDrive, 0);
 	sleep(25);
 	return isComplete;
-}
+}*/
 
 bool moveArm(int height) {
 	PidObject controllerArm;
