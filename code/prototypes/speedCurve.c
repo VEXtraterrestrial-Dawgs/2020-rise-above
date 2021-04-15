@@ -6,6 +6,12 @@
 #pragma config(Motor,  motor11,         leftArm,       tmotorVexIQ, PIDControl, reversed, encoder)
 #pragma config(Motor,  motor12,         rightWheels,   tmotorVexIQ, PIDControl, driveRight, encoder)
 
+typedef struct {
+	unsigned long timestamp;
+	int leftEncoder;
+	int rightEncoder;
+} Datapoint;
+
 void waitForLED() {
 	while(getTouchLEDValue(touch) != 1)
 	{
@@ -18,23 +24,15 @@ void waitForLED() {
 	}
 }
 
-void runTest(tMotor m1, tMotor m2, int speed, int its) {
+void runTest(tMotor m1, tMotor m2, int speed, int its, Datapoint* dataset) {
 	setMotorSpeed(m1, speed);
 	setMotorSpeed(m2, speed);
 
-	datalogDataGroupStart();
-	datalogAddValueWithTimeStamp( 1, speed );
-	datalogDataGroupEnd();
-
 	for(int i = 0; i < its; i++) {
-		int enc1 = round(getMotorEncoder(m1));
-		int enc2 = round(getMotorEncoder(m2));
-
-		datalogDataGroupStart();
-		datalogAddValueWithTimeStamp( 2, enc1 );
-		datalogAddValue( 3, enc2 );
-		datalogDataGroupEnd();
-
+		dataset[i].timestamp = nPgmTime;
+		dataset[i].leftEncoder = round(getMotorEncoder(m1));
+		dataset[i].rightEncoder = round(getMotorEncoder(m2));
+		
 		sleep(100);
 	}
 
@@ -44,7 +42,8 @@ void runTest(tMotor m1, tMotor m2, int speed, int its) {
 
 task main()
 {
-	datalogClear();
+	Datapoint data[270];
+
 	setMotorEncoderUnits(encoderCounts);
 	setTouchLEDRGB(touch, 111, 160, 237);
 
@@ -53,7 +52,7 @@ task main()
 		displayTextLine(2, "Drive Speed %d", s);
 		waitForLED();
 		displayTextLine(1, "Running");
-		runTest(leftWheels, rightWheels, s, 20);
+		runTest(leftWheels, rightWheels, s, 20, data + ( ( s - 20 ) * 2 ) );
 	}
 
 	for(int v = 20; v <= 100; v += 10) {
@@ -61,6 +60,6 @@ task main()
 		displayTextLine(2, "Arm Speed %d", v);
 		waitForLED();
 		displayTextLine(1, "Running");
-		runTest(leftArm, rightArm, v, 10);
+		runTest(leftArm, rightArm, v, 10, data + ( v + 160 ) );
 	}
 }
