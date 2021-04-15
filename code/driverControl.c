@@ -26,7 +26,7 @@ typedef struct {
 } StuckDetector;
 
 int stuckThreshold(int s, float r) {
-	return round( ( (2 / s) / r ) * ENCODER_UNITS_PER_ROTATION );
+	return round( ( 2 * ENCODER_UNITS_PER_ROTATION ) / ( s * r ) );
 }
 
 void initStuckDetector(StuckDetector* s, tMotor m, int t) {
