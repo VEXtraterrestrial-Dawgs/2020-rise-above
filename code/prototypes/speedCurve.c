@@ -6,12 +6,6 @@
 #pragma config(Motor,  motor11,         leftArm,       tmotorVexIQ, PIDControl, reversed, encoder)
 #pragma config(Motor,  motor12,         rightWheels,   tmotorVexIQ, PIDControl, driveRight, encoder)
 
-typedef struct {
-	unsigned long timestamp;
-	int leftEncoder;
-	int rightEncoder;
-} Datapoint;
-
 void waitForLED() {
 	while(getTouchLEDValue(touch) != 1)
 	{
@@ -24,25 +18,41 @@ void waitForLED() {
 	}
 }
 
-void runTest(tMotor m1, tMotor m2, int speed, int its, Datapoint* dataset) {
+float runTest(tMotor m1, tMotor m2, int speed, int its) {
+	float startingLeft;
+	float startingRight;
+	unsigned long startingTime;
+	float endingLeft;
+	float endingRight;
+	unsigned long endingTime;
+	
 	setMotorSpeed(m1, speed);
 	setMotorSpeed(m2, speed);
 
 	for(int i = 0; i < its; i++) {
-		dataset[i].timestamp = nPgmTime;
-		dataset[i].leftEncoder = round(getMotorEncoder(m1));
-		dataset[i].rightEncoder = round(getMotorEncoder(m2));
+		if(i == 2) {
+			startingLeft = getMotorEncoder(m1); 
+			startingRight = getMotorEncoder(m2); 
+			startingTime = nPgmTime;
+		}
 		
 		sleep(100);
 	}
+	
+	endingLeft = getMotorEncoder(m1);
+	endingRight = getMotorEncoder(m2);
+	endingTime = nPgmTime;
 
 	setMotorSpeed(m1, 0);
 	setMotorSpeed(m2, 0);
+	
+	return ( ( ( endingLeft - startingLeft ) * 0.5 ) + ( endingRight - startingRight ) * 0.5 ) ) / ( endingTime - startingTime )
 }
 
 task main()
 {
-	Datapoint data[270];
+	float speeds[18];
+	int speedCounter = 0;
 
 	setMotorEncoderUnits(encoderCounts);
 	setTouchLEDRGB(touch, 111, 160, 237);
@@ -52,7 +62,7 @@ task main()
 		displayTextLine(2, "Drive Speed %d", s);
 		waitForLED();
 		displayTextLine(1, "Running");
-		runTest(leftWheels, rightWheels, s, 20, data + ( ( s - 20 ) * 2 ) );
+		speeds[speedCounter++] = runTest(leftWheels, rightWheels, s, 20);
 	}
 
 	for(int v = 20; v <= 100; v += 10) {
@@ -60,6 +70,12 @@ task main()
 		displayTextLine(2, "Arm Speed %d", v);
 		waitForLED();
 		displayTextLine(1, "Running");
-		runTest(leftArm, rightArm, v, 10, data + ( v + 160 ) );
+		speeds[speedCounter++] = runTest(leftArm, rightArm, v, 10);
+	}
+	
+	for(int l = 0; l < 18; l++) {
+		displayTextLine(1, "Entry %d", l);
+		displayTextLine(2, "%f", speeds[l]);
+		waitForLED();
 	}
 }
