@@ -25,28 +25,28 @@ float runTest(tMotor m1, tMotor m2, int speed, int its) {
 	float endingLeft;
 	float endingRight;
 	unsigned long endingTime;
-	
+
 	setMotorSpeed(m1, speed);
 	setMotorSpeed(m2, speed);
 
 	for(int i = 0; i < its; i++) {
 		if(i == 2) {
-			startingLeft = getMotorEncoder(m1); 
-			startingRight = getMotorEncoder(m2); 
+			startingLeft = getMotorEncoder(m1);
+			startingRight = getMotorEncoder(m2);
 			startingTime = nPgmTime;
 		}
-		
+
 		sleep(100);
 	}
-	
+
 	endingLeft = getMotorEncoder(m1);
 	endingRight = getMotorEncoder(m2);
 	endingTime = nPgmTime;
 
 	setMotorSpeed(m1, 0);
 	setMotorSpeed(m2, 0);
-	
-	return ( ( ( endingLeft - startingLeft ) * 0.5 ) + ( endingRight - startingRight ) * 0.5 ) ) / ( endingTime - startingTime )
+
+	return ( ( ( ( endingLeft - startingLeft ) * 0.5 ) + ( endingRight - startingRight ) * 0.5 ) ) / ( endingTime - startingTime );
 }
 
 task main()
@@ -72,7 +72,7 @@ task main()
 		displayTextLine(1, "Running");
 		speeds[speedCounter++] = runTest(leftArm, rightArm, v, 10);
 	}
-	
+
 	for(int l = 0; l < 18; l++) {
 		displayTextLine(1, "Entry %d", l);
 		displayTextLine(2, "%f", speeds[l]);
