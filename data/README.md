@@ -41,3 +41,8 @@ This folder contains data we gathered from testing our robot's performance, as a
 [Graph Included in 2021-01-10 Meeting Notes](../notes/2021-01-10%20Meeting%20Notes.md#driver-notes---sri-and-athreya)
 
 ![Driving Scores](2021-01-10-driving-log.png)
+
+### [2021-04-16: Tested Relation Between Motor Setting and Observed Speed](2021-04-16-speed-curve.xlsx)
+[Read an Analysis of the Data Here](../notes/2021-04-16%20Meeting%20Notes.md#during-the-meeting)
+
+![Graph](2021-04-16-speed-graph.png)
