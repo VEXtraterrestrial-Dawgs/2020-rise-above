@@ -26,7 +26,10 @@ typedef struct {
 } StuckDetector;
 
 int stuckThreshold(int s, float r) {
-	return round( ( 2 * ENCODER_UNITS_PER_ROTATION ) / ( s * r ) );
+	float a = 2 * ENCODER_UNITS_PER_ROTATION;
+	float b = a / (s * r);
+	return round(b);
+	//return round( ( 2 * ENCODER_UNITS_PER_ROTATION ) / ( s * r ) );
 }
 
 void initStuckDetector(StuckDetector* s, tMotor m, int t) {
@@ -78,10 +81,10 @@ task main()
 	StuckDetector armStuck;
 	StuckDetector clawStuck;
 
-	int a = stuckThreshold(ARM_GEAR_SIZE, ARM_GEAR_RATIO);
-	int c = stuckThreshold(CLAW_GEAR_SIZE, CLAW_GEAR_RATIO);
-	initStuckDetector(&armStuck, leftArm, a);
-	initStuckDetector(&clawStuck, claw, c);
+//	int a = stuckThreshold(ARM_GEAR_SIZE, ARM_GEAR_RATIO);
+//	int c = stuckThreshold(CLAW_GEAR_SIZE, CLAW_GEAR_RATIO);
+	initStuckDetector(&armStuck, leftArm, 25);
+	initStuckDetector(&clawStuck, claw, 8);
 
 	setMotorEncoderUnits(encoderCounts);
 	setLEDColor(tankMode);

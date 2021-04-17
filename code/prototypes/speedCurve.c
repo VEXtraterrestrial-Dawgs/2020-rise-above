@@ -71,6 +71,10 @@ task main()
 		waitForLED();
 		displayTextLine(1, "Running");
 		speeds[speedCounter++] = runTest(leftArm, rightArm, v, 10);
+		setMotorTarget(leftArm, 0, 30);
+		setMotorTarget(rightArm, 0, 30);
+		waitUntilMotorStop(leftArm);
+		waitUntilMotorStop(rightArm);
 	}
 
 	for(int l = 0; l < 18; l++) {
