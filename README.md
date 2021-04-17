@@ -100,6 +100,9 @@ Our Engineering Notebook records our design process and meetings during the enti
 - [2021-03-31: Tavas — Fixed Problems With Arm, Claw, and Base](./notes/2021-03-31%20Meeting%20Notes.md)
 - [2021-04-12 Build Notes: Tavas — Fixed Problems with Robot and Completed Building](./notes/2021-04-12%20Build%20Notes.md)
 
+#### Milestone 12: World Level — Practiced Driving Strategy, Finalized Autonomous Program
+- [2021-04-16: Tested Driver Control and Speed Curve Programs](./notes/2021-04-16%20Meeting%20Notes.md)
+
 ### Additional Reading
 
 - [Data: all data and graphs found in the meeting notes.](./data/README.md)
