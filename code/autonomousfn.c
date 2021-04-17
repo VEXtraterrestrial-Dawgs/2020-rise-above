@@ -49,19 +49,6 @@ void waitForLED() {
 	}
 }
 
-int convertToMotorSpeed(int proposed) {
-	if(proposed == 0) {
-		return 0;
-	}
-
-	if(proposed < 0) {
-		return round( (float)proposed * MOTOR_RANGE / 100 ) - MOTOR_LOW;
-	}
-
-	return round( (float)proposed * MOTOR_RANGE / 100 ) + MOTOR_LOW;
-
-}
-
 int angleToEncoderUnits(int angleDegrees) {
 	int minAngle = angleDegrees;
 

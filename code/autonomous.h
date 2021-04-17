@@ -15,8 +15,6 @@ const int MAX_DRIVE_ACCEL = 30;
 const int MAX_TURN_SPEED = 70;
 const int MAX_ARM_SPEED = 90;
 const int MAX_ARM_ACCEL = 15;
-const int MOTOR_RANGE = 45;
-const int MOTOR_LOW = 25;
 const float TURN_AVG_KA = 0.8;
 
 

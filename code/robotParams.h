@@ -14,3 +14,18 @@ const int ARM_STACK = 1770;
 const int ARM_LIFT = 270;
 const float ENC_UNITS_PER_MM = (float)ENCODER_UNITS_PER_ROTATION / ((float)WHEEL_CIRCUMFERENCE * DRIVE_GEAR_RATIO);
 const float ENC_UNITS_PER_DEGREE = 0.5 * DRIVETRAIN_WIDTH * degreesToRadians(1) * ENC_UNITS_PER_MM;
+const int MOTOR_RANGE = 60;
+const int MOTOR_LOW = 20;
+
+int convertToMotorSpeed(int proposed) {
+	if(proposed == 0) {
+		return 0;
+	}
+
+	if(proposed < 0) {
+		return round( (float)proposed * MOTOR_RANGE / 100 ) - MOTOR_LOW;
+	}
+
+	return round( (float)proposed * MOTOR_RANGE / 100 ) + MOTOR_LOW;
+
+}

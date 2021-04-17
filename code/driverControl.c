@@ -81,8 +81,8 @@ task main()
 	StuckDetector armStuck;
 	StuckDetector clawStuck;
 
-//	int a = stuckThreshold(ARM_GEAR_SIZE, ARM_GEAR_RATIO);
-//	int c = stuckThreshold(CLAW_GEAR_SIZE, CLAW_GEAR_RATIO);
+	//	int a = stuckThreshold(ARM_GEAR_SIZE, ARM_GEAR_RATIO);
+	//	int c = stuckThreshold(CLAW_GEAR_SIZE, CLAW_GEAR_RATIO);
 	initStuckDetector(&armStuck, leftArm, 25);
 	initStuckDetector(&clawStuck, claw, 8);
 
@@ -159,48 +159,47 @@ task main()
 			}
 		}
 
-	if(rightJoystickY != 0) {
-		if(isStuck(&armStuck)) playNote(noteF, octave2, 7);
-	}
-	else {
-		resetStuckDetector(&armStuck);
-	}
-	armSpeed = rightJoystickY;
+		if(rightJoystickY != 0) {
+			if(isStuck(&armStuck)) playNote(noteF, octave2, 7);
+		}
+		else {
+			resetStuckDetector(&armStuck);
+		}
 
-	if (lDown) {
-  		leftSpeed /= 2;
-  		rightSpeed /= 2;
+		armSpeed = rightJoystickY;
+
+		if (lDown) {
+			leftSpeed /= 2;
+			rightSpeed /= 2;
 			armSpeed /= 2;
- 	}
+		}
 
- 	if(rDown || rUp) {
- 		if(isStuck(&clawStuck)) playNote(noteF, octave2, 7);
- 	}
- 	else {
- 		resetStuckDetector(&clawStuck);
- 	}
+		if(rDown || rUp) {
+			if(isStuck(&clawStuck)) playNote(noteF, octave2, 7);
+		}
+		else {
+			resetStuckDetector(&clawStuck);
+		}
 
- 	if (rDown) {
- 		clawSpeed = CLAW_SPEED;
- 	}
- 	else if (rUp) {
- 		clawSpeed = -CLAW_SPEED;
- 	}
- 	else {
- 		clawSpeed = 0;
- 	}
+		if (rDown) {
+			clawSpeed = CLAW_SPEED;
+		}
+		else if (rUp) {
+			clawSpeed = -CLAW_SPEED;
+		}
+		else {
+			clawSpeed = 0;
+		}
 
-	  // Third Step: This is where we set all the motor speeds to what they should be
+		// Third Step: This is where we set all the motor speeds to what they should be
 
-	  setMotorSpeed(leftWheels, leftSpeed);
-	  setMotorSpeed(rightWheels, rightSpeed);
-		setMotorSpeed(leftArm, armSpeed);
-		setMotorSpeed(rightArm, armSpeed);
-		setMotorSpeed(claw, clawSpeed);
+		setMotorSpeed(leftWheels, convertToMotorSpeed(leftSpeed));
+		setMotorSpeed(rightWheels, convertToMotorSpeed(rightSpeed));
+		setMotorSpeed(leftArm, convertToMotorSpeed(armSpeed));
+		setMotorSpeed(rightArm, convertToMotorSpeed(armSpeed));
+		setMotorSpeed(claw, convertToMotorSpeed(clawSpeed));
 
 		sleep(75);
-  	PRINT_TO_SCRN(round(getMotorEncoder(leftArm)), round(getMotorEncoder(rightArm)));
+		PRINT_TO_SCRN(round(getMotorEncoder(leftArm)), round(getMotorEncoder(rightArm)));
 	}
-
-
 }
