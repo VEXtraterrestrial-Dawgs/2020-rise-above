@@ -10,10 +10,10 @@
 #include "PIDControl.c"
 #include "robotParams.h"
 
-// #define TEST_MODE
+//#define TEST_MODE
 
 #ifdef TEST_MODE
-#define PRINT_TO_SCRN(x, y) printValues(x, y)
+#define PRINT_TO_SCRN(x) printValues(x)
 #else
 #define PRINT_TO_SCRN(x, y)
 #endif
@@ -57,10 +57,9 @@ bool isStuck(StuckDetector* s) {
 	return (s->counter >= 3);
 }
 
-void printValues(int left, int right)
+void printValues(int left)
 {
 	displayTextLine(0, "leftArm = %d", left);
-	displayTextLine(1, "rightArm = %d", right);
 }
 
 void setLEDColor(bool tank) {
@@ -78,12 +77,8 @@ task main()
 	const int THRESHOLD = 15;
 	bool tankMode = true;
 	int touchCooldown = 0;
-	StuckDetector armStuck;
 	StuckDetector clawStuck;
 
-	//	int a = stuckThreshold(ARM_GEAR_SIZE, ARM_GEAR_RATIO);
-	//	int c = stuckThreshold(CLAW_GEAR_SIZE, CLAW_GEAR_RATIO);
-	initStuckDetector(&armStuck, leftArm, 25);
 	initStuckDetector(&clawStuck, claw, 8);
 
 	setMotorEncoderUnits(encoderCounts);
@@ -103,6 +98,7 @@ task main()
 		int rightSpeed;
 		int armSpeed;
 		int clawSpeed;
+		int armEncoder;
 
 		// First Step: This is where we retrieve all the joystick, button, and sensor values we will need
 
@@ -113,6 +109,7 @@ task main()
 		lDown = (getJoystickValue(BtnLDown) == 1);
 		rUp = (getJoystickValue(BtnRUp) == 1);
 		rDown = (getJoystickValue(BtnRDown) == 1);
+		armEncoder = getMotorEncoder(leftArm);
 
 		if(touchCooldown > 0) {
 			if(getTouchLEDValue(touch) == 0) {
@@ -160,10 +157,7 @@ task main()
 		}
 
 		if(rightJoystickY != 0) {
-			if(isStuck(&armStuck)) playNote(noteF, octave2, 7);
-		}
-		else {
-			resetStuckDetector(&armStuck);
+			if(armEncoder >= ARM_HIGH || armEncoder <= 0) playNote(noteF, octave2, 7);
 		}
 
 		armSpeed = rightJoystickY;
@@ -200,6 +194,6 @@ task main()
 		setMotorSpeed(claw, convertToMotorSpeed(clawSpeed));
 
 		sleep(75);
-		PRINT_TO_SCRN(round(getMotorEncoder(leftArm)), round(getMotorEncoder(rightArm)));
+		PRINT_TO_SCRN(armEncoder);
 	}
 }
