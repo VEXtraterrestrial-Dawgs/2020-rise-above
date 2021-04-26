@@ -37,18 +37,6 @@ bool isCancelled()
 	return false;
 }
 
-void waitForLED() {
-	while(getTouchLEDValue(touch) != 1)
-	{
-		sleep(70);
-	}
-
-	while(getTouchLEDValue(touch) != 0)
-	{
-		sleep(70);
-	}
-}
-
 int angleToEncoderUnits(int angleDegrees) {
 	int minAngle = angleDegrees;
 
@@ -187,40 +175,6 @@ bool turnRobot(int angle) {
 
 	return true;
 }
-
-/*bool moveHDrive(int distance) {
-	PidObject controllerHDrive;
-	bool isComplete;
-	int encoderTarget = (distance * ENCODER_UNITS_PER_ROTATION / (WHEEL_CIRCUMFERENCE * H_DRIVE_GEAR_RATIO));
-
-	resetMotorEncoder(hDrive);
-
-	PIDInit(&controllerHDrive, 5, encoderTarget, 0.2, 0, 0.4, 0.95);
-
-	int lastSpeed = 0;
-
-	while(!isCancelled()) {
-		int motorSpeed;
-
-		isComplete = PIDControl(&controllerHDrive, encoderTarget - getMotorEncoder(hDrive), THRESHOLD, &motorSpeed);
-		motorSpeed = clip(motorSpeed, lastSpeed, MAX_H_DRIVE_SPEED, MAX_DRIVE_ACCEL);
-		lastSpeed = motorSpeed;
-
-		if(isComplete) {
-			break;
-		}
-
-		LOG(5, motorSpeed);
-		LOG(1, encoderTarget - getMotorEncoder(hDrive));
-
-		setMotorSpeed(hDrive, convertToMotorSpeed(motorSpeed));
-		sleep(SHORT_INTERVAL);
-	}
-
-	setMotorSpeed(hDrive, 0);
-	sleep(25);
-	return isComplete;
-}*/
 
 bool moveArm(int height) {
 	PidObject controllerArm;

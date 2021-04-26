@@ -16,6 +16,12 @@ const float ENC_UNITS_PER_MM = (float)ENCODER_UNITS_PER_ROTATION / ((float)WHEEL
 const float ENC_UNITS_PER_DEGREE = 0.5 * DRIVETRAIN_WIDTH * degreesToRadians(1) * ENC_UNITS_PER_MM;
 const int MOTOR_RANGE = 60;
 const int MOTOR_LOW = 20;
+const int CLAW_STUCK_THRESHOLD = 8;
+const int CLAW_SPEED_SLOW = 20;
+const int CLAW_SPEED_FAST = 50;
+const int CLAW_OPEN = 0;
+const int CLOSE = -1;
+const int OPEN = 1;
 
 int convertToMotorSpeed(int proposed) {
 	if(proposed == 0) {
@@ -28,4 +34,74 @@ int convertToMotorSpeed(int proposed) {
 
 	return round( (float)proposed * MOTOR_RANGE / 100 ) + MOTOR_LOW;
 
+}
+
+typedef struct {
+	tMotor motorId;
+	int encoder;
+	int counter;
+	int threshold;
+} StuckDetector;
+
+void initStuckDetector(StuckDetector* s, tMotor m, int t) {
+	s->motorId = m;
+	s->encoder = 0;
+	s->counter = 0;
+	s->threshold = t;
+}
+
+void resetStuckDetector(StuckDetector* s) {
+	s->counter = 0;
+}
+
+bool isStuck(StuckDetector* s) {
+	int lastEncoder = s->encoder;
+	s->encoder = round(getMotorEncoder(s->motorId));
+
+	if(abs(s->encoder - lastEncoder) < s->threshold) {
+		s->counter++;
+	}
+	else {
+		s->counter = 0;
+	}
+
+	return (s->counter >= 3);
+}
+
+void waitForLED() {
+	while(getTouchLEDValue(touch) != 1)
+	{
+		sleep(70);
+	}
+
+	while(getTouchLEDValue(touch) != 0)
+	{
+		sleep(70);
+	}
+}
+
+bool isCancelled();
+
+bool moveClaw(int target, int dir, int p1, int p2) {
+	StuckDetector clawStuck;
+
+	initStuckDetector(&clawStuck, claw, CLAW_STUCK_THRESHOLD);
+
+	target = abs(target);
+	p1 = abs(p1);
+	p2 = abs(p2);
+
+	setMotorTarget(claw, target * dir, p1);
+
+	while(!getMotorZeroPosition(claw)) {
+		if(isCancelled()) return false;
+	}
+
+	while(!isStuck(&clawStuck)) {
+		setMotorSpeed(claw, p2 * dir);
+		if(isCancelled()) return false;
+		sleep(75);
+	}
+
+	return true;
 }

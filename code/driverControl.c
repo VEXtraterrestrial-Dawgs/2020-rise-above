@@ -1,6 +1,6 @@
 #pragma config(Sensor, port6,  touch,          sensorVexIQ_LED)
 #pragma config(Sensor, port10, gyro,           sensorVexIQ_Gyro)
-#pragma config(Motor,  motor1,          claw,          tmotorVexIQ, PIDControl, encoder)
+#pragma config(Motor,  motor1,          claw,          tmotorVexIQ, PIDControl, reversed, encoder)
 #pragma config(Motor,  motor4,          leftWheels,    tmotorVexIQ, PIDControl, reversed, driveLeft, encoder)
 #pragma config(Motor,  motor5,          rightArm,      tmotorVexIQ, PIDControl, encoder)
 #pragma config(Motor,  motor11,         leftArm,       tmotorVexIQ, PIDControl, reversed, encoder)
@@ -10,7 +10,7 @@
 #include "PIDControl.c"
 #include "robotParams.h"
 
-//#define TEST_MODE
+#define TEST_MODE
 
 #ifdef TEST_MODE
 #define PRINT_TO_SCRN(x) printValues(x)
@@ -18,57 +18,24 @@
 #define PRINT_TO_SCRN(x, y)
 #endif
 
-typedef struct {
-	tMotor motorId;
-	int encoder;
-	int counter;
-	int threshold;
-} StuckDetector;
-
-int stuckThreshold(int s, float r) {
-	float a = 2 * ENCODER_UNITS_PER_ROTATION;
-	float b = a / (s * r);
-	return round(b);
-	//return round( ( 2 * ENCODER_UNITS_PER_ROTATION ) / ( s * r ) );
-}
-
-void initStuckDetector(StuckDetector* s, tMotor m, int t) {
-	s->motorId = m;
-	s->encoder = 0;
-	s->counter = 0;
-	s->threshold = t;
-}
-
-void resetStuckDetector(StuckDetector* s) {
-	s->counter = 0;
-}
-
-bool isStuck(StuckDetector* s) {
-	int lastEncoder = s->encoder;
-	s->encoder = round(getMotorEncoder(s->motorId));
-
-	if(abs(s->encoder - lastEncoder) < s->threshold) {
-		s->counter++;
-	}
-	else {
-		s->counter = 0;
-	}
-
-	return (s->counter >= 3);
-}
-
-void printValues(int left)
+void printValues(int v)
 {
-	displayTextLine(0, "leftArm = %d", left);
+	displayTextLine(4, "claw: %d", v);
 }
 
 void setLEDColor(bool tank) {
 	if(tank) {
 		setTouchLEDRGB(touch, 84, 122, 138);
+		displayTextLine(1, "Tank Mode Enabled");
 	}
 	else {
 		setTouchLEDRGB(touch, 255, 177, 82);
+		displayTextLine(2, "Arcade Mode Enabled");
 	}
+}
+
+bool isCancelled() {
+	return false;
 }
 
 task main()
@@ -79,9 +46,17 @@ task main()
 	int touchCooldown = 0;
 	StuckDetector clawStuck;
 
-	initStuckDetector(&clawStuck, claw, 8);
+	initStuckDetector(&clawStuck, claw, CLAW_STUCK_THRESHOLD);
 
 	setMotorEncoderUnits(encoderCounts);
+
+	setTouchLEDRGB(touch, 255, 247, 0);
+	displayTextLine(1, "Press LED to Start");
+	waitForLED();
+	moveClaw(0, CLOSE, CLAW_SPEED_SLOW, CLAW_SPEED_SLOW);
+	resetMotorEncoder(claw);
+	moveClaw(CLAW_OPEN, OPEN, CLAW_SPEED_FAST, CLAW_SPEED_SLOW);
+
 	setLEDColor(tankMode);
 
 	resetGyro(gyro);
@@ -176,10 +151,10 @@ task main()
 		}
 
 		if (rDown) {
-			clawSpeed = CLAW_SPEED;
+			clawSpeed = -CLAW_SPEED;
 		}
 		else if (rUp) {
-			clawSpeed = -CLAW_SPEED;
+			clawSpeed = CLAW_SPEED;
 		}
 		else {
 			clawSpeed = 0;
@@ -194,6 +169,6 @@ task main()
 		setMotorSpeed(claw, convertToMotorSpeed(clawSpeed));
 
 		sleep(75);
-		PRINT_TO_SCRN(armEncoder);
+		PRINT_TO_SCRN(round(getMotorEncoder(claw)));
 	}
 }
