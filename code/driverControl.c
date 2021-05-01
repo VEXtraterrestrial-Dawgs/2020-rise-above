@@ -30,7 +30,7 @@ void setLEDColor(bool tank) {
 	}
 	else {
 		setTouchLEDRGB(touch, 255, 177, 82);
-		displayTextLine(2, "Arcade Mode Enabled");
+		displayTextLine(1, "Arcade Mode Enabled");
 	}
 }
 
@@ -167,6 +167,9 @@ task main()
 
 		if(abs(leftSpeed) > abs(leftMax)) leftMax = leftSpeed;
 		if(abs(rightSpeed) > abs(rightMax)) rightMax = rightSpeed;
+
+		displayTextLine(2, "Max Left: %d", leftMax);
+		displayTextLine(3, "Max Right: %d", rightMax);
 
 		// Third Step: This is where we set all the motor speeds to what they should be
 
