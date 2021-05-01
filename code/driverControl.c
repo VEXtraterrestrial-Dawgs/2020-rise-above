@@ -44,6 +44,8 @@ task main()
 	const int THRESHOLD = 15;
 	bool tankMode = true;
 	int touchCooldown = 0;
+	int leftMax = 0;
+	int rightMax = 0;
 	StuckDetector clawStuck;
 
 	initStuckDetector(&clawStuck, claw, CLAW_STUCK_THRESHOLD);
@@ -53,7 +55,7 @@ task main()
 	setTouchLEDRGB(touch, 255, 247, 0);
 	displayTextLine(1, "Press LED to Start");
 	waitForLED();
-	moveClaw(0, CLOSE, CLAW_SPEED_SLOW, CLAW_SPEED_SLOW);
+	moveClaw(CLAW_CLOSE, CLOSE, CLAW_SPEED_SLOW, CLAW_SPEED_SLOW);
 	resetMotorEncoder(claw);
 	moveClaw(CLAW_OPEN, OPEN, CLAW_SPEED_FAST, CLAW_SPEED_SLOW);
 
@@ -143,13 +145,6 @@ task main()
 			armSpeed /= 2;
 		}
 
-		if(rDown || rUp) {
-			if(isStuck(&clawStuck)) playNote(noteF, octave2, 7);
-		}
-		else {
-			resetStuckDetector(&clawStuck);
-		}
-
 		if (rDown) {
 			clawSpeed = -CLAW_SPEED;
 		}
@@ -159,6 +154,19 @@ task main()
 		else {
 			clawSpeed = 0;
 		}
+
+		if(rDown || rUp) {
+			if(isStuck(&clawStuck)) {
+				playNote(noteF, octave2, 7);
+				clawSpeed = 0;
+			}
+		}
+		else {
+			resetStuckDetector(&clawStuck);
+		}
+
+		if(abs(leftSpeed) > abs(leftMax)) leftMax = leftSpeed;
+		if(abs(rightSpeed) > abs(rightMax)) rightMax = rightSpeed;
 
 		// Third Step: This is where we set all the motor speeds to what they should be
 

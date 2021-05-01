@@ -19,7 +19,8 @@ const int MOTOR_LOW = 20;
 const int CLAW_STUCK_THRESHOLD = 8;
 const int CLAW_SPEED_SLOW = 20;
 const int CLAW_SPEED_FAST = 50;
-const int CLAW_OPEN = 0;
+const int CLAW_OPEN = 300;
+const int CLAW_CLOSE = 365;
 const int CLOSE = -1;
 const int OPEN = 1;
 

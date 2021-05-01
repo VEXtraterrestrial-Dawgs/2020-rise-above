@@ -67,7 +67,7 @@ bool driveRobot(int distanceInMM)
 
 	PIDInit(&controllerLeft, 1, encoderTarget, /*COEFFICIENTS:*/ 0.04, 0, 0.6, 0.95);
 	PIDInit(&controllerRight, 2, 0, /*COEFFICIENTS:*/ 0.04, 0.001, 0.5, 0.8);
-/*
+
 	while (!isCancelled())
 	{
 		int motorSpeedLeft;
@@ -93,12 +93,6 @@ bool driveRobot(int distanceInMM)
 		setMotorSpeed(rightWheels, convertToMotorSpeed(lastSpeedRight));
 		sleep(LONG_INTERVAL);
 	}
-*/
-	setMotorTarget(leftWheels, encoderTarget, 40);
-	setMotorTarget(rightWheels, encoderTarget, 40);
-
-	WAIT_FOR_MOTOR(leftWheels);
-	WAIT_FOR_MOTOR(rightWheels);
 
 	setMotorSpeed(rightWheels, 0);
 	setMotorSpeed(leftWheels, 0);

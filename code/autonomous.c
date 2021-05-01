@@ -40,7 +40,7 @@
 	displayTextLine(2, "Tests");
 	return true;
 }*/
-
+/*
 bool autonomousStrategy(int row) {
 	displayTextLine(1, "Starting %s Row", (row == 1) ? "Purple" : "Teal");
 	waitForLED();
@@ -92,7 +92,7 @@ bool autonomousStrategy(int row) {
 
 	return true;
 }
-
+*/
 task main()
 {
 	displayTextLine(1, "Press the LED to Calibrate Gyro");
@@ -108,7 +108,7 @@ task main()
 	setTouchLEDRGB(touch, 84, 122, 138);
 
 	//testSequence();
-	autonomousStrategy(PURPLE);
+//	autonomousStrategy(PURPLE);
 	setTouchLEDRGB(touch, 187, 237, 235);
-	autonomousStrategy(TEAL);
+//	autonomousStrategy(TEAL);
 }
