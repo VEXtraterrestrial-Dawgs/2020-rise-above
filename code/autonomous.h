@@ -22,5 +22,7 @@ const float TURN_AVG_KA = 0.8;
 #define DRIVE(d) if (driveRobot(d) ==  false) { return false; }
 #define TURN(ang, dir) if (turnRobot(ang*dir) == false) { return false; }
 #define MOVE_ARM(d) if (moveArm(d) == false) { return false; }
+#define CLOSE_CLAW_C() if(moveClaw(CLAW_CLOSE, CLOSE, CLAW_SPEED_FAST, CLAW_SPEED_SLOW) == false) { return false; }
+#define OPEN_CLAW_C() if(moveClaw(CLAW_OPEN, OPEN, CLAW_SPEED_FAST, CLAW_SPEED_SLOW) == false) { return false; }
 #define WAIT_FOR_MOTOR(nMotorIndex) do { sleep(100); int counter = 0; int lastEncoder = getMotorEncoder(nMotorIndex); while(!getMotorZeroVelocity(nMotorIndex)) { if(isCancelled()) { return false; } if(abs(getMotorEncoder(nMotorIndex) - lastEncoder) < 2) { counter++; }else {counter = 0;} \
 	if(counter > 5) { return true; } lastEncoder = getMotorEncoder(nMotorIndex); sleep(15); } }while(false)

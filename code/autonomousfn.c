@@ -57,6 +57,7 @@ bool driveRobot(int distanceInMM)
 	bool isComplete = false;
 	int lastSpeedLeft = 0;
 	int lastSpeedRight = 0;
+	int gyroAvg = 0;
 
 	resetMotorEncoder(leftWheels);
 	resetMotorEncoder(rightWheels);
@@ -74,17 +75,18 @@ bool driveRobot(int distanceInMM)
 		int motorSpeedDiff;
 		int leftEncoder = round(getMotorEncoder(leftWheels));
 		int rightEncoder = round(getMotorEncoder(rightWheels));
+		int gyro = getGyroDegrees(gyro);
 
-		bool hasReached = PIDControl(&controllerLeft, encoderTarget - leftEncoder, THRESHOLD, &motorSpeedLeft);
-		bool isStraight = PIDControl(&controllerRight, leftEncoder - rightEncoder, LEFT_RIGHT_THRESHOLD, &motorSpeedDiff);
+		int difError = angleToEncoderUnits(-gyro);
+
+		bool hasReached = PIDControl(&controllerLeft, encoderTarget - leftEncoder, DRIVE_CLOSE_THRESHOLD, &motorSpeedLeft);
+		bool isStraight = PIDControl(&controllerRight, difError, DRIVE_DIFF_THRESHOLD, &motorSpeedDiff);
 
 		LOG(5, encoderTarget-leftEncoder);
 		LOG(6, leftEncoder-rightEncoder);
 
-		if ( (encoderTarget - leftEncoder) < CLOSE_THRESHOLD )
+		if ( hasReached && isStraight )
 		{
-			setMotorSpeed(leftWheels, 0);
-			setMotorSpeed(rightWheels, 0);
 			break;
 		}
 
@@ -97,6 +99,8 @@ bool driveRobot(int distanceInMM)
 	setMotorSpeed(rightWheels, 0);
 	setMotorSpeed(leftWheels, 0);
 
+	resetGyro(gyro);
+
 	sleep(25);
 	return true;
 }
@@ -108,9 +112,11 @@ bool turnRobot(int angle) {
 	int offset = 0;
 
 	for(int i = 0; i < 5; i++) {
-		offset += getGyroDegrees(gyro) / 5;
+		offset += getGyroDegrees(gyro);
 		sleep(30);
 	}
+
+	offset /= 5;
 
 	int encoderTarget = angleToEncoderUnits(-angle - offset);
 	int lastSpeedLeft = 0;
@@ -123,28 +129,25 @@ bool turnRobot(int angle) {
 	PIDInit(&controllerTurn, 3, encoderTarget, /*COEFFICIENTS*/ 0.08, 0, 0.9, 0.95);
 	PIDInit(&controllerDiff, 4, 0, /*COEFFICIENTS*/ 0.08, 0, 0.9, 0.6);
 
-//	int gyroAvg = 0;
-
 	while (!isCancelled())
 	{
 		// Retrieve Sensor Values
 		int encoderLeft = round(getMotorEncoder(leftWheels));
 		int encoderRight = round(getMotorEncoder(rightWheels));
+		int gyro = getGyroDegrees(gyro);
 		int motorSpeedLeft;
 		int motorSpeedDiff;
 
-	//	gyroAvg = round((TURN_AVG_KA * gyroAvg) + ((1 - TURN_AVG_KA) * getGyroDegreesFloat(gyro)));
-
-	//	int pidErrorLeft = angleToEncoderUnits(-angle - gyroAvg);
+		int errorLeft = angleToEncoderUnits(-angle - gyro);
 
 		// Calculate Motor Speeds
-		bool isCompleteTurn = PIDControl(&controllerTurn, encoderTarget + encoderLeft, THRESHOLD, &motorSpeedLeft);
-		bool isCompleteAdjust = PIDControl(&controllerDiff, (encoderRight < 0) ? -(abs(encoderLeft) - abs(encoderRight)) : abs(encoderLeft) - abs(encoderRight), THRESHOLD, &motorSpeedDiff);
+		bool isCompleteTurn = PIDControl(&controllerTurn, errorLeft, TURN_CLOSE_THRESHOLD, &motorSpeedLeft);
+		bool isCompleteAdjust = PIDControl(&controllerDiff, (encoderRight < 0) ? -(abs(encoderLeft) - abs(encoderRight)) : abs(encoderLeft) - abs(encoderRight), TURN_DIFF_THRESHOLD, &motorSpeedDiff);
 		clipLR(motorSpeedLeft, motorSpeedDiff, &lastSpeedLeft, &lastSpeedRight, MAX_TURN_SPEED, MAX_DRIVE_ACCEL);
 
 
 		// Check if complete
-		if ( abs(encoderTarget + encoderLeft) < CLOSE_THRESHOLD )
+		if ( isCompleteTurn && isCompleteAdjust )
 		{
 			break;
 		}
@@ -157,11 +160,8 @@ bool turnRobot(int angle) {
 		sleep(SHORT_INTERVAL);
 	}
 
-	setMotorTarget(leftWheels, -encoderTarget, 60);
-	setMotorTarget(rightWheels, encoderTarget, 60);
-
-	WAIT_FOR_MOTOR(rightWheels);
-	WAIT_FOR_MOTOR(leftWheels);
+	setMotorSpeed(leftWheels, 0);
+	setMotorSpeed(rightWheels, 0);
 
 	resetGyro(gyro);
 
@@ -174,12 +174,7 @@ bool moveArm(int height) {
 	PidObject controllerArm;
 	bool isComplete;
 
-	setMotorTarget(leftArm, height, 30);
-	setMotorTarget(rightArm, height, 30);
-
-	WAIT_FOR_MOTOR(leftArm);
-	WAIT_FOR_MOTOR(rightArm);
-/*	PIDInit(&controllerArm, 8, height, 0.3, 0, 0.5, 0.95);
+	PIDInit(&controllerArm, 8, height, 0.3, 0, 0.5, 0.95);
 
 	int lastSpeed = 0;
 
@@ -198,7 +193,7 @@ bool moveArm(int height) {
 		setMotorSpeed(leftArm, convertToMotorSpeed(motorSpeed));
 		setMotorSpeed(rightArm, convertToMotorSpeed(motorSpeed));
 		sleep(SHORT_INTERVAL);
-	}*/
+	}
 
 	sleep(25);
 	return true;

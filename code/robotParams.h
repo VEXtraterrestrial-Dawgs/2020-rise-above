@@ -23,6 +23,10 @@ const int CLAW_OPEN = 300;
 const int CLAW_CLOSE = 365;
 const int CLOSE = -1;
 const int OPEN = 1;
+const int TURN_CLOSE_THRESHOLD = 15;
+const int TURN_DIFF_THRESHOLD = 10;
+const int DRIVE_CLOSE_THRESHOLD = 15;
+const int DRIVE_DIFF_THRESHOLD = 10;
 
 int convertToMotorSpeed(int proposed) {
 	if(proposed == 0) {
@@ -85,6 +89,7 @@ bool isCancelled();
 
 bool moveClaw(int target, int dir, int p1, int p2) {
 	StuckDetector clawStuck;
+	bool canc = false;
 
 	initStuckDetector(&clawStuck, claw, CLAW_STUCK_THRESHOLD);
 
@@ -94,15 +99,22 @@ bool moveClaw(int target, int dir, int p1, int p2) {
 
 	setMotorTarget(claw, target * dir, p1);
 
-	while(!getMotorZeroPosition(claw)) {
-		if(isCancelled()) return false;
-	}
-
-	while(!isStuck(&clawStuck)) {
-		setMotorSpeed(claw, p2 * dir);
-		if(isCancelled()) return false;
+	while(!getMotorZeroPosition(claw) && !canc) {
 		sleep(75);
+		canc = isCancelled();
 	}
 
-	return true;
+	setMotorSpeed(claw, p2 * dir);
+
+	while(!isStuck(&clawStuck) && !canc) {
+		sleep(75);
+		canc = isCancelled();
+	}
+
+	setMotorSpeed(claw, 0);
+
+	return !canc;
 }
+
+#define CLOSE_CLAW() moveClaw(CLAW_CLOSE, CLOSE, CLAW_SPEED_FAST, CLAW_SPEED_SLOW)
+#define OPEN_CLAW() moveClaw(CLAW_OPEN, OPEN, CLAW_SPEED_FAST, CLAW_SPEED_SLOW)

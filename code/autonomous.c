@@ -11,19 +11,7 @@
 
 #define TEST_MODE
 
-/*bool testSequence() {
-	displayTextLine(1, "Starting");
-	displayTextLine(2, "H-Drive");
-	waitForLED();
-	displayTextLine(1, "Running");
-	setTouchLEDColor(touch, colorYellow);
-	setTouchLEDColor(touch, moveHDrive(200)?colorDarkBlue:colorRed);
-	displayTextLine(1, "Starting");
-	displayTextLine(2, "Arm");
-	waitForLED();
-	displayTextLine(1, "Running");
-	setTouchLEDColor(touch, colorYellow);
-	setTouchLEDColor(touch, moveArm(225)?colorDarkBlue:colorRed);
+bool testSequence() {
 	displayTextLine(1, "Starting");
 	displayTextLine(2, "Drive");
 	waitForLED();
@@ -36,11 +24,29 @@
 	displayTextLine(1, "Running");
 	setTouchLEDColor(touch, colorYellow);
 	setTouchLEDColor(touch, turnRobot(90)?colorDarkBlue:colorRed);
+	displayTextLine(1, "Starting");
+	displayTextLine(2, "Arm");
+	waitForLED();
+	displayTextLine(1, "Running");
+	setTouchLEDColor(touch, colorYellow);
+	setTouchLEDColor(touch, moveArm(ARM_STACK)?colorDarkBlue:colorRed);
+	displayTextLine(1, "Starting");
+	displayTextLine(2, "Claw Close");
+	waitForLED();
+	displayTextLine(1, "Running");
+	setTouchLEDColor(touch, colorYellow);
+	setTouchLEDColor(touch, moveClaw(CLAW_CLOSE, CLOSE, CLAW_SPEED_FAST, CLAW_SPEED_SLOW)?colorDarkBlue:colorRed);
+	displayTextLine(1, "Starting");
+	displayTextLine(2, "Claw Open");
+	waitForLED();
+	displayTextLine(1, "Running");
+	setTouchLEDColor(touch, colorYellow);
+	setTouchLEDColor(touch, moveClaw(CLAW_OPEN, OPEN, CLAW_SPEED_FAST, CLAW_SPEED_SLOW)?colorDarkBlue:colorRed);
 	displayTextLine(1, "Finished");
 	displayTextLine(2, "Tests");
 	return true;
-}*/
-/*
+}
+
 bool autonomousStrategy(int row) {
 	displayTextLine(1, "Starting %s Row", (row == 1) ? "Purple" : "Teal");
 	waitForLED();
@@ -48,51 +54,22 @@ bool autonomousStrategy(int row) {
 
 	MOVE_ARM(ARM_STACK);
 
-	// H_DRIVE and TURN must have row as the second parameter
+	// DRIVE values are in millimeters
+	// TURN must have row as the second parameter, values in degrees
+	// OPEN_CLAW_C and CLOSE_CLAW_C take no parameters, but must have _C to enable cancelling
 
-	// H-Drive riser into goal
-
-	H_DRIVE(610, row);
-	H_DRIVE(-530, row);
- 	DRIVE(128);
-	sleep(50);
-
-	// Lift and stack riser
-
+	DRIVE(300);
 	TURN(90, row);
-	MOVE_ARM(ARM_LIFT);
-	DRIVE(314);
-	MOVE_ARM(ARM_HIGH);
-	DRIVE(-30);
-	TURN(55, row);
-	DRIVE(85);
 	MOVE_ARM(ARM_STACK);
-
-	// Back out and push riser into middle goal
-
-	DRIVE(-350);
-	TURN(-55, row);
-	MOVE_ARM(ARM_HIGH);
-	H_DRIVE(-300, row);
-	TURN(0, row);
-	DRIVE(330);
-	DRIVE(-290);
-	TURN(0, row);
-
-	// Push in the riser to the final goal
-
-	TURN(0, row);
-	H_DRIVE(-850, row);
-	TURN(0, row);
-	DRIVE(330);
-	DRIVE(-250);
+	CLOSE_CLAW_C();
+	OPEN_CLAW_C();
 
 	displayTextLine(1, "Finished Program");
 	setTouchLEDRGB(touch, 54, 255, 90);
 
 	return true;
 }
-*/
+
 task main()
 {
 	displayTextLine(1, "Press the LED to Calibrate Gyro");
@@ -107,8 +84,12 @@ task main()
 	resetMotorEncoder(rightArm);
 	setTouchLEDRGB(touch, 84, 122, 138);
 
-	//testSequence();
+	moveClaw(0, CLOSE, CLAW_SPEED_SLOW, CLAW_SPEED_SLOW);
+	resetMotorEncoder(claw);
+	OPEN_CLAW();
+
+	testSequence();
 //	autonomousStrategy(PURPLE);
-	setTouchLEDRGB(touch, 187, 237, 235);
+//  setTouchLEDRGB(touch, 187, 237, 235);
 //	autonomousStrategy(TEAL);
 }

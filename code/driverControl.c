@@ -55,9 +55,9 @@ task main()
 	setTouchLEDRGB(touch, 255, 247, 0);
 	displayTextLine(1, "Press LED to Start");
 	waitForLED();
-	moveClaw(CLAW_CLOSE, CLOSE, CLAW_SPEED_SLOW, CLAW_SPEED_SLOW);
+	moveClaw(0, CLOSE, CLAW_SPEED_SLOW, CLAW_SPEED_SLOW);
 	resetMotorEncoder(claw);
-	moveClaw(CLAW_OPEN, OPEN, CLAW_SPEED_FAST, CLAW_SPEED_SLOW);
+	OPEN_CLAW();
 
 	setLEDColor(tankMode);
 
