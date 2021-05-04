@@ -124,12 +124,12 @@ task main()
 		}
 		else {
 			if(tankMode) {
-				leftSpeed = ( leftJoystickY + ( 2 * leftJoystickX  ) ) / 2;
-				rightSpeed = ( leftJoystickY - ( 2 * leftJoystickX ) ) / 2;
+				leftSpeed = ( leftJoystickY + ( 2 * leftJoystickX  ) ) / 3;
+				rightSpeed = ( leftJoystickY - ( 2 * leftJoystickX ) ) / 3;
 			}
 			else {
-				leftSpeed = round( ( leftJoystickY + leftJoystickX ) / 1.5 );
-				rightSpeed = round( ( leftJoystickY - leftJoystickX ) / 1.5 );
+				leftSpeed = round( ( leftJoystickY + leftJoystickX ) / 2 );
+				rightSpeed = round( ( leftJoystickY - leftJoystickX ) / 2 );
 			}
 		}
 
