@@ -46,3 +46,8 @@ This folder contains data we gathered from testing our robot's performance, as a
 [Read an Analysis of the Data Here](../notes/2021-04-16%20Meeting%20Notes.md#during-the-meeting)
 
 ![Graph](2021-04-16-speed-graph.png)
+
+### [2021-05-05: Movement Functions Testing](2021-05-05-pid.xlsx)
+[Read an Analysis of the Data Here](../notes/2021-05-05%20Meeting%20Notes.md#autonomous-movement)
+
+![Graph](2021-05-05-pid.png)
