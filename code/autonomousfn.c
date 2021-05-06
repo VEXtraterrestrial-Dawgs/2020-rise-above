@@ -75,15 +75,12 @@ bool driveRobot(int distanceInMM)
 		int motorSpeedDiff;
 		int leftEncoder = round(getMotorEncoder(leftWheels));
 		int rightEncoder = round(getMotorEncoder(rightWheels));
-		int gyro = getGyroDegrees(gyro);
+		int gyroV = getGyroDegrees(gyro);
 
-		int difError = angleToEncoderUnits(-gyro);
+		int difError = angleToEncoderUnits(-gyroV);
 
 		bool hasReached = PIDControl(&controllerLeft, encoderTarget - leftEncoder, DRIVE_CLOSE_THRESHOLD, &motorSpeedLeft);
 		bool isStraight = PIDControl(&controllerRight, difError, DRIVE_DIFF_THRESHOLD, &motorSpeedDiff);
-
-		LOG(5, encoderTarget-leftEncoder);
-		LOG(6, leftEncoder-rightEncoder);
 
 		if ( hasReached && isStraight )
 		{
@@ -91,6 +88,8 @@ bool driveRobot(int distanceInMM)
 		}
 
 		clipLR(motorSpeedLeft, motorSpeedDiff, &lastSpeedLeft, &lastSpeedRight, MAX_DRIVE_SPEED, MAX_DRIVE_ACCEL);
+		LOG(5, lastSpeedLeft);
+		LOG(6, lastSpeedRight);
 		setMotorSpeed(leftWheels, convertToMotorSpeed(lastSpeedLeft));
 		setMotorSpeed(rightWheels, convertToMotorSpeed(lastSpeedRight));
 		sleep(LONG_INTERVAL);
@@ -126,7 +125,7 @@ bool turnRobot(int angle) {
 	resetMotorEncoder(rightWheels);
 	resetGyro(gyro);
 
-	PIDInit(&controllerTurn, 3, encoderTarget, /*COEFFICIENTS*/ 0.08, 0, 0.9, 0.95);
+	PIDInit(&controllerTurn, 3, encoderTarget, /*COEFFICIENTS*/ 0.24, 0, 3.6, 0.95);
 	PIDInit(&controllerDiff, 4, 0, /*COEFFICIENTS*/ 0.08, 0, 0.9, 0.6);
 
 	while (!isCancelled())
@@ -134,11 +133,11 @@ bool turnRobot(int angle) {
 		// Retrieve Sensor Values
 		int encoderLeft = round(getMotorEncoder(leftWheels));
 		int encoderRight = round(getMotorEncoder(rightWheels));
-		int gyro = getGyroDegrees(gyro);
+		int gyroV = getGyroDegrees(gyro);
 		int motorSpeedLeft;
 		int motorSpeedDiff;
 
-		int errorLeft = angleToEncoderUnits(-angle - gyro);
+		int errorLeft = angleToEncoderUnits(-angle - gyroV);
 
 		// Calculate Motor Speeds
 		bool isCompleteTurn = PIDControl(&controllerTurn, errorLeft, TURN_CLOSE_THRESHOLD, &motorSpeedLeft);
@@ -174,7 +173,7 @@ bool moveArm(int height) {
 	PidObject controllerArm;
 	bool isComplete;
 
-	PIDInit(&controllerArm, 8, height, 0.3, 0, 0.5, 0.95);
+	PIDInit(&controllerArm, 5, height, 0.5, 0, 0.2, 0.95);
 
 	int lastSpeed = 0;
 
@@ -195,6 +194,8 @@ bool moveArm(int height) {
 		sleep(SHORT_INTERVAL);
 	}
 
+	setMotorSpeed(leftArm, 0);
+	setMotorSpeed(rightArm, 0);
 	sleep(25);
 	return true;
 }

@@ -4,7 +4,7 @@
 #define PURPLE 1
 const int ARRAY_LENGTH = 5;
 const int THRESHOLD = 7;
-const int THRESHOLD_ARM = 5;
+const int THRESHOLD_ARM = 50;
 const int LEFT_RIGHT_THRESHOLD = 3;
 const int CLOSE_THRESHOLD = 15;
 const int SHORT_INTERVAL = 50;

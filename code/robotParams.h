@@ -16,17 +16,17 @@ const float ENC_UNITS_PER_MM = (float)ENCODER_UNITS_PER_ROTATION / ((float)WHEEL
 const float ENC_UNITS_PER_DEGREE = 0.5 * DRIVETRAIN_WIDTH * degreesToRadians(1) * ENC_UNITS_PER_MM;
 const int MOTOR_RANGE = 60;
 const int MOTOR_LOW = 20;
-const int CLAW_STUCK_THRESHOLD = 8;
+const int CLAW_STUCK_THRESHOLD = 20;
 const int CLAW_SPEED_SLOW = 20;
 const int CLAW_SPEED_FAST = 50;
 const int CLAW_OPEN = 300;
 const int CLAW_CLOSE = 365;
 const int CLOSE = -1;
 const int OPEN = 1;
-const int TURN_CLOSE_THRESHOLD = 15;
-const int TURN_DIFF_THRESHOLD = 10;
-const int DRIVE_CLOSE_THRESHOLD = 15;
-const int DRIVE_DIFF_THRESHOLD = 10;
+const int TURN_CLOSE_THRESHOLD = 30;
+const int TURN_DIFF_THRESHOLD = 15;
+const int DRIVE_CLOSE_THRESHOLD = 30;
+const int DRIVE_DIFF_THRESHOLD = 15;
 
 int convertToMotorSpeed(int proposed) {
 	if(proposed == 0) {

@@ -10,7 +10,6 @@
 #include "PIDControl.c"
 #include "robotParams.h"
 
-#define TEST_MODE
 
 #ifdef TEST_MODE
 #define PRINT_TO_SCRN(x) printValues(x)

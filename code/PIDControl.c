@@ -1,5 +1,7 @@
 #pragma systemFile
 
+// #define TEST_MODE
+
 #ifdef TEST_MODE
 #define CLEAR_LOG() datalogClear()
 #define LOG(x,y) datalogAddValue(x,y)
