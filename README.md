@@ -104,6 +104,8 @@ Our Engineering Notebook records our design process and meetings during the enti
 - [2021-04-16: Tested Driver Control and Speed Curve Programs](./notes/2021-04-16%20Meeting%20Notes.md)
 - [2021-04-24: Driving and Programming Progress, Arm Bracing, and Wheel Guards](./notes/2021-04-24%20Meeting%20Notes.md)
 - [2021-05-01: Claw Movement Function, Improvements to Battery Life](./notes/2021-05-01%20Meeting%20Notes.md)
+- [2021-05-05: Tested Movement Functions, Battery Life Improvements](./notes/2021-05-05%20Meeting%20Notes.md)
+
 
 ### Additional Reading
 
