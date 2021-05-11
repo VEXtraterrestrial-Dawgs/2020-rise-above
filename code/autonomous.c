@@ -50,17 +50,10 @@ bool autonomousStrategy(int row) {
 	waitForLED();
 	setTouchLEDRGB(touch, 255, 240, 122);
 
-	MOVE_ARM(ARM_STACK);
+	turnRobot(90);
+	driveRobot(250);
+	driveRobot(250);
 
-	// DRIVE values are in millimeters
-	// TURN must have row as the second parameter, values in degrees
-	// OPEN_CLAW_C and CLOSE_CLAW_C take no parameters, but must have _C to enable cancelling
-
-	DRIVE(300);
-	TURN(90, row);
-	MOVE_ARM(ARM_STACK);
-	CLOSE_CLAW_C();
-	OPEN_CLAW_C();
 
 	displayTextLine(1, "Finished Program");
 	setTouchLEDRGB(touch, 54, 255, 90);
