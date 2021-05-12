@@ -46,16 +46,60 @@ bool testSequence() {
 }
 
 bool autonomousStrategy(int row) {
+
 	displayTextLine(1, "Starting %s Row", (row == 1) ? "Purple" : "Teal");
 	waitForLED();
 	setTouchLEDRGB(touch, 255, 240, 122);
+	MOVE_ARM(ARM_STACK);
+	OPEN_CLAW_C();
 
-	turnRobot(90);
-	driveRobot(250);
-	driveRobot(250);
+	// DRIVE values are in millimeters
+	// TURN must have row as the second parameter, values in degrees
+	// OPEN_CLAW_C and CLOSE_CLAW_C take no parameters, but must have _C to enable cancelling
 
+	// Lift Stack
+	DRIVE(125);
+	TURN(90, row);
+	DRIVE(300);
+	CLOSE_CLAW_C();
+	DRIVE(-300);
+	MOVE_ARM(ARM_HIGH);
 
-	displayTextLine(1, "Finished Program");
+	// Push in Riser and Stack
+	TURN(90, row);
+	DRIVE(100);
+	TURN(-90, row);
+	DRIVE(100);
+	MOVE_ARM(ARM_STACK);
+	OPEN_CLAW_C();
+	DRIVE(-300);
+
+	// Push in Middle Risers
+	TURN(-90, row);
+	DRIVE(500);
+	TURN(90, row);
+	DRIVE(200);
+	DRIVE(-500);
+
+	// Lift Last Stack
+	DRIVE(100);
+	TURN(-90, row);
+	DRIVE(400);
+	TURN(90, row);
+	DRIVE(300);
+	CLOSE_CLAW_C();
+	DRIVE(-300);
+	MOVE_ARM(ARM_HIGH);
+
+	// Push in Final Riser and Stack
+	TURN(-90, row);
+	DRIVE(100);
+	TURN(90, row);
+	DRIVE(300);
+	MOVE_ARM(ARM_STACK);
+	OPEN_CLAW_C();
+
+	displayTextLine(1, "Finished %s Side", (row == 1) ? "Purple" : "Teal");
 	setTouchLEDRGB(touch, 54, 255, 90);
 
 	return true;
