@@ -50,26 +50,30 @@ bool autonomousStrategy(int row) {
 	displayTextLine(1, "Starting %s Row", (row == 1) ? "Purple" : "Teal");
 	waitForLED();
 	setTouchLEDRGB(touch, 255, 240, 122);
-	MOVE_ARM(ARM_STACK);
 	OPEN_CLAW_C();
+	MOVE_ARM(0);
 
 	// DRIVE values are in millimeters
 	// TURN must have row as the second parameter, values in degrees
 	// OPEN_CLAW_C and CLOSE_CLAW_C take no parameters, but must have _C to enable cancelling
 
 	// Lift Stack
-	DRIVE(125);
+	DRIVE(252); // 228 | 252
 	TURN(90, row);
-	DRIVE(300);
+	DRIVE(477); // 500 | 477
 	CLOSE_CLAW_C();
-	DRIVE(-300);
+	DRIVE(-285); // -285
+	OPEN_CLAW_C();
+	MOVE_ARM(ARM_LIFT);
+	DRIVE(132); // 132
+	CLOSE_CLAW_C();
 	MOVE_ARM(ARM_HIGH);
 
 	// Push in Riser and Stack
 	TURN(90, row);
-	DRIVE(100);
+	DRIVE(200);
 	TURN(-90, row);
-	DRIVE(100);
+	DRIVE(300);
 	MOVE_ARM(ARM_STACK);
 	OPEN_CLAW_C();
 	DRIVE(-300);

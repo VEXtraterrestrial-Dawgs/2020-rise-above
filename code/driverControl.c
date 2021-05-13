@@ -10,16 +10,19 @@
 #include "PIDControl.c"
 #include "robotParams.h"
 
+#define TEST_MODE
 
 #ifdef TEST_MODE
-#define PRINT_TO_SCRN(x) printValues(x)
+#define PRINT_TO_SCRN(x, y) printValues(x, y)
 #else
 #define PRINT_TO_SCRN(x, y)
 #endif
 
-void printValues(int v)
+void printValues(int d, int a)
 {
-	displayTextLine(4, "claw: %d", v);
+	int driveMM = d / ENC_UNITS_PER_MM;
+	displayTextLine(2, "drive: %d", driveMM);
+	displayTextLine(3, "arm: %d", a);
 }
 
 void setLEDColor(bool tank) {
@@ -164,12 +167,6 @@ task main()
 			resetStuckDetector(&clawStuck);
 		}
 
-		if(abs(leftSpeed) > abs(leftMax)) leftMax = leftSpeed;
-		if(abs(rightSpeed) > abs(rightMax)) rightMax = rightSpeed;
-
-		displayTextLine(2, "Max Left: %d", leftMax);
-		displayTextLine(3, "Max Right: %d", rightMax);
-
 		// Third Step: This is where we set all the motor speeds to what they should be
 
 		setMotorSpeed(leftWheels, convertToMotorSpeed(leftSpeed));
@@ -179,6 +176,6 @@ task main()
 		setMotorSpeed(claw, convertToMotorSpeed(clawSpeed));
 
 		sleep(75);
-		PRINT_TO_SCRN(round(getMotorEncoder(claw)));
+		PRINT_TO_SCRN(round(getMotorEncoder(leftWheels)), armEncoder);
 	}
 }

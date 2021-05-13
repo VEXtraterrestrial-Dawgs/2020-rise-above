@@ -23,9 +23,9 @@ const int CLAW_OPEN = 300;
 const int CLAW_CLOSE = 365;
 const int CLOSE = -1;
 const int OPEN = 1;
-const int TURN_CLOSE_THRESHOLD = 30;
+const int TURN_CLOSE_THRESHOLD = 20;
 const int TURN_DIFF_THRESHOLD = 15;
-const int DRIVE_CLOSE_THRESHOLD = 30;
+const int DRIVE_CLOSE_THRESHOLD = 20;
 const int DRIVE_DIFF_THRESHOLD = 15;
 
 int convertToMotorSpeed(int proposed) {
