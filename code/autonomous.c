@@ -50,56 +50,58 @@ bool autonomousStrategy(int row) {
 	displayTextLine(1, "Starting %s Row", (row == 1) ? "Purple" : "Teal");
 	waitForLED();
 	setTouchLEDRGB(touch, 255, 240, 122);
-	OPEN_CLAW_C();
+	CLOSE_CLAW_C();
 	MOVE_ARM(0);
 
 	// DRIVE values are in millimeters
 	// TURN must have row as the second parameter, values in degrees
 	// OPEN_CLAW_C and CLOSE_CLAW_C take no parameters, but must have _C to enable cancelling
 
-	// Lift Stack
-	DRIVE(252); // 228 | 252
+	// Pull out riser
+	DRIVE(430);
 	TURN(90, row);
-	DRIVE(477); // 500 | 477
+	OPEN_CLAW_C();
+	DRIVE(565);
 	CLOSE_CLAW_C();
-	DRIVE(-285); // -285
+	DRIVE(-580);
 	OPEN_CLAW_C();
 	MOVE_ARM(ARM_LIFT);
-	DRIVE(132); // 132
+	DRIVE(249);
 	CLOSE_CLAW_C();
 	MOVE_ARM(ARM_HIGH);
 
 	// Push in Riser and Stack
-	TURN(90, row);
-	DRIVE(200);
 	TURN(-90, row);
+	DRIVE(359);
+	TURN(90, row);
 	DRIVE(300);
 	MOVE_ARM(ARM_STACK);
 	OPEN_CLAW_C();
 	DRIVE(-300);
 
-	// Push in Middle Risers
+	// Push in Last Riser
 	TURN(-90, row);
-	DRIVE(500);
+	DRIVE(685);
 	TURN(90, row);
-	DRIVE(200);
-	DRIVE(-500);
+	DRIVE(300);
+	DRIVE(-200);
 
-	// Lift Last Stack
-	DRIVE(100);
-	TURN(-90, row);
+	// Last Stack
+	DRIVE(-1226);
+	TURN(90, row);
 	DRIVE(400);
 	TURN(90, row);
-	DRIVE(300);
+	MOVE_ARM(ARM_LIFT);
+	DRIVE(275);
 	CLOSE_CLAW_C();
-	DRIVE(-300);
 	MOVE_ARM(ARM_HIGH);
+	DRIVE(-338);
 
 	// Push in Final Riser and Stack
-	TURN(-90, row);
+	TURN(20, row);
 	DRIVE(100);
-	TURN(90, row);
-	DRIVE(300);
+	TURN(-20, row);
+	DRIVE(100);
 	MOVE_ARM(ARM_STACK);
 	OPEN_CLAW_C();
 

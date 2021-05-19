@@ -84,6 +84,7 @@ bool driveRobot(int distanceInMM)
 
 		if ( hasReached && isStraight )
 		{
+			isComplete = true;
 			break;
 		}
 
@@ -101,7 +102,7 @@ bool driveRobot(int distanceInMM)
 	resetGyro(gyro);
 
 	sleep(25);
-	return true;
+	return isComplete;
 }
 
 bool turnRobot(int angle) {
@@ -148,6 +149,7 @@ bool turnRobot(int angle) {
 		// Check if complete
 		if ( isCompleteTurn && isCompleteAdjust )
 		{
+			isComplete = true;
 			break;
 		}
 
@@ -166,7 +168,7 @@ bool turnRobot(int angle) {
 
 	sleep(25);
 
-	return true;
+	return isComplete;
 }
 
 bool moveArm(int height) {
@@ -197,5 +199,5 @@ bool moveArm(int height) {
 	setMotorSpeed(leftArm, 0);
 	setMotorSpeed(rightArm, 0);
 	sleep(25);
-	return true;
+	return isComplete;
 }
