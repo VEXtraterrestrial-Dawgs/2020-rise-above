@@ -6,7 +6,7 @@ const float CLAW_GEAR_RATIO = 1/3;
 const int CLAW_GEAR_SIZE = 36;
 const float DRIVE_GEAR_RATIO = 3;
 const int DRIVE_GEAR_SIZE = 12;
-const int WHEEL_CIRCUMFERENCE = 200; // in mm
+const int WHEEL_CIRCUMFERENCE = 203; // in mm
 const int DRIVETRAIN_WIDTH = 206;
 const int ENCODER_UNITS_PER_ROTATION = 960;
 const int ARM_HIGH = 2570;
@@ -27,6 +27,26 @@ const int TURN_CLOSE_THRESHOLD = 10;
 const int TURN_DIFF_THRESHOLD = 15;
 const int DRIVE_CLOSE_THRESHOLD = 20;
 const int DRIVE_DIFF_THRESHOLD = 15;
+
+void calibrateGyro()
+{
+	startGyroCalibration(gyro, gyroCalibrateSamples512);
+
+	// delay so calibrate flag can be set internally to the gyro
+	sleep(100);
+
+	eraseDisplay();
+
+	// wait for calibration to finish or 2 seconds, whichever is longer
+	for (int i = 0; getGyroCalibrationFlag(gyro) || (i < 20); i++)
+	{
+		displayTextLine(1, "Calibrating... %02d", i);
+		displayTextLine(2, "Do Not Move Robot");
+		sleep(100);
+	}
+	displayTextLine(1, "Calibrated!");
+	displayClearTextLine(2);
+}
 
 int convertToMotorSpeed(int proposed) {
 	if(proposed == 0) {

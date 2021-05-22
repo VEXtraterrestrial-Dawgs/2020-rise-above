@@ -18,11 +18,11 @@
 #define PRINT_TO_SCRN(x, y)
 #endif
 
-void printValues(int d, int a)
+void printValues(int d, int g)
 {
 	int driveMM = d / ENC_UNITS_PER_MM;
 	displayTextLine(2, "drive: %d", driveMM);
-	displayTextLine(3, "arm: %d", a);
+	displayTextLine(3, "gyro: %d", g);
 }
 
 void setLEDColor(bool tank) {
@@ -57,6 +57,7 @@ task main()
 	setTouchLEDRGB(touch, 255, 247, 0);
 	displayTextLine(1, "Press LED to Start");
 	waitForLED();
+	calibrateGyro();
 	moveClaw(0, CLOSE, CLAW_SPEED_SLOW, CLAW_SPEED_SLOW);
 	resetMotorEncoder(claw);
 	OPEN_CLAW();
@@ -176,6 +177,15 @@ task main()
 		setMotorSpeed(claw, convertToMotorSpeed(clawSpeed));
 
 		sleep(75);
-		PRINT_TO_SCRN(round(getMotorEncoder(leftWheels)), armEncoder);
+
+		int gyroD = round(getGyroDegrees(gyro)) * -1;
+
+		if (gyroD < -180) {
+			gyroD = ((( gyroD - 180 ) % 360 ) + 180 );
+		}
+		else if ( gyroD > 180 ) {
+			gyroD = ((( gyroD + 180 ) % 360 ) - 180 );
+		}
+		PRINT_TO_SCRN(round(getMotorEncoder(leftWheels)), gyroD);
 	}
 }

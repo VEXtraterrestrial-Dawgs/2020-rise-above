@@ -3,26 +3,6 @@
 #include "robotParams.h"
 #include "PIDControl.c"
 
-void calibrateGyro()
-{
-	startGyroCalibration(gyro, gyroCalibrateSamples512);
-
-	// delay so calibrate flag can be set internally to the gyro
-	sleep(100);
-
-	eraseDisplay();
-
-	// wait for calibration to finish or 2 seconds, whichever is longer
-	for (int i = 0; getGyroCalibrationFlag(gyro) || (i < 20); i++)
-	{
-		displayTextLine(1, "Calibrating... %02d", i);
-		displayTextLine(2, "Do Not Move Robot");
-		sleep(100);
-	}
-	displayTextLine(1, "Calibrated!");
-	displayClearTextLine(2);
-}
-
 bool isCancelled()
 {
 	if(getTouchLEDValue(touch) == 1) {
@@ -153,6 +133,7 @@ bool turnRobot(int angle) {
 			break;
 		}
 
+		displayTextLine(3, "gyro = %d", gyroV);
 		LOG(5, -lastSpeedLeft);
 		LOG(6, lastSpeedRight);
 
