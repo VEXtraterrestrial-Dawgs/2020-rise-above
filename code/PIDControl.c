@@ -1,6 +1,6 @@
 #pragma systemFile
 
-// #define TEST_MODE
+#define TEST_MODE
 
 #ifdef TEST_MODE
 #define CLEAR_LOG() datalogClear()
@@ -59,7 +59,7 @@ bool PIDControl(PidObject* pid, int error, int threshold, int* power) {
 	LOG( 1, error );
 	LOG( 2, round(pid->integral*1000) );
 	LOG( 3, round(derivative*1000) );
-	LOG( 4, getGyroDegrees(gyro) );
+	LOG( 4, getGyroDegrees(gyroValue()) );
 
 	// Returns a motor speed
 	*power = round( (error * pid->Kp) + (pid->integral * pid->Ki) + (derivative * pid->Kd) );

@@ -1,5 +1,6 @@
 #pragma config(Sensor, port6,  touch,          sensorVexIQ_LED)
-#pragma config(Sensor, port10, gyro,           sensorVexIQ_Gyro)
+#pragma config(Sensor, port9,  gyroBack,       sensorVexIQ_Gyro)
+#pragma config(Sensor, port10, gyroFront,      sensorVexIQ_Gyro)
 #pragma config(Motor,  motor1,          claw,          tmotorVexIQ, PIDControl, reversed, encoder)
 #pragma config(Motor,  motor4,          leftWheels,    tmotorVexIQ, PIDControl, reversed, driveLeft, encoder)
 #pragma config(Motor,  motor5,          rightArm,      tmotorVexIQ, PIDControl, encoder)
@@ -46,8 +47,6 @@ task main()
 	const int THRESHOLD = 15;
 	bool tankMode = true;
 	int touchCooldown = 0;
-	int leftMax = 0;
-	int rightMax = 0;
 	StuckDetector clawStuck;
 
 	initStuckDetector(&clawStuck, claw, CLAW_STUCK_THRESHOLD);
@@ -57,14 +56,14 @@ task main()
 	setTouchLEDRGB(touch, 255, 247, 0);
 	displayTextLine(1, "Press LED to Start");
 	waitForLED();
-	calibrateGyro();
+	calibrateGyros();
 	moveClaw(0, CLOSE, CLAW_SPEED_SLOW, CLAW_SPEED_SLOW);
 	resetMotorEncoder(claw);
 	OPEN_CLAW();
 
 	setLEDColor(tankMode);
 
-	resetGyro(gyro);
+	gyroReset();
 	repeat(forever)
 	{
 		int leftJoystickY;
@@ -178,7 +177,7 @@ task main()
 
 		sleep(75);
 
-		int gyroD = round(getGyroDegrees(gyro)) * -1;
+		int gyroD = -gyroValue();
 
 		if (gyroD < -180) {
 			gyroD = ((( gyroD - 180 ) % 360 ) + 180 );

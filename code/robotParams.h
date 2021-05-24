@@ -23,14 +23,14 @@ const int CLAW_OPEN = 300;
 const int CLAW_CLOSE = 365;
 const int CLOSE = -1;
 const int OPEN = 1;
-const int TURN_CLOSE_THRESHOLD = 10;
-const int TURN_DIFF_THRESHOLD = 15;
-const int DRIVE_CLOSE_THRESHOLD = 20;
+const int TURN_CLOSE_THRESHOLD = 50;
+const int TURN_DIFF_THRESHOLD = 40;
+const int DRIVE_CLOSE_THRESHOLD = 25;
 const int DRIVE_DIFF_THRESHOLD = 15;
 
-void calibrateGyro()
+void calibrateGyro(tSensors g)
 {
-	startGyroCalibration(gyro, gyroCalibrateSamples512);
+	startGyroCalibration(g, gyroCalibrateSamples512);
 
 	// delay so calibrate flag can be set internally to the gyro
 	sleep(100);
@@ -38,7 +38,7 @@ void calibrateGyro()
 	eraseDisplay();
 
 	// wait for calibration to finish or 2 seconds, whichever is longer
-	for (int i = 0; getGyroCalibrationFlag(gyro) || (i < 20); i++)
+	for (int i = 0; getGyroCalibrationFlag(g) || (i < 20); i++)
 	{
 		displayTextLine(1, "Calibrating... %02d", i);
 		displayTextLine(2, "Do Not Move Robot");
@@ -46,6 +46,19 @@ void calibrateGyro()
 	}
 	displayTextLine(1, "Calibrated!");
 	displayClearTextLine(2);
+}
+
+void calibrateGyros() {
+	calibrateGyro(gyroFront);
+	calibrateGyro(gyroBack);
+}
+
+int gyroValue() {
+	return round( ( getGyroDegrees(gyroBack) - getGyroDegrees(gyroFront) ) / 2 );
+}
+void gyroReset() {
+	resetGyro(gyroFront);
+	resetGyro(gyroBack);
 }
 
 int convertToMotorSpeed(int proposed) {

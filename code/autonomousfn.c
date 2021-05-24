@@ -41,7 +41,7 @@ bool driveRobot(int distanceInMM)
 
 	resetMotorEncoder(leftWheels);
 	resetMotorEncoder(rightWheels);
-	resetGyro(gyro);
+	gyroReset();
 
 	// Given how far we want to go in millimeters, find how far we want to go in encoder units
 	int encoderTarget = round(distanceInMM * ENC_UNITS_PER_MM);
@@ -55,7 +55,7 @@ bool driveRobot(int distanceInMM)
 		int motorSpeedDiff;
 		int leftEncoder = round(getMotorEncoder(leftWheels));
 		int rightEncoder = round(getMotorEncoder(rightWheels));
-		int gyroV = getGyroDegrees(gyro);
+		int gyroV = gyroValue();
 
 		int difError = angleToEncoderUnits(-gyroV);
 
@@ -68,6 +68,8 @@ bool driveRobot(int distanceInMM)
 			break;
 		}
 
+		displayTextLine(3, "Gyro: %d", gyroV);
+
 		clipLR(motorSpeedLeft, motorSpeedDiff, &lastSpeedLeft, &lastSpeedRight, MAX_DRIVE_SPEED, MAX_DRIVE_ACCEL);
 		LOG(5, lastSpeedLeft);
 		LOG(6, lastSpeedRight);
@@ -79,7 +81,7 @@ bool driveRobot(int distanceInMM)
 	setMotorSpeed(rightWheels, 0);
 	setMotorSpeed(leftWheels, 0);
 
-	resetGyro(gyro);
+	gyroReset();
 
 	sleep(25);
 	return isComplete;
@@ -92,7 +94,7 @@ bool turnRobot(int angle) {
 	int offset = 0;
 
 	for(int i = 0; i < 5; i++) {
-		offset += getGyroDegrees(gyro);
+		offset += gyroValue();
 		sleep(30);
 	}
 
@@ -104,7 +106,7 @@ bool turnRobot(int angle) {
 
 	resetMotorEncoder(leftWheels);
 	resetMotorEncoder(rightWheels);
-	resetGyro(gyro);
+	gyroReset();
 
 	PIDInit(&controllerTurn, 3, encoderTarget, /*COEFFICIENTS*/ 0.24, 0, 3.6, 0.95);
 	PIDInit(&controllerDiff, 4, 0, /*COEFFICIENTS*/ 0.08, 0, 0.9, 0.6);
@@ -114,7 +116,7 @@ bool turnRobot(int angle) {
 		// Retrieve Sensor Values
 		int encoderLeft = round(getMotorEncoder(leftWheels));
 		int encoderRight = round(getMotorEncoder(rightWheels));
-		int gyroV = getGyroDegrees(gyro);
+		int gyroV = gyroValue();
 		int motorSpeedLeft;
 		int motorSpeedDiff;
 
@@ -125,6 +127,8 @@ bool turnRobot(int angle) {
 		bool isCompleteAdjust = PIDControl(&controllerDiff, (encoderRight < 0) ? -(abs(encoderLeft) - abs(encoderRight)) : abs(encoderLeft) - abs(encoderRight), TURN_DIFF_THRESHOLD, &motorSpeedDiff);
 		clipLR(motorSpeedLeft, motorSpeedDiff, &lastSpeedLeft, &lastSpeedRight, MAX_TURN_SPEED, MAX_DRIVE_ACCEL);
 
+		lastSpeedLeft = motorSpeedLeft;
+		lastSpeedRight = -lastSpeedLeft;
 
 		// Check if complete
 		if ( isCompleteTurn && isCompleteAdjust )
@@ -145,7 +149,7 @@ bool turnRobot(int angle) {
 	setMotorSpeed(leftWheels, 0);
 	setMotorSpeed(rightWheels, 0);
 
-	resetGyro(gyro);
+	gyroReset();
 
 	sleep(25);
 

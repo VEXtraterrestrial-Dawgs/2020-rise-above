@@ -1,5 +1,6 @@
 #pragma config(Sensor, port6,  touch,          sensorVexIQ_LED)
-#pragma config(Sensor, port10, gyro,           sensorVexIQ_Gyro)
+#pragma config(Sensor, port9,  gyroBack,       sensorVexIQ_Gyro)
+#pragma config(Sensor, port10, gyroFront,      sensorVexIQ_Gyro)
 #pragma config(Motor,  motor1,          claw,          tmotorVexIQ, PIDControl, reversed, encoder)
 #pragma config(Motor,  motor4,          leftWheels,    tmotorVexIQ, PIDControl, reversed, driveLeft, encoder)
 #pragma config(Motor,  motor5,          rightArm,      tmotorVexIQ, PIDControl, encoder)
@@ -116,7 +117,7 @@ task main()
 	displayTextLine(1, "Press the LED to Calibrate Gyro");
 	setTouchLEDRGB(touch, 255, 17, 0);
 	waitForLED();
-	calibrateGyro();
+	calibrateGyros();
 	setMotorBrakeMode(leftArm, motorHold);
 	setMotorBrakeMode(rightArm, motorHold);
 	CLEAR_LOG();
