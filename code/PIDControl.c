@@ -1,5 +1,7 @@
 #pragma systemFile
 
+#include "robotParams.h"
+
 #define TEST_MODE
 
 #ifdef TEST_MODE
@@ -59,7 +61,7 @@ bool PIDControl(PidObject* pid, int error, int threshold, int* power) {
 	LOG( 1, error );
 	LOG( 2, round(pid->integral*1000) );
 	LOG( 3, round(derivative*1000) );
-	LOG( 4, getGyroDegrees(gyroValue()) );
+	LOG( 4, gyroValue() );
 
 	// Returns a motor speed
 	*power = round( (error * pid->Kp) + (pid->integral * pid->Ki) + (derivative * pid->Kd) );

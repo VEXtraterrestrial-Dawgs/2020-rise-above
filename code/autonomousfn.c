@@ -1,6 +1,5 @@
 #pragma systemFile
 #include "autonomous.h"
-#include "robotParams.h"
 #include "PIDControl.c"
 
 bool isCancelled()
@@ -100,7 +99,7 @@ bool turnRobot(int angle) {
 
 	offset /= 5;
 
-	int encoderTarget = angleToEncoderUnits(-angle - offset);
+	int angleTarget = -angle - offset;
 	int lastSpeedLeft = 0;
 	int lastSpeedRight = 0;
 
@@ -108,7 +107,7 @@ bool turnRobot(int angle) {
 	resetMotorEncoder(rightWheels);
 	gyroReset();
 
-	PIDInit(&controllerTurn, 3, encoderTarget, /*COEFFICIENTS*/ 0.24, 0, 3.6, 0.95);
+	PIDInit(&controllerTurn, 3, angleToEncoderUnits(angleTarget), /*COEFFICIENTS*/ 0.24, 0, 3.6, 0.95);
 	PIDInit(&controllerDiff, 4, 0, /*COEFFICIENTS*/ 0.08, 0, 0.9, 0.6);
 
 	while (!isCancelled())
@@ -120,15 +119,12 @@ bool turnRobot(int angle) {
 		int motorSpeedLeft;
 		int motorSpeedDiff;
 
-		int errorLeft = angleToEncoderUnits(-angle - gyroV);
+		int errorLeft = angleToEncoderUnits(angleTarget - gyroV);
 
 		// Calculate Motor Speeds
 		bool isCompleteTurn = PIDControl(&controllerTurn, errorLeft, TURN_CLOSE_THRESHOLD, &motorSpeedLeft);
-		bool isCompleteAdjust = PIDControl(&controllerDiff, (encoderRight < 0) ? -(abs(encoderLeft) - abs(encoderRight)) : abs(encoderLeft) - abs(encoderRight), TURN_DIFF_THRESHOLD, &motorSpeedDiff);
+		bool isCompleteAdjust = PIDControl(&controllerDiff, -(encoderLeft + encoderRight), TURN_DIFF_THRESHOLD, &motorSpeedDiff);
 		clipLR(motorSpeedLeft, motorSpeedDiff, &lastSpeedLeft, &lastSpeedRight, MAX_TURN_SPEED, MAX_DRIVE_ACCEL);
-
-		lastSpeedLeft = motorSpeedLeft;
-		lastSpeedRight = -lastSpeedLeft;
 
 		// Check if complete
 		if ( isCompleteTurn && isCompleteAdjust )

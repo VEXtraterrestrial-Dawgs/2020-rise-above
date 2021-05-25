@@ -1,4 +1,4 @@
-#pragma config(Sensor, port6,  touch,          sensorVexIQ_LED)
+#pragma config(Sensor, port7,  touch,          sensorVexIQ_LED)
 #pragma config(Sensor, port9,  gyroBack,       sensorVexIQ_Gyro)
 #pragma config(Sensor, port10, gyroFront,      sensorVexIQ_Gyro)
 #pragma config(Motor,  motor1,          claw,          tmotorVexIQ, PIDControl, reversed, encoder)
