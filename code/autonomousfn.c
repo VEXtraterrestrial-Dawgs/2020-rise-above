@@ -107,7 +107,7 @@ bool turnRobot(int angle) {
 	resetMotorEncoder(rightWheels);
 	gyroReset();
 
-	PIDInit(&controllerTurn, 3, angleToEncoderUnits(angleTarget), /*COEFFICIENTS*/ 0.24, 0, 3.6, 0.95);
+	PIDInit(&controllerTurn, 3, angleToEncoderUnits(angleTarget), /*COEFFICIENTS*/ 0.4, 0, 24, 0.95);
 	PIDInit(&controllerDiff, 4, 0, /*COEFFICIENTS*/ 0.08, 0, 0.9, 0.6);
 
 	while (!isCancelled())
