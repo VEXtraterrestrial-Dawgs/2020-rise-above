@@ -176,7 +176,7 @@ task main()
 
 		sleep(75);
 
-		int gyroD = -gyroValue();
+		int gyroD = gyroValue();
 
 		if (gyroD < -180) {
 			gyroD = ((( gyroD - 180 ) % 360 ) + 180 );

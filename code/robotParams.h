@@ -6,7 +6,7 @@ const float CLAW_GEAR_RATIO = 1/3;
 const int CLAW_GEAR_SIZE = 36;
 const float DRIVE_GEAR_RATIO = 3;
 const int DRIVE_GEAR_SIZE = 12;
-const int WHEEL_CIRCUMFERENCE = 203; // in mm
+const int WHEEL_CIRCUMFERENCE = 203; // in mm (203)
 const int DRIVETRAIN_WIDTH = 206;
 const int ENCODER_UNITS_PER_ROTATION = 960;
 const int ARM_HIGH = 2570;
@@ -23,7 +23,7 @@ const int CLAW_OPEN = 300;
 const int CLAW_CLOSE = 365;
 const int CLOSE = -1;
 const int OPEN = 1;
-const int TURN_CLOSE_THRESHOLD = 25;
+const int TURN_CLOSE_THRESHOLD = 20;
 const int TURN_DIFF_THRESHOLD = 15;
 const int DRIVE_CLOSE_THRESHOLD = 25;
 const int DRIVE_DIFF_THRESHOLD = 15;
@@ -50,7 +50,7 @@ void calibrateGyros()
 }
 
 int gyroValue() {
-	return round( ( getGyroDegrees(gyroBack) - getGyroDegrees(gyroFront) ) / 2 );
+	return round( ( getGyroDegrees(gyroFront) - getGyroDegrees(gyroBack) ) / 2 );
 }
 void gyroReset() {
 	resetGyro(gyroFront);

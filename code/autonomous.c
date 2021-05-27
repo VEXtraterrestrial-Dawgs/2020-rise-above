@@ -59,15 +59,15 @@ bool autonomousStrategy(int row) {
 	// OPEN_CLAW_C and CLOSE_CLAW_C take no parameters, but must have _C to enable cancelling
 
 	// Pull out riser
-	DRIVE(430);
+	DRIVE(440);
 	TURN(90, row);
 	OPEN_CLAW_C();
-	DRIVE(565);
+	DRIVE(450);
 	CLOSE_CLAW_C();
-	DRIVE(-580);
+	DRIVE(-400);
 	OPEN_CLAW_C();
 	MOVE_ARM(ARM_LIFT);
-	DRIVE(249);
+	DRIVE(152);
 	CLOSE_CLAW_C();
 	MOVE_ARM(ARM_HIGH);
 
@@ -75,17 +75,20 @@ bool autonomousStrategy(int row) {
 	TURN(-90, row);
 	DRIVE(359);
 	TURN(90, row);
-	DRIVE(300);
+	DRIVE(320);
 	MOVE_ARM(ARM_STACK);
 	OPEN_CLAW_C();
-	DRIVE(-300);
+	if(row == 1) { DRIVE(-570); DRIVE(250); }
+	else { DRIVE(-320); }
 
 	// Push in Last Riser
 	TURN(-90, row);
 	DRIVE(685);
 	TURN(90, row);
-	DRIVE(300);
-	DRIVE(-200);
+	if(row == 1) DRIVE(-220);
+	DRIVE(460);
+	DRIVE(-100);
+	TURN(-90, row);
 
 	// Last Stack
 	DRIVE(-1226);
